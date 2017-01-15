@@ -1,21 +1,27 @@
 import React, {PropTypes} from 'react';
 import { connect } from 'react-redux';
 import './App.css';
+import { flipName } from './model';
 
-const App = ({name}) => {
+const App = ({name, flipName}) => {
   return(
     <div className="App">
       <p>
-        You are in a app. Your name is { name }.
+        You are in a app. Your name is{' '}
+        <span onClick={flipName}>
+            { name }
+        </span>.
       </p>
     </div>
   );
 };
 
 App.propTypes = {
-  name: PropTypes.string.isRequired
-}
+  name: PropTypes.string.isRequired,
+  flipName: PropTypes.func.isRequired
+};
 
-const ConnectedApp = connect(state => state)(App);
+const mapStateToProps = state => state;
+const mapDispatchToProps = {flipName: flipName};
 
-export default ConnectedApp;
+export default connect(mapStateToProps, mapDispatchToProps)(App);
