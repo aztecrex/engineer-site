@@ -1,21 +1,27 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
+import React, {PropTypes} from 'react';
+import { connect } from 'react-redux';
 import './App.css';
+import { flipName } from './model';
 
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
-        </div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-      </div>
-    );
-  }
-}
+const App = ({name, flipName}) => {
+  return(
+    <div className="App">
+      <p>
+        You are in a app. Your name is{' '}
+        <span onClick={flipName}>
+            { name }
+        </span>.
+      </p>
+    </div>
+  );
+};
 
-export default App;
+App.propTypes = {
+  name: PropTypes.string.isRequired,
+  flipName: PropTypes.func.isRequired
+};
+
+const mapStateToProps = state => state;
+const mapDispatchToProps = {flipName: flipName};
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
