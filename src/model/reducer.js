@@ -1,4 +1,4 @@
-const defaultState = {name: "Albert"};
+const defaultState = {name: "Harper"};
 
 const reduce = (state = defaultState, action) => {
 
