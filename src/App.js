@@ -2,6 +2,16 @@ import React, {PropTypes} from 'react';
 import { connect } from 'react-redux';
 import './App.css';
 import { flipName } from './model';
+const articleHtml = require('./article.md');
+
+const dangerWrap = html => ({__html: html});
+
+const Article = () => {
+  return (
+    <div dangerouslySetInnerHTML={dangerWrap(articleHtml)}/>
+  );
+};
+
 
 const App = ({name, flipName}) => {
   return(
@@ -12,6 +22,7 @@ const App = ({name, flipName}) => {
             { name }
         </span>.
       </p>
+      <Article />
     </div>
   );
 };
