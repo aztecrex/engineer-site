@@ -1,0 +1,50 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Parameters:
+  OriginAccessPrincipal:
+    Type: String
+    # this is so dumb. AWS won't allow us to create an OAI from within
+    # a CF template. So we have to provide one. This is a temporary workaround.
+    # Eventually we should create a custom resource to either create these
+    # things or at least retrieve the ids from a (encrypted, yes) configuration
+    # store.
+    # This one corresponds to OAI E3DIS3913OEPXE
+    Default: 1b4f36734d90d4b10a51e6ab9ff5542ed26706ca309e844f48f5e43764acec0bf20a8c12a2143c81aaecd7f5ac285f0c
+    Description: >
+      An origin access principal. These cannot be created through
+      cloudformation so create one before you get here or, if you are me, use
+      this handy default.
+Resources:
+  Origin:
+    Type: AWS::S3::Bucket
+    DeletionPolicy: Retain
+
+  OriginAccessPolicy:
+    Type: "AWS::S3::BucketPolicy"
+    Properties:
+      Bucket:
+        Ref: "Origin"
+      PolicyDocument:
+        Statement:
+          -
+            Action:
+              - "s3:GetObject"
+            Effect: "Allow"
+            Resource:
+              Fn::Join:
+                - ""
+                -
+                  - "arn:aws:s3:::"
+                  -
+                    Ref: "Origin"
+                  - "/*"
+            Principal:
+              CanonicalUser:
+                Ref: OriginAccessPrincipal
+
+
+  # CDN:
+  #   Type: AWS::CloudFormation::Distribution
+  #   Properties: {}
+  # Domain:
+  #   Type: AWS::Route53::RecordSet
+  #   Properties: {}
