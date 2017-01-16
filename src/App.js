@@ -28,7 +28,11 @@ const App = ({name, flipName}) => {
   return(
     <div className="App">
       <p>
-        You are in a app. Your name is{' '}
+        You are in a{' '}
+        <a hreg="https://github.com/aztecrex/engineer-site">
+          app
+        </a>
+        . Your name is{' '}
         <span className="clickable" onClick={flipName}>
             { name }
         </span>.
