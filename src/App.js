@@ -29,7 +29,7 @@ const App = ({name, flipName}) => {
     <div className="App">
       <p>
         You are in a app. Your name is{' '}
-        <span onClick={flipName}>
+        <span className="clickable" onClick={flipName}>
             { name }
         </span>.
       </p>
