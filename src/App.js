@@ -24,6 +24,20 @@ const Articles = () => {
   );
 };
 
+const Footer = () => {
+  return (
+    <div>
+      <p>
+        Generated from React + Redux + Markdown {' '}
+        <a href="https://github.com/aztecrex/engineer-site">
+          source
+        </a>
+        .
+      </p>
+    </div>
+  );
+};
+
 const App = ({name, flipName}) => {
   return(
     <div className="App">
@@ -34,6 +48,8 @@ const App = ({name, flipName}) => {
         </span>.
       </p>
       <Articles />
+      <hr />
+      <Footer />
     </div>
   );
 };
