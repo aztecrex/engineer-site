@@ -2,16 +2,27 @@ import React, {PropTypes} from 'react';
 import { connect } from 'react-redux';
 import './App.css';
 import { flipName } from './model';
-const articleHtml = require('./article.md');
 
-const dangerWrap = html => ({__html: html});
+const articles = require.context('./articles',false,/\.md$/);
 
-const Article = () => {
+const ArticleDisplay = html => {
+  const dangerWrap = () => ({__html: html});
+
   return (
-    <div dangerouslySetInnerHTML={dangerWrap(articleHtml)}/>
+    <div dangerouslySetInnerHTML={dangerWrap()}/>
   );
 };
 
+const Article = ({name}) => ArticleDisplay(articles(name));
+
+const Articles = () => {
+
+  return (
+    <div>
+      {articles.keys().map(k => <Article key={k} name={k} />)}
+    </div>
+  );
+};
 
 const App = ({name, flipName}) => {
   return(
@@ -22,7 +33,7 @@ const App = ({name, flipName}) => {
             { name }
         </span>.
       </p>
-      <Article />
+      <Articles />
     </div>
   );
 };
