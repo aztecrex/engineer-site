@@ -29,12 +29,12 @@ I started digging and learned that Jekyll is, um, _capable_. It can do
 most anything as far as I can tell but it is a big spec with much Ruby-ness
 and I just want to write a blog that nobody will read. I found [this little
 gem](http://jekyllbootstrap.com/) (ha!) and, as promised, I had a blog up
-on GH pages in less than three minutes. And there was a CLI. And the entries were _markdown_! My goodness, this was going to be awesome.
+on GH pages in less than three minutes. And there was a CLI. And the entries were _markdown_! My word, this was going to be awesome.
 
-Until I tried to change the theme. This may shock you but Ruby on OSX is
-a hot mess. This is probably not Ruby's fault but Lordy is it _complicated_
-to get dependencies right on a Mac. I had `brew install`ed Ruby when
-I first got this MacBook and that may have been a mistake. Tl;dr the
+Until I tried to change the theme. It may shock you but Ruby on OSX is
+a hot mess. It is probably not Ruby's fault but Lordy is it _complicated_
+to get dependencies working on a Mac. I had `brew install`ed Ruby when
+I first got the MacBook and that may have been a mistake. Tl;dr the
 dependencies could not be resolved through any of my own work nor after hours
 of Googling.  When it started looking like I'd have to become a Ruby expert,
 I decided to call it.
@@ -49,7 +49,7 @@ for synergy.
 <iframe width="560" height="315" src="https://www.youtube.com/embed/GyV_UG60dD4" frameborder="0" allowfullscreen></iframe>
 
 It was really easy to set up and getting Redux working wasn't too hard.
-It was pretty cool. Some text that came from a _store_ and it was
+It was pretty cool. Some text came from a _store_ and it was
 modified through a _reducer_ that responded to an _action_. All was good,
 I went to add the first article.
 
