@@ -6,6 +6,7 @@
 
 ### Epic: Publish A Blog Entry
 
+* continuous delivery from Github - 3p
 * entry title/summary on main page - 3p
   * metadata in blog entry
   * complete when title and summary on main page, article on its own page
