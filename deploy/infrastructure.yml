@@ -1,13 +1,20 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Parameters:
-  OriginAccessPrincipal:
-    Type: String
     # this is so dumb. AWS won't allow us to create an OAI from within
     # a CF template. So we have to provide one. This is a temporary workaround.
     # Eventually we should create a custom resource to either create these
     # things or at least retrieve the ids from a (encrypted, yes) configuration
-    # store.
-    # This one corresponds to OAI E3DIS3913OEPXE
+    # store. Both the access identity and access principal refer to the same
+    # thing. Each is used in a different context.
+  OriginAccessIdentity:
+    Type: String
+    Default: origin-access-identity/cloudfront/E3DIS3913OEPXE
+    Description: >
+      An origin access identity. These cannot be created through
+      cloudformation so create one before you get here or, if you are me, use
+      this handy default.
+  OriginAccessPrincipal:
+    Type: String
     Default: 1b4f36734d90d4b10a51e6ab9ff5542ed26706ca309e844f48f5e43764acec0bf20a8c12a2143c81aaecd7f5ac285f0c
     Description: >
       An origin access principal. These cannot be created through
@@ -41,10 +48,28 @@ Resources:
               CanonicalUser:
                 Ref: OriginAccessPrincipal
 
-
-  # CDN:
-  #   Type: AWS::CloudFormation::Distribution
-  #   Properties: {}
-  # Domain:
-  #   Type: AWS::Route53::RecordSet
-  #   Properties: {}
+  CDN:
+    Type: AWS::CloudFront::Distribution
+    Properties:
+      DistributionConfig:
+        Origins:
+          - DomainName: !GetAtt [Origin, DomainName]
+            Id: theOnlyOrigin
+            S3OriginConfig:
+              OriginAccessIdentity: !Ref OriginAccessIdentity
+        Enabled: 'true'
+        Comment: Distribute the engineer site
+        DefaultRootObject: index.html
+        Aliases:
+          - www.gregwiley.com
+        DefaultCacheBehavior:
+          AllowedMethods:
+            - GET
+            - HEAD
+            - OPTIONS
+          TargetOriginId: theOnlyOrigin
+          ForwardedValues:
+            QueryString: 'false'
+            Cookies:
+              Forward: none
+          ViewerProtocolPolicy: allow-all
