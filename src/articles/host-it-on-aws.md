@@ -57,13 +57,13 @@ I would need essentially three resources in a CloudFormation template:
 * A CloudFront distribution to serve the content
 * A Route53 domain for a friendly URL.
 
-The final code is in the /deploy/infrastructure.yml but the initial
+The final code is in the `/deploy/infrastructure.yml` but the initial
 template consisted of 4 resources:
 
 ### Origin
 
 _Origin_ is the S3 bucket that will store the site content. An
-S3 bucket is just a transactional object store. You put arbitrary, named,
+S3 bucket is just a transactional object store. You put arbitrary, named
 hunks of data into it and retrieve them for whatever purpose you need them.
 In this case, the bucket holds the contents of the `/build` directory
 created by Webpack when `npm run build` is run.
@@ -74,14 +74,15 @@ _CDN_ is the CloudFront distribution. A distribution is not necessary to
 serve web content, you can do that with S3 directly, but it has some
 advantages:
 
-* you can use any domain you want.  If you want to use your own domain,
-you have to name the bucket accordingly. Since bucket names are unique
-across all of AWS, it is possible someone already has a bucket with
-your domain name
+* you can use any domain you want.  If you want to use your own domain
+with S3 alone, you have to name the bucket with your domain. Since
+bucket names are unique across all of AWS, it is possible someone
+already has a bucket using your domain name, preventing you from using
+it
 * you get a capable _content delivery network_ that caches your content
 to edge locations near your users. You generally get more consistent
 performance through CloudFront than from S3 directly even if you don't
-really need the caching benefit.
+really need the caching benefit
 
 I chose to use CloudFront because I dislike the need to name a bucket
 according to my domain but it might have been more than I needed.
@@ -105,22 +106,22 @@ This is where my template diverges from others you may find out there.
 I chose to use an _Origin Access Identity (OAI)_ so that I could limit
 the access to the Origin bucket to only CloudFront. Many tutorials
 instead advise that the bucket be made _public read_ to avoid the
-need to configure CloudFront authorization.
+need to configure CloudFront authorization. I don't like the idea
+of access outside of the design so I chose to lock it down.
 
 The trouble is that, after all these years, AWS still doesn't allow you
-to provision an OAI through CloudFormation. I chose to create a single
-OAI through the CLI, then capture it in the template defaults. In a future
+to provision an OAI through CloudFormation. So I created a single
+OAI through the CLI, then captured it in the template defaults. In a future
 revision I may develop a custom CloudFormation resource to do this.
 
 ## Final Touches
 
-For SEO, I wanted access to occur through only one domain. So if
-someone types _www.gregwiley.com_ or a browser tries to be helpful
-and assume that domain, I want the browser to be redirected to
+For SEO (don't laugh), I wanted access to occur through only one domain. So if someone typed _www.gregwiley.com_ or a browser tried to be helpful
+and assume that domain, I wanted the browser to be redirected to
 _gregwiley.com_.
 
 I didn't want to spin up a server (hourly charges) to do the redirect
-so I chose to use a built-in capability of S3. S3 allows you to
+so I used a built-in capability of S3. S3 allows you to
 redirect _every request_ to a prescribed URL. It would mean dedicating
 a bucket to the purpose but there would be no additional cost sine
 nothing would be stored in it.  I added two new resources to the
