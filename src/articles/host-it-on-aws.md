@@ -13,7 +13,7 @@ I'm questioning the whole Aztec Rex thing anyway. I mean, it was
 funny when the movie aired but really, should it be my developer
 identity for _ever_?
 
-I've owned gregwiley.com for a while now. Maybe it should be the
+I've owned _gregwiley.com_ for a while now. Maybe it should be the
 domain for my site (yeah, _duh_). To do that I needed to host
 the site on not-GitHub. Most everything I write runs on AWS so
 that seemed like the logical choice. Also, I had just helped a
@@ -86,7 +86,7 @@ really need the caching benefit.
 I chose to use CloudFront because I dislike the need to name a bucket
 according to my domain but it might have been more than I needed.
 
-## Domains
+### Domains
 
 Domains creates two DNS resource records in AWS _Route 53_. It creates
 an A record for _gregwiley.com_ and a CNAME for _www.gregwiley.com_.
@@ -99,7 +99,7 @@ fit. An alias ensures that the A record remains valid at all times.
 The CNAME record simply points to _gregwiley.com_, ensuring better
 reachability for the site.
 
-## OriginAccessPolicy
+### OriginAccessPolicy
 
 This is where my template diverges from others you may find out there.
 I chose to use an _Origin Access Identity (OAI)_ so that I could limit
@@ -112,7 +112,7 @@ to provision an OAI through CloudFormation. I chose to create a single
 OAI through the CLI, then capture it in the template defaults. In a future
 revision I may develop a custom CloudFormation resource to do this.
 
-# Final Touches
+## Final Touches
 
 For SEO, I wanted access to occur through only one domain. So if
 someone types _www.gregwiley.com_ or a browser tries to be helpful
@@ -131,8 +131,32 @@ second is a CloudFront distribution to front it with the www domain.
 Another method would have been to use the redirect rules capability
 of S3 but that is more than is needed for this simple feature.
 
-# Next Steps
+Finally, I had to point the two domains to the two separate CloudFront
+distributions.
+
+## Provision
+
+To bring up all the infrastructure now just requires a single
+AWS CLI command:
+`aws cloudformation create-stack --stack-name engineer-site --template-body file://infrastructure.yml`
+
+To update the infrastructure after modifying it:
+`aws cloudformation update-stack --stack-name engineer-site --template-body file://infrastructure.yml`
+
+I can even bring it up with a different stack name (providing
+a different domain name parameter) to test new configurations before
+making those changes on the real site.
+
+The template requires that the domain is already hosted in Route53
+and that I have provisioned an Origin Access Identity but, other than
+that, it's really easy to use.
+
+## Next Steps
 
 Right now, I just manually push the `/build` directory up to the
-bucket to publish the site. The next steps will be to continuously
-build and publish automatically in response to GitHub commits.
+bucket to publish the site. The next step will be to set up
+continuous delivery where build and publish happen automatically in
+response to GitHub commits.
+
+Get the code for this site on
+[GitHub](https://github.com/aztecrex/engineer-site).
