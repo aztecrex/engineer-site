@@ -20,6 +20,8 @@ that seemed like the logical choice. Also, I had just helped a
 co-worker get a static site running on S3 + CloudFront so the configs
 were fresh in my mind.
 
+<iframe width="560" height="315" src="https://www.youtube.com/embed/tDacjrSCeq4" frameborder="0" allowfullscreen></iframe>
+
 ## Be Devopsy
 
 I want everyone to have a happy, carefree developer life so here
@@ -83,6 +85,9 @@ it
 to edge locations near your users. You generally get more consistent
 performance through CloudFront than from S3 directly even if you don't
 really need the caching benefit
+* it can be a little cheaper. It's not much difference but AWS has
+made cached delivery a better financial proposition than delivery
+direct from S3.
 
 I chose to use CloudFront because I dislike the need to name a bucket
 according to my domain but it might have been more than I needed.
@@ -152,12 +157,45 @@ The template requires that the domain is already hosted in Route53
 and that I have provisioned an Origin Access Identity but, other than
 that, it's really easy to use.
 
-## Next Steps
+## But It's Not Free
 
-Right now, I just manually push the `/build` directory up to the
-bucket to publish the site. The next step will be to set up
-continuous delivery where build and publish happen automatically in
-response to GitHub commits.
+Cost is an important consideration choosing a hosting architecture.
+The GitHub Pages option was free but in this design, there will
+be a few service costs
+
+### Storage
+
+S3 storage is billed monthly based on how much data is
+stored. For US standard storage, the cost is $.023 per GB-month
+in 128KB-month increments. With the Webpack JS maps, my site is
+currently 2.1MB which puts me at about $.005 per month for
+storage.
+
+### Data Transfer
+
+Data transfers in to S3 used to be charged the same as transfers
+out but now transfers in are free.
+
+Data transfers to CloudFront are also free.   
+
+### Content Delivery
+
+CloudFront charges are the only cost that depends on traffic. For
+delivery to North America and Europe, the cost is $.085 per GB.
+That's a little less than the $.09 per GB for non-CloudFront
+delivery direct from S3 to those same regions.
+
+Delivery to East Asia and Australia is $.14 per GB, India $.17 per GB,
+and South America, $.25 per GB. Volume pricing is available but these
+are good numbers for planning a small site.
+
+## Metrics
+
+I added a story to the backlog to start capturing metrics.
+The delivery cost makes measurement important. If hardly anyone
+visits the site, it will not matter but if costs start to go up,
+I'll want insight about usage.
+
 
 Get the code for this site on
 [GitHub](https://github.com/aztecrex/engineer-site).

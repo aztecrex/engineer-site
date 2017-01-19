@@ -6,6 +6,7 @@
 
 ### Epic: Publish A Blog Entry
 
+* metrics - 2p
 * continuous delivery from Github - 3p
 * entry title/summary on main page - 3p
   * metadata in blog entry
