@@ -1,0 +1,153 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Parameters:
+    # this is so dumb. AWS won't allow us to create an OAI from within
+    # a CF template. So we have to provide one. This is a temporary workaround.
+    # Eventually we should create a custom resource to either create these
+    # things or at least retrieve the ids from a (encrypted, yes) configuration
+    # store. Both the access identity and access principal refer to the same
+    # thing. Each is used in a different context.
+  OriginAccessIdentity:
+    Type: String
+    Default: origin-access-identity/cloudfront/E3DIS3913OEPXE
+    Description: >
+      An origin access identity. These cannot be created through
+      cloudformation so create one before you get here or, if you are me, use
+      this handy default.
+  OriginAccessPrincipal:
+    Type: String
+    Default: 1b4f36734d90d4b10a51e6ab9ff5542ed26706ca309e844f48f5e43764acec0bf20a8c12a2143c81aaecd7f5ac285f0c
+    Description: >
+      An origin access principal. These cannot be created through
+      cloudformation so create one before you get here or, if you are me, use
+      this handy default.
+  Domain:
+    Type: String
+    Default: gregwiley.com
+
+Resources:
+  # Bucket where the static site content lives
+  # a deletion policy of "retain" allows us to
+  # delete the stack without emptying the bucket
+  # but it means we have to delete the bucket
+  # manually. A better sollution would provide
+  # a means to delete the contents and the bucket
+  # since we can create the site at will but AWS
+  # doeesn't have  direct way to do that. Maybe
+  # a custom resource could be used.
+  Origin:
+    Type: AWS::S3::Bucket
+    DeletionPolicy: Retain
+
+  # Allows only the generated Cloudfront principal
+  # to access the contents of the bucket.
+  OriginAccessPolicy:
+    Type: "AWS::S3::BucketPolicy"
+    Properties:
+      Bucket:
+        Ref: "Origin"
+      PolicyDocument:
+        Statement:
+          - Action:
+              - "s3:GetObject"
+            Effect: "Allow"
+            Resource: !Sub |
+              "arn:aws:s3:::${Origin}/*"
+            Principal:
+              CanonicalUser:
+                Ref: OriginAccessPrincipal
+
+  # The main CloudFront distribution. The origin server
+  # is the Origin S3 Bucket
+  CDN:
+    Type: AWS::CloudFront::Distribution
+    Properties:
+      DistributionConfig:
+        Origins:
+          - DomainName: !GetAtt [Origin, DomainName]
+            Id: contentOrigin
+            S3OriginConfig:
+              OriginAccessIdentity: !Ref OriginAccessIdentity
+        Enabled: 'true'
+        Comment: Distribute the engineer site
+        DefaultRootObject: index.html
+        Aliases:
+          - !Sub ${Domain}
+        DefaultCacheBehavior:
+          Compress: true
+          TargetOriginId: contentOrigin
+          ForwardedValues:
+            QueryString: 'false'
+            Cookies:
+              Forward: none
+          ViewerProtocolPolicy: allow-all
+        CacheBehaviors:
+          # set the TTL of the site root to 15 minutes
+          # that allows us to push new content to the
+          # site wihtout waiting a day. The rest of the
+          # site's assets are named by hash (Webpack does
+          # this) so new content is automatically not
+          # cached when published
+          - Compress: true
+            DefaultTTL: 900
+            ForwardedValues:
+              QueryString: 'false'
+              Cookies:
+                Forward: none
+            PathPattern: "/"
+            TargetOriginId: contentOrigin
+            ViewerProtocolPolicy: allow-all
+
+  # This bucket just redirects. It is how we get redirect
+  # requests for www.domain.com to domain.com. In the future
+  # we may be able to build this into redirect rules in the
+  # Origin bucket.
+  RedirectOrigin:
+    Type: AWS::S3::Bucket
+    Properties:
+      AccessControl: PublicRead
+      WebsiteConfiguration:
+        RedirectAllRequestsTo:
+          HostName : !Ref Domain
+          Protocol : http
+
+  # The distribution that delivers the recirects supplied by
+  # RedirectOrigin
+  RedirectDistribution:
+    Type: AWS::CloudFront::Distribution
+    Properties:
+      DistributionConfig:
+        Origins:
+          - DomainName: !Sub ${RedirectOrigin}.s3-website-us-east-1.amazonaws.com
+            Id: redirectOrigin
+            CustomOriginConfig:
+                OriginProtocolPolicy: http-only
+
+        Enabled: 'true'
+        Comment: Redirect to the canonical site
+        Aliases:
+          - !Sub www.${Domain}
+        DefaultCacheBehavior:
+          TargetOriginId: redirectOrigin
+          ForwardedValues:
+            QueryString: 'false'
+            Cookies:
+              Forward: none
+          ViewerProtocolPolicy: allow-all
+
+  Domains:
+    Type: AWS::Route53::RecordSetGroup
+    Properties:
+      HostedZoneName: !Sub ${Domain}.
+      RecordSets:
+        # use the apex zone name as the main site domain
+        - Name: !Sub ${Domain}.
+          Type: A
+          AliasTarget:
+            HostedZoneId: Z2FDTNDATAQYW2
+            DNSName: !GetAtt [CDN, DomainName]
+        # handle browser-genned or human-typed www. requests
+        - Name: !Sub www.${Domain}.
+          Type: A
+          AliasTarget:
+            HostedZoneId: Z2FDTNDATAQYW2
+            DNSName: !GetAtt [RedirectDistribution, DomainName]
