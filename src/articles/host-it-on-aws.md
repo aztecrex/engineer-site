@@ -189,6 +189,21 @@ Delivery to East Asia and Australia is $.14 per GB, India $.17 per GB,
 and South America, $.25 per GB. Volume pricing is available but these
 are good numbers for planning a small site.
 
+### DNS
+
+Route 53 is a bit expensive at $.50 per zone-month. My non-AWS
+authoritative provider costs $22 per 40-zone-year. But for this
+project, I moved gregwiley.com over to Route 53 to take advantage
+of an aliased A record for the zone apex. I also got the advantage
+of common infrastructure specification through CloudFront.
+
+If you don't want to incur the extra cost, you can use a
+non-AWS provider. Your site won't be able to use the zone apex
+but that might not matter.  As with any cloud endeavor, script
+it even at your non-AWS provider. I may dive into CloudFormation
+_custom resources_ in a future article to show how you could
+manage such an outside service directly in CloudFormation.
+
 ## Metrics
 
 I added a story to the backlog to start capturing metrics.
