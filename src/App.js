@@ -2,7 +2,7 @@ import React, {PropTypes} from 'react';
 import { connect } from 'react-redux';
 import './App.css';
 import { flipName } from './model';
-import Articles from './components/Articles'
+import Articles from './components/ConnectedArticles'
 
 // const articles = require.context('./articles',false,/\.md$/);
 
@@ -61,7 +61,7 @@ const App = () => {
   return(
     <div className="App">
       <Header />
-      <Articles articles={[{id:'a12345', name: "your best", date: new Date()}]} />
+      <Articles />
       <hr />
       <Footer />
     </div>

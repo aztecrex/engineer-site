@@ -6,7 +6,7 @@ const Article = ({id, name, date}) => {
   return (
     <li>
       <a href={"/articles/" + id}>
-        {date.toString()} - {name}
+        {name}
       </a>
     </li>
   );
