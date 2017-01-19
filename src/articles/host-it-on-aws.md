@@ -4,19 +4,23 @@ January 17, 2017
 
 Or, _You too can have a website for only micro-pennies a day_
 
+This is a follow-on to the original "Adventures in Tech Blogging"
+article below. The code for this site is on
+[GitHub](https://github.com/aztecrex/engineer-site).
+
 ## Goodbye GitHub Pages
 
 Once I decided to make this site a React + Redux thing, I started
-to question GitHub pages as a host. With GH pages, my site would
-have to be https://aztecrex.github.io which isn't _horrible_ but
-I'm questioning the whole Aztec Rex thing anyway. I mean, it was
-funny when the movie aired but really, should it be my developer
-identity for _ever_?
+to question GitHub Pages as the host. With GHP, my site address
+would be https://aztecrex.github.io which is not _horrible_ but
+I had been questioning the whole Aztec Rex thing anyway. I mean,
+it was funny when the movie aired but really, should it be my
+developer identity for _ever_?
 
-I've owned _gregwiley.com_ for a while now. Maybe it should be the
-domain for my site (yeah, _duh_). To do that I needed to host
-the site on not-GitHub. Most everything I write runs on AWS so
-that seemed like the logical choice. Also, I had just helped a
+I had owned _gregwiley.com_ for a while. Maybe it should be the
+domain for my site (I know, right?). To do that I needed to host
+the site on Not-GitHub. Most everything I write runs on AWS so
+that seemed like a simple choice. Also, I had just helped a
 co-worker get a static site running on S3 + CloudFront so the configs
 were fresh in my mind.
 
@@ -24,34 +28,31 @@ were fresh in my mind.
 
 ## Be Devopsy
 
-I want everyone to have a happy, carefree developer life so here
+I want you to have a happy, carefree developer life so here
 is some important advice you will probably ignore to your eternal
 peril: _never use the AWS console to provision anything_.
 
 Provisioning through individual CLI commands is nearly as
 bad.
 
-You must learn to _script_ your infrastructure. It is painful to
+Please learn to _program_ your infrastructure. It can be painful to
 learn, but the first time you are able to completely tear down
 all the things and re-create them with a single command, the
 veil will be lifted and you will sing, no, dance at the wonder
-of the world. You will be able to make _incremental_ changes
-without fear, knowing you can revert at the speed of Git.
+of the world. You will be able to make _incremental_ infrastructure
+changes without fear, knowing you can revert at the speed of Git.
 
-I don't care how you do it, use the AWS SDK for your favorite
+There are many ways to do it, use the AWS SDK for your favorite
 language, use CloudFormation, download the latest whiz-bang
-cloudkit. Just don't keep any of the details of your infrastructure
-in your _brain_.
-
-Your brain is needed to develop software, start a company, or
-write a screenplay. If you use part of your brain to store
-infrastructure details, you are robbing the world of your best
-self.
+cloudkit. Just never store any details of your infrastructure
+in your _brain_. Your brain is needed to develop software, start a
+company, or write a screenplay. If you use part of your brain to store
+infrastructure details, you rob the world of your best self.
 
 ## CloudFormation
 
 For this project, I decided to use CloudFormation. CloudFormation
-is as low-level you can get for AWS devops but it can express
+is about as low-level you can get for AWS devops but it can express
 most any architecture you can imagine. For the engineer site,
 I would need essentially three resources in a CloudFormation template:
 
@@ -59,66 +60,73 @@ I would need essentially three resources in a CloudFormation template:
 * A CloudFront distribution to serve the content
 * A Route53 domain for a friendly URL.
 
-The final code is in the `/deploy/infrastructure.yml` but the initial
-template consisted of 4 resources:
+The final code is in the `/deploy/infrastructure.yml`. The initial template
+actually consisted of four resources, "Origin," "CDN," "OriginAccessPolicy,"
+and "Domains."
 
 ### Origin
 
 _Origin_ is the S3 bucket that will store the site content. An
 S3 bucket is just a transactional object store. You put arbitrary, named
-hunks of data into it and retrieve them for whatever purpose you need them.
+hunks of data into it and retrieve them when you need them.
 In this case, the bucket holds the contents of the `/build` directory
-created by Webpack when `npm run build` is run.
+created by Webpack `npm run build`.
 
 ### CDN
 
 _CDN_ is the CloudFront distribution. A distribution is not necessary to
-serve web content, you can do that with S3 directly, but it has some
-advantages:
+serve web content, you can do that with S3 directly, but CloudFront
+has some advantages:
 
-* you can use any domain you want.  If you want to use your own domain
-with S3 alone, you have to name the bucket with your domain. Since
-bucket names are unique across all of AWS, it is possible someone
-already has a bucket using your domain name, preventing you from using
-it
+* you can use any domain you want, including your zone apex. Direct web
+hosting from S3 requires that you name your bucket the same as your
+domain. Which means if anyone in the world already has a bucket with
+your domain, you can't use S3 to serve your site
 * you get a capable _content delivery network_ that caches your content
 to edge locations near your users. You generally get more consistent
 performance through CloudFront than from S3 directly even if you don't
-really need the caching benefit
+need the caching benefit
 * it can be a little cheaper. It's not much difference but AWS has
 made cached delivery a better financial proposition than delivery
 direct from S3.
 
-I chose to use CloudFront because I dislike the need to name a bucket after my domain.
-It doesn't change the cost so it's simply
-a little extra config.
+I chose CloudFront for the zone apex capability and to de-couple the bucket
+name from domain. The operating cost was almost exactly the same so the
+only downside was the need for some extra template configuration.
+
+### OriginAccessPolicy
+
+_OriginAccessPolicy_ designates rules to access the Origin bucket.
+This is where my template diverges from others you may find. They
+will often tell you to make the Origin access _public read_. It makes
+the configuration a little simpler but it means your content can be
+reached through the CDN and the S3 bucket. An arguably better design
+for both security and operation will allow access through only one
+mechanism.
+
+So I locked down the bucket access with an _Origin Access Identity (OAI)_.
+Now, only the CloudFront distribution could access my content, meaning
+it could only be delivered through the CDN.
+
+One wrinkle is that, after all these years, AWS still does not allow you
+to provision an OAI through CloudFormation. So I had to created one
+through the CLI, then supply its names to the template. In a future
+revision I may prefer a custom CloudFormation resource to do this.
 
 ### Domains
 
-Domains creates two DNS resource records in AWS _Route 53_. It creates
-an A record for _gregwiley.com_ and a CNAME for _www.gregwiley.com_.
+The _Domains_ resource is a resource record group that adds two DNS
+resource records to a _Route 53_ zone. It adds an A record for
+_gregwiley.com_ and a CNAME for _www.gregwiley.com_.
 
 The A record is an _alias_ record. Aliases are a feature of Route 53
-that allow an A record to point to a potentially changing IP address.
+that allow an A record to point to potentially changing IP addresses.
 In the case of CloudFront, the IP addresses can change as Amazon sees
 fit. An alias ensures that the A record remains valid at all times.
 
 The CNAME record simply points to _gregwiley.com_, ensuring better
 reachability for the site.
 
-### OriginAccessPolicy
-
-This is where my template diverges from others you may find out there.
-I chose to use an _Origin Access Identity (OAI)_ so that I could limit
-the access to the Origin bucket to only CloudFront. Many tutorials
-instead advise that the bucket be made _public read_ to avoid the
-need to configure CloudFront authorization. I don't like the idea
-of access outside of the design so I chose to lock it down.
-
-The trouble is that, after all these years, AWS still doesn't allow you
-to provision an OAI through CloudFormation. So I created a single
-OAI through the CLI, then captured it in the template defaults. In a future
-revision I may develop a custom CloudFormation resource to do this.
 
 ## Final Touches
 
@@ -154,7 +162,7 @@ I can even bring it up with a different stack name (providing
 a different domain name parameter) to test new configurations before
 making those changes on the real site.
 
-The template requires that the domain is already hosted in Route53
+The template requires that the zone is already hosted in Route53
 and that I have provisioned an Origin Access Identity but, other than
 that, it's really easy to use.
 
@@ -193,8 +201,9 @@ are good numbers for planning a small site.
 ### DNS
 
 Route 53 is a bit expensive at $.50 per zone-month. My non-AWS
-authoritative provider costs only $22 per 40-zone-year. I bit the bullet and moved gregwiley.com over to Route 53 to take advantage
-of an aliased A record for the zone apex. I also got the advantage
+authoritative provider costs only $22 per 40-zone-year. I bit the bullet and
+moved gregwiley.com over to Route 53 to take advantage
+of an an alias record for the zone apex. I also got the advantage
 of common infrastructure specification through CloudFront.
 
 If you don't want to incur the extra cost, you can use a
