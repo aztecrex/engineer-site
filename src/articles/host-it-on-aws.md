@@ -89,8 +89,9 @@ really need the caching benefit
 made cached delivery a better financial proposition than delivery
 direct from S3.
 
-I chose to use CloudFront because I dislike the need to name a bucket
-according to my domain but it might have been more than I needed.
+I chose to use CloudFront because I dislike the need to name a bucket after my domain.
+It doesn't change the cost so it's simply
+a little extra config.
 
 ### Domains
 
@@ -128,7 +129,7 @@ _gregwiley.com_.
 I didn't want to spin up a server (hourly charges) to do the redirect
 so I used a built-in capability of S3. S3 allows you to
 redirect _every request_ to a prescribed URL. It would mean dedicating
-a bucket to the purpose but there would be no additional cost sine
+a bucket to the purpose but there would be no additional cost since
 nothing would be stored in it.  I added two new resources to the
 template, _RedirectOrigin_ and _RedirectDistribution_. The first is
 a bucket configured to redirect all requests to _gregwiley.com_. The
@@ -160,8 +161,8 @@ that, it's really easy to use.
 ## But It's Not Free
 
 Cost is an important consideration choosing a hosting architecture.
-The GitHub Pages option was free but in this design, there will
-be a few service costs
+The GitHub Pages option was free. In this design, there will
+be a few service costs.
 
 ### Storage
 
@@ -192,8 +193,7 @@ are good numbers for planning a small site.
 ### DNS
 
 Route 53 is a bit expensive at $.50 per zone-month. My non-AWS
-authoritative provider costs $22 per 40-zone-year. But for this
-project, I moved gregwiley.com over to Route 53 to take advantage
+authoritative provider costs only $22 per 40-zone-year. I bit the bullet and moved gregwiley.com over to Route 53 to take advantage
 of an aliased A record for the zone apex. I also got the advantage
 of common infrastructure specification through CloudFront.
 
