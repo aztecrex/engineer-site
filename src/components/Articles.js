@@ -4,9 +4,11 @@ import './Articles.css';
 
 const Article = ({id, name, date}) => {
   return (
-    <a href={"/articles/" + id}>
-      {date.toString()} - {name}
-    </a>
+    <li>
+      <a href={"/articles/" + id}>
+        {date.toString()} - {name}
+      </a>
+    </li>
   );
 };
 
@@ -20,7 +22,7 @@ const Articles = ({articles}) => {
   return (
     <div>
       <ul>
-        {articles.map(article => (<li key={article.id}>{Article(article)}</li>))}
+        {articles.map(article => (<Article {...article} key={article.id} />))}
       </ul>
     </div>
   );
