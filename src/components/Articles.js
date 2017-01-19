@@ -2,12 +2,21 @@ import React, {PropTypes} from 'react';
 import './Articles.css';
 
 
+
+
 const Article = ({id, name, date}) => {
+
+  const formatDate = d => {
+    return d.toLocaleDateString()
+  };
+
   return (
     <li>
       <a href={"/articles/" + id}>
         {name}
       </a>
+      {' - '}
+      {formatDate(date)}
     </li>
   );
 };

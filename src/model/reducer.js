@@ -2,14 +2,14 @@ const defaultState = {
   name: "Harper",
   articles: [
     {
-      id: "adventures-in-tech-blogging",
-      name: "Adventures In Tech Blogging",
-      date: new Date(Date.parse("2017-01-15"))
-    },
-    {
       id: "host-easy",
       name: "Host Easy",
-      date: new Date(Date.parse("2017-01-17"))
+      date: new Date(Date.parse("2017-01-17T15:00-0800"))
+    },
+    {
+      id: "adventures-in-tech-blogging",
+      name: "Adventures In Tech Blogging",
+      date: new Date(Date.parse("2017-01-15T15:00-0800"))
     }
   ]
 };
