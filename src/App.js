@@ -2,27 +2,46 @@ import React, {PropTypes} from 'react';
 import { connect } from 'react-redux';
 import './App.css';
 import { flipName } from './model';
+import Articles from './components/Articles'
 
-const articles = require.context('./articles',false,/\.md$/);
+// const articles = require.context('./articles',false,/\.md$/);
 
-const ArticleDisplay = html => {
-  const dangerWrap = () => ({__html: html});
+// const ArticleDisplay = html => {
+//   const dangerWrap = () => ({__html: html});
+//
+//   return (
+//     <div dangerouslySetInnerHTML={dangerWrap()}/>
+//   );
+// };
 
+// const Article = ({name}) => ArticleDisplay(articles(name));
+
+// const Articles = () => {
+//
+//   return (
+//     <div>
+//       {articles.keys().map(k => <Article key={k} name={k} />)}
+//     </div>
+//   );
+// };
+
+const UnconnectedHeader = ({name, flipName}) => {
   return (
-    <div dangerouslySetInnerHTML={dangerWrap()}/>
+    <p>
+      You are in a app. Your name is{' '}
+      <span className="clickable" onClick={flipName}>
+          { name }
+      </span>.
+    </p>
   );
+}
+
+UnconnectedHeader.propTypes = {
+  name: PropTypes.string.isRequired,
+  flipName: PropTypes.func.isRequired
 };
 
-const Article = ({name}) => ArticleDisplay(articles(name));
-
-const Articles = () => {
-
-  return (
-    <div>
-      {articles.keys().map(k => <Article key={k} name={k} />)}
-    </div>
-  );
-};
+const Header = connect(state => state, {flipName: flipName})(UnconnectedHeader);
 
 const Footer = () => {
   return (
@@ -38,28 +57,15 @@ const Footer = () => {
   );
 };
 
-const App = ({name, flipName}) => {
+const App = () => {
   return(
     <div className="App">
-      <p>
-        You are in a app. Your name is{' '}
-        <span className="clickable" onClick={flipName}>
-            { name }
-        </span>.
-      </p>
-      <Articles />
+      <Header />
+      <Articles articles={[{id:'a12345', name: "your best", date: new Date()}]} />
       <hr />
       <Footer />
     </div>
   );
 };
 
-App.propTypes = {
-  name: PropTypes.string.isRequired,
-  flipName: PropTypes.func.isRequired
-};
-
-const mapStateToProps = state => state;
-const mapDispatchToProps = {flipName: flipName};
-
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default App;

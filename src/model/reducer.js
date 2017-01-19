@@ -2,8 +2,7 @@ const defaultState = {name: "Harper"};
 
 const reduce = (state = defaultState, action) => {
 
-  console.log("old state", state);
-  let newState = {womp:"not really a state"}
+  let newState = {};
   switch (action.type) {
     case 'FLIP_NAME':
       newState = {
@@ -15,7 +14,6 @@ const reduce = (state = defaultState, action) => {
       newState = state;
       break;
   }
-  console.log("new state", newState);
   return newState;
 };
 

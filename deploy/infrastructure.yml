@@ -92,7 +92,7 @@ Resources:
               QueryString: 'false'
               Cookies:
                 Forward: none
-            PathPattern: "/"
+            PathPattern: "/index.html"
             TargetOriginId: contentOrigin
             ViewerProtocolPolicy: allow-all
 
