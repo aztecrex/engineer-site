@@ -92,12 +92,13 @@ Resources:
     Properties:
       DistributionConfig:
         Origins:
-          - DomainName: !GetAtt [RedirectOrigin, DomainName]
+          - DomainName: !Sub ${RedirectOrigin}.s3-website-us-east-1.amazonaws.com
             Id: redirectOrigin
-            S3OriginConfig: {}
+            CustomOriginConfig:
+                OriginProtocolPolicy: http-only
+
         Enabled: 'true'
         Comment: Redirect to the canonical site
-        DefaultRootObject: index.html
         Aliases:
           - !Sub www.${Domain}
         DefaultCacheBehavior:
@@ -122,9 +123,9 @@ Resources:
   #         Type: A
   #         AliasTarget:
   #           HostedZoneId: Z2FDTNDATAQYW2
-  #           DNSName: !GetAtt [CDN, Domain]
+  #           DNSName: !GetAtt [CDN, DomainName]
   #       - Name: !Sub www.${Domain}.
-  #         Type: CNAME
-  #         TTL: 900
-  #         ResourceRecords:
-  #           - !Sub ${Domain}.
+  #         Type: A
+  #         AliasTarget:
+  #           HostedZoneId: Z2FDTNDATAQYW2
+  #           DNSName: !GetAtt [RedirectDistribution, DomainName]
