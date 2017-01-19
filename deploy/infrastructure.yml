@@ -113,19 +113,18 @@ Resources:
               Forward: none
           ViewerProtocolPolicy: allow-all
 
-
-  # Domains:
-  #   Type: AWS::Route53::RecordSetGroup
-  #   Properties:
-  #     HostedZoneName: !Sub ${Domain}.
-  #     RecordSets:
-  #       - Name: !Sub ${Domain}.
-  #         Type: A
-  #         AliasTarget:
-  #           HostedZoneId: Z2FDTNDATAQYW2
-  #           DNSName: !GetAtt [CDN, DomainName]
-  #       - Name: !Sub www.${Domain}.
-  #         Type: A
-  #         AliasTarget:
-  #           HostedZoneId: Z2FDTNDATAQYW2
-  #           DNSName: !GetAtt [RedirectDistribution, DomainName]
+  Domains:
+    Type: AWS::Route53::RecordSetGroup
+    Properties:
+      HostedZoneName: !Sub ${Domain}.
+      RecordSets:
+        - Name: !Sub ${Domain}.
+          Type: A
+          AliasTarget:
+            HostedZoneId: Z2FDTNDATAQYW2
+            DNSName: !GetAtt [CDN, DomainName]
+        - Name: !Sub www.${Domain}.
+          Type: A
+          AliasTarget:
+            HostedZoneId: Z2FDTNDATAQYW2
+            DNSName: !GetAtt [RedirectDistribution, DomainName]
