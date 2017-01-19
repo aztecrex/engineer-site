@@ -10,6 +10,7 @@
 
 * metrics - 2p
 * continuous delivery from Github - 3p
+* articles carry their own metadata
 
 ### No Epic
 
