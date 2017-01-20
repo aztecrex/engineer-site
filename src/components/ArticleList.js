@@ -1,10 +1,8 @@
 import React, {PropTypes} from 'react';
-import './Articles.css';
+import './ArticleList.css';
 
 
-
-
-const Article = ({id, name, date}) => {
+const ArticleEntry = ({id, name, date}) => {
 
   const formatDate = d => {
     return d.toLocaleDateString()
@@ -21,20 +19,21 @@ const Article = ({id, name, date}) => {
   );
 };
 
-Article.propTypes = {
+ArticleEntry.propTypes = {
   id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   date: PropTypes.object.isRequired
 };
 
-const Articles = ({articles}) => {
+const ArticleList = ({articles}) => {
   return (
     <div>
       <ul>
-        {articles.map(article => (<Article {...article} key={article.id} />))}
+        {articles.map(article =>
+          (<ArticleEntry {...article} key={article.id} />))}
       </ul>
     </div>
   );
 };
 
-export default Articles;
+export default ArticleList;

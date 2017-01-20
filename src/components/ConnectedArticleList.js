@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import Articles from './Articles';
+import ArticleList from './ArticleList';
 
 
 const mapStateToProps = state => {
@@ -7,4 +7,4 @@ const mapStateToProps = state => {
   return {articles};
 };
 
-export default connect(mapStateToProps)(Articles);
+export default connect(mapStateToProps)(ArticleList);
