@@ -151,3 +151,7 @@ Resources:
           AliasTarget:
             HostedZoneId: Z2FDTNDATAQYW2
             DNSName: !GetAtt [RedirectDistribution, DomainName]
+
+Outputs:
+  ContentStore:
+    Value: !Ref Origin
