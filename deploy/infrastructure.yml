@@ -87,8 +87,8 @@ Resources:
           # site's assets are named by hash (Webpack does
           # this) so new content is automatically not
           # cached when published
-          - Compress: true
-            DefaultTTL: 900
+          - Compress: false
+            DefaultTTL: 300
             ForwardedValues:
               QueryString: 'false'
               Cookies:
