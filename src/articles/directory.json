@@ -1,0 +1,14 @@
+{
+  "articles": {
+    "host-easy": {
+      "name": "Host Easy",
+      "date": "2017-01-17T15:00-0800",
+      "source":"host-it-on-aws.md"
+    },
+    "adventures": {
+      "name": "Adventures In Tech Blogging",
+      "date": "2017-01-15T15:00-0800",
+      "source": "this-was-supposed-to-be-easy.md"
+    }    
+  }
+}

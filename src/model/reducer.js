@@ -1,5 +1,6 @@
 const defaultState = {
   name: "Harper",
+  homePageArticleId: "host-easy",
   articles: [
     {
       id: "host-easy",
