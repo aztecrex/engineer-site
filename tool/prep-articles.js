@@ -14,13 +14,13 @@ const load = (names, cb) =>
 const hash = data =>
   Crypto.createHash('md5').update(data).digest('hex');
 const addPublicFile = a =>
-    R.assoc('publicFile', hash(a.body) + '.md', a);
+    R.assoc('source', hash(a.body) + '.md', a);
 const interpret =
   Async.asyncify(R.map(R.compose(addPublicFile,FrontMatter)));
 const writeArticle = (article, cb) => {
-  console.log(article.publicFile);
+  console.log(article.source);
   console.log(article.body);
-  FileSystem.writeFile("public/" + article.publicFile, article.body, cb);
+  FileSystem.writeFile("public/" + article.source, article.body, cb);
 }
 const write = (articles, cb) => {
   Async.map(articles, writeArticle, (err, res) => {
@@ -33,11 +33,7 @@ const write = (articles, cb) => {
 const clean =
   Async.asyncify(
     R.map(
-      R.compose(
-        a => a.attributes,
-        R.assoc('publicFile',undefined),
-        R.assoc('body', undefined),
-        R.assoc('frontmatter', undefined))));
+      a => R.assoc('source', a.source, a.attributes)));
 
 Async.waterfall([
   files,
