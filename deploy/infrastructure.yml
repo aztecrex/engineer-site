@@ -50,8 +50,7 @@ Resources:
           - Action:
               - "s3:GetObject"
             Effect: "Allow"
-            Resource: !Sub |
-              "arn:aws:s3:::${Origin}/*"
+            Resource: !Sub arn:aws:s3:::${Origin}/*
             Principal:
               CanonicalUser:
                 Ref: OriginAccessPrincipal
