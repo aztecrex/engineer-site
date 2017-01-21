@@ -8,7 +8,7 @@ coverage
 
 # production
 /build
-/public/*.md
+/public/article/*.md
 
 # misc
 .DS_Store
