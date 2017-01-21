@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "devDependencies": {
+    "async": "^2.1.4",
+    "front-matter": "^2.1.1",
+    "ramda": "^0.23.0",
     "react-scripts": "0.8.5"
   },
   "dependencies": {
@@ -12,6 +15,7 @@
     "redux": "^3.6.0"
   },
   "scripts": {
+    "prep-articles": "node tool/prep-articles.js",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
