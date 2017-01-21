@@ -12,6 +12,12 @@
 * continuous delivery from Github - 3p
 * articles carry their own metadata
 
+### Epic: Showcase Functional Programming
+
+* incorporate PureScript - 8 swag
+  * probably have to eject again :)
+* figure out how to TDD PureScript - 5 swag
+
 ### No Epic
 
 * better look and feel
@@ -24,6 +30,7 @@ project as a starting point
 * file assets
 * twitter integration
 * youtube integration
+* test drive AWS provisioning, is that possible?
 
 ## In Progress
 
