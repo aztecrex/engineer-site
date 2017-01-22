@@ -155,4 +155,4 @@ Outputs:
   ContentStore:
     Value: !Ref Origin
   Link:
-    Value: !Ref http://${Domain}
+    Value: !Sub http://${Domain}
