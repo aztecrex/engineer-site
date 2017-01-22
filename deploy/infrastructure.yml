@@ -154,4 +154,5 @@ Resources:
 Outputs:
   ContentStore:
     Value: !Ref Origin
-
+  Link:
+    Value: !Ref http://${Domain}
