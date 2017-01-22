@@ -20,7 +20,7 @@ Parameters:
       An origin access principal. These cannot be created through
       cloudformation so create one before you get here or, if you are me, use
       this handy default.
-  Domain:
+  DNSZone:
     Type: String
     Default: gregwiley.com
 
@@ -70,7 +70,7 @@ Resources:
         Comment: Distribute the engineer site
         DefaultRootObject: index.html
         Aliases:
-          - !Sub ${Domain}
+          - !Sub ${DNSZone}
         DefaultCacheBehavior:
           Compress: true
           TargetOriginId: contentOrigin
@@ -106,7 +106,7 @@ Resources:
       AccessControl: PublicRead
       WebsiteConfiguration:
         RedirectAllRequestsTo:
-          HostName : !Ref Domain
+          HostName : !Ref DNSZone
           Protocol : http
 
   # The distribution that delivers the recirects supplied by
@@ -124,7 +124,7 @@ Resources:
         Enabled: 'true'
         Comment: Redirect to the canonical site
         Aliases:
-          - !Sub www.${Domain}
+          - !Sub www.${DNSZone}
         DefaultCacheBehavior:
           TargetOriginId: redirectOrigin
           ForwardedValues:
@@ -136,16 +136,16 @@ Resources:
   Domains:
     Type: AWS::Route53::RecordSetGroup
     Properties:
-      HostedZoneName: !Sub ${Domain}.
+      HostedZoneName: !Sub ${DNSZone}.
       RecordSets:
         # use the apex zone name as the main site domain
-        - Name: !Sub ${Domain}.
+        - Name: !Sub ${DNSZone}.
           Type: A
           AliasTarget:
             HostedZoneId: Z2FDTNDATAQYW2
             DNSName: !GetAtt [CDN, DomainName]
         # handle browser-genned or human-typed www. requests
-        - Name: !Sub www.${Domain}.
+        - Name: !Sub www.${DNSZone}.
           Type: A
           AliasTarget:
             HostedZoneId: Z2FDTNDATAQYW2
@@ -155,4 +155,4 @@ Outputs:
   ContentStore:
     Value: !Ref Origin
   Link:
-    Value: !Sub http://${Domain}
+    Value: !Sub http://${DNSZone}
