@@ -1,11 +1,10 @@
 'use strict';
 
-const frontMatter = require('front-matter');
 const FileSystem = require('fs');
 const R = require('ramda');
 const _ = R.__;
-const Crypto = require('crypto');
 const {run, mapGen, forGen} = require('./genutil');
+const {sourceToArticle, articleToEntry} = require('./prep-articles');
 
 const readdir = R.curryN(2, FileSystem.readdir);
 const readfile = R.curryN(3, FileSystem.readFile)(_,"utf-8");
@@ -28,10 +27,6 @@ const writeArticle = R.curry(function (article, cb) {
   writefile(path, article.body, cb);
 });
 
-const digest = data => Crypto.createHash('md5').update(data).digest('hex');
-const addDigest = article => R.assoc('digest', digest(article.body), article);
-const toArticle = R.compose(addDigest, frontMatter);
-const toEntry = article => R.assoc('digest', article.digest, article.attributes);
 
 const program = function * () {
   const srcDir = 'articles';
@@ -41,14 +36,15 @@ const program = function * () {
   let articlePaths =
     R.map(name => srcDir + '/' + name, articleFiles);
   let sources = yield * mapGen(readfile,articlePaths);
-  let articles = R.map(toArticle, sources);
-  let directory = R.map(toEntry, articles);
+  let articles = R.map(sourceToArticle, sources);
+  let directory = R.map(articleToEntry, articles);
 
   yield * mkdirIfNotExist(destDir);
 
   yield * forGen(writeArticle, articles);
 
-  yield writefile(destDir + '/directory.json', JSON.stringify(directory));
+  yield writefile(
+    destDir + '/directory.json', JSON.stringify(directory,null,2));
 
 }
-// run(program);
+run(program);
