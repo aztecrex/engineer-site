@@ -17,7 +17,7 @@
   "scripts": {
     "prep-articles": "node tool/prep-articles.js",
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "rm src/articles/* && node tool/prep-articles && react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   }
