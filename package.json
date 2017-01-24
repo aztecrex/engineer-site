@@ -15,9 +15,9 @@
     "redux": "^3.6.0"
   },
   "scripts": {
-    "prep-articles": "node tool/prep-articles.js",
+    "prep": "rm src/articles/* && node src/tool/prep-articles.js",
     "start": "react-scripts start",
-    "build": "rm src/articles/* && node tool/prep-articles && react-scripts build",
+    "build": "npm run prep && react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   }

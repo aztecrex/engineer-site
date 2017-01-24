@@ -9,7 +9,6 @@ const run = function (g) {
       cont = it.throw(err);
     else
       cont = it.next(res);
-    console.log(cont);
     if (!cont.done)
       cont.value(iterate);
   }
