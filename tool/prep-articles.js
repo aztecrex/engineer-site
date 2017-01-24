@@ -1,6 +1,6 @@
 'use strict';
 
-const FrontMatter = require('front-matter');
+const frontMatter = require('front-matter');
 const FileSystem = require('fs');
 const R = require('ramda');
 const _ = R.__;
@@ -12,15 +12,15 @@ const readfile = R.curryN(3, FileSystem.readFile)(_,"utf-8");
 const mkdir = R.curryN(3,FileSystem.mkdir)(_, parseInt('0777', 8));
 const writefile = R.curryN(3, FileSystem.writeFile);
 
-function * mkdirIfNotExist(path) {
+const mkdirIfNotExist = function * (path) {
   try {
-    yield mkdir(path);
-  } catch (x) {
-    if (x.code !== 'EEXIST')
-      throw x;
-    console.log('huh');
-    // OK if directory exists
+    yield mkdir(path)
+  } catch (err) {
+    if (err.code !== 'EEXIST')
+      throw err;
+    // ok if exists already
   }
+  console.log("ok");
 }
 
 const writeArticle = R.curry(function (article, cb) {
@@ -30,75 +30,25 @@ const writeArticle = R.curry(function (article, cb) {
 
 const digest = data => Crypto.createHash('md5').update(data).digest('hex');
 const addDigest = article => R.assoc('digest', digest(article.body), article);
-const toArticle = R.compose(addDigest, FrontMatter);
+const toArticle = R.compose(addDigest, frontMatter);
 const toEntry = article => R.assoc('digest', article.digest, article.attributes);
 
-function * program() {
-  let articleFiles = yield readdir('articles');
+const program = function * () {
+  const srcDir = 'articles';
+  const destDir = 'src/articles';
+
+  let articleFiles = yield readdir(srcDir);
   let articlePaths =
-    R.map(name => 'articles/' + name, articleFiles);
+    R.map(name => srcDir + '/' + name, articleFiles);
   let sources = yield * mapGen(readfile,articlePaths);
   let articles = R.map(toArticle, sources);
   let directory = R.map(toEntry, articles);
 
-  yield * mkdirIfNotExist("src/articles");
+  yield * mkdirIfNotExist(destDir);
+
   yield * forGen(writeArticle, articles);
 
-  yield writefile('src/articles/directory.json', JSON.stringify(directory));
+  yield writefile(destDir + '/directory.json', JSON.stringify(directory));
 
-  console.log(directory);
-
-
-  // CAN SOMETHING LIKE ^^^ WORK?
-
-  // let articles = [];
-  // for(let path of articlePaths) {
-  //   let article = yield readfile(path);
-  //   articles.push(article);
-  // }
-  // console.log("articles",articles);
 }
 run(program);
-
-//
-// const articleFiles = R.curryN(2, FileSystem.readdir)('articles');
-// const loadArticle = (name, cb) =>
-//   FileSystem.readFile("articles/" + name, "utf-8", cb);
-// const loadArticles = (names, cb) =>
-//   Async.map(names, loadArticle, cb);
-// const hash = data =>
-//   Crypto.createHash('md5').update(data).digest('hex');
-// const addPublicFile = a =>
-//     R.assoc('source', hash(a.body) + '.md', a);
-// const processArticles =
-//   Async.asyncify(R.map(R.compose(addPublicFile,FrontMatter)));
-// const writeArticle = (article, cb) => {
-//   FileSystem.writeFile("public/article/" + article.source, article.body, cb);
-// }
-// const mkdir = R.curryN(3,FileSystem.mkdir)(_, parseInt('0777', 8));
-// const writePublic = (articles, cb) => {
-//   Async.series([
-//     Async.reflect(mkdir('public/article')),
-//     R.curry(Async.map)(articles, writeArticle)
-//   ],(err, res) => {
-//     if (err)
-//       cb(err);
-//     else
-//       cb(null, articles);
-//   });
-// };
-// const clean =
-//   Async.asyncify(
-//     R.map(
-//       a => R.assoc('source', a.source, a.attributes)));
-//
-// Async.waterfall([
-//   articleFiles,
-//   loadArticles,
-//   processArticles,
-//   writePublic,
-//   clean
-// ], (err, res) => {
-//   console.log("err", err);
-//   console.log("res", res);
-// });

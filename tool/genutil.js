@@ -1,12 +1,14 @@
 'use strict';
 
-function run(g) {
+const run = function (g) {
   let it = g();
 
   function iterate(err, res) {
+    let cont;
     if (err)
-      it.throw(err);
-    let cont = it.next(res);
+      cont = it.throw(err);
+    else
+      cont = it.next(res);
     console.log(cont);
     if (!cont.done)
       cont.value(iterate);
@@ -14,14 +16,14 @@ function run(g) {
   iterate();
 }
 
-function *mapGen(fn, ary) {
+const mapGen = function * (fn, ary) {
   let rval = [];
   for(let x of ary)
     rval.push(yield fn(x));
   return rval;
 }
 
-function *forGen(fn, ary) {
+const forGen = function * (fn, ary) {
   for(let x of ary) {
     yield fn(x);
   }
