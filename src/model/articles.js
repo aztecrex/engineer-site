@@ -24,8 +24,8 @@ const makeReducer = entries => (state = defaultState(entries), action) => {
   if (action) {
     switch(action.type) {
       case receiveContentType:
-        let content = {...state.content, [action.digest]: action.content};
-        newState = {...state, content};
+        let lens = R.lensPath(['content',action.digest]);
+        newState = R.set(lens, action.content, state);
         break;
       default:
         newState = state;
