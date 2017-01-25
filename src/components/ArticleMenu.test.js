@@ -1,6 +1,6 @@
 import React from 'react';
 import {Provider} from 'react-redux';
-import { shallow, mount, render } from 'enzyme';
+import {render} from 'enzyme';
 import configureMockStore from 'redux-mock-store';
 import ArticleMenu from './ArticleMenu';
 
@@ -63,7 +63,7 @@ describe('rendering', () => {
     ];
     let state = makeState(directory);
     let embedded = embed(ArticleMenu, state);
-    
+
     // when
     let wrapper = render(embedded);
 
