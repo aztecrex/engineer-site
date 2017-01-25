@@ -6,6 +6,7 @@ import './App.css';
 
 import ArticleMenu from './components/ArticleMenu';
 import Article from './components/Article';
+import Harper from './components/Harper';
 // import { flipName } from './model';
 // import ArticleList from './components/ConnectedArticleList';
 // import Article from './components/ConnectedArticle';
@@ -50,9 +51,10 @@ const App = () => {
   return(
     <div className="App">
       <ArticleMenu />
-      <p>stuff</p>
+      <hr />
       <Article  content="<p>this is content</p><p>and this is, too</p>"/>
       <hr />
+      <Harper />
     </div>
   );
 };
