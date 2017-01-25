@@ -51,7 +51,7 @@ const App = () => {
     <div className="App">
       <ArticleMenu />
       <p>stuff</p>
-      <Article />
+      <Article  content="<p>this is content</p><p>and this is, too</p>"/>
       <hr />
     </div>
   );
