@@ -1,22 +1,9 @@
+import directory from '../articles/directory.json';
+
+
 const defaultState = {
   name: "Harper",
-  homePageArticleId: "host-easy",
-  articles: [
-    {
-      id: "host-easy",
-      name: "Host Easy",
-      date: new Date(Date.parse("2017-01-17T15:00-0800"))
-    },
-    {
-      id: "adventures",
-      name: "Adventures In Tech Blogging",
-      date: new Date(Date.parse("2017-01-15T15:00-0800"))
-    }
-  ],
-  sources: {
-    "host-easy": "host-it-on-aws.md",
-    "adventures": "this-was-supposed-to-be-easy.md"
-  }
+  directory: directory
 };
 
 const reduce = (state = defaultState, action) => {

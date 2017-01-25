@@ -1,54 +1,55 @@
-import React, {PropTypes} from 'react';
-import { connect } from 'react-redux';
+import React from 'react';
+// import React, {PropTypes} from 'react';
+// import { connect } from 'react-redux';
+
 import './App.css';
-import { flipName } from './model';
-import ArticleList from './components/ConnectedArticleList';
-import Article from './components/ConnectedArticle';
 
-const Header = () => {
-  return (
-    <h1>An Engineer's Site</h1>
-  );
-}
+import ArticleMenu from './components/ArticleMenu';
+// import { flipName } from './model';
+// import ArticleList from './components/ConnectedArticleList';
+// import Article from './components/ConnectedArticle';
 
-const UnconnectedFooter = ({name, flipName}) => {
-  return (
-    <div>
-      <p>
-        Generated from React + Redux + Markdown {' '}
-        <a href="https://github.com/aztecrex/engineer-site">
-          source
-        </a>
-        .
-      </p>
-      <p>
-        You are in a app. Your name is{' '}
-        <span className="clickable" onClick={flipName}>
-            { name }
-        </span>.
-      </p>
-    </div>
-  );
-};
+// const Header = () => {
+//   return (
+//     <h1>An Engineer's Site</h1>
+//   );
+// }
 
-UnconnectedFooter.propTypes = {
-  name: PropTypes.string.isRequired,
-  flipName: PropTypes.func.isRequired
-};
+// const UnconnectedFooter = ({name, flipName}) => {
+//   return (
+//     <div>
+//       <p>
+//         Generated from React + Redux + Markdown {' '}
+//         <a href="https://github.com/aztecrex/engineer-site">
+//           source
+//         </a>
+//         .
+//       </p>
+//       <p>
+//         You are in a app. Your name is{' '}
+//         <span className="clickable" onClick={flipName}>
+//             { name }
+//         </span>.
+//       </p>
+//     </div>
+//   );
+// };
 
-const mapStateToFooterProps = state => ({name: state.name});
+// UnconnectedFooter.propTypes = {
+//   name: PropTypes.string.isRequired,
+//   flipName: PropTypes.func.isRequired
+// };
 
-const Footer = connect(mapStateToFooterProps, {flipName: flipName})(UnconnectedFooter);
+// const mapStateToFooterProps = state => ({name: state.name});
+
+// const Footer = connect(mapStateToFooterProps, {flipName: flipName})(UnconnectedFooter);
 
 
 const App = () => {
   return(
     <div className="App">
-      <Header />
-      <ArticleList />
-      <Article id="host-easy" />
+      <ArticleMenu />
       <hr />
-      <Footer />
     </div>
   );
 };

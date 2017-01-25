@@ -1,4 +1,4 @@
-import createStore from 'react-redux';
+import { createStore } from 'redux';
 
 import { reduce } from './reducer';
 import { flipName } from './action';
