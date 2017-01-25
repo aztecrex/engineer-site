@@ -1,4 +1,4 @@
-
+import R from 'ramda';
 
 const newestFirst = (entry1,entry2) => {
   let d1 = new Date(entry1.published);
@@ -7,4 +7,9 @@ const newestFirst = (entry1,entry2) => {
   return comp;
 };
 
-export default entries => entries.concat().sort(newestFirst);
+const parsePublished = elem => R.assoc('published', new Date(elem.published), elem);
+
+const prep = entries =>
+  R.map(parsePublished, entries.concat().sort(newestFirst));
+
+export default prep;
