@@ -6,7 +6,7 @@ import ArticleMenu from './ArticleMenu';
 
 
 const makeState = directory => {
-  return {directory};
+  return {articles: {directory}};
 };
 
 const embed = (component, state) => {
@@ -76,5 +76,35 @@ describe('rendering', () => {
 
   });
 
+  it('renders empty list if directory missing', () => {
+    // given
+    let state = {articles:{}};
+    let embedded = embed(ArticleMenu, state);
 
+    // when
+    let wrapper = render(embedded);
+
+    // then
+    let ul = wrapper.find('ul');
+    expect(ul.length).toEqual(1);
+
+    let as = ul.find('li a');
+    expect(as.length).toEqual(0);
+  });
+
+  it('renders empty list if articles missing', () => {
+    // given
+    let state = {};
+    let embedded = embed(ArticleMenu, state);
+
+    // when
+    let wrapper = render(embedded);
+
+    // then
+    let ul = wrapper.find('ul');
+    expect(ul.length).toEqual(1);
+
+    let as = ul.find('li a');
+    expect(as.length).toEqual(0);
+  });
 });

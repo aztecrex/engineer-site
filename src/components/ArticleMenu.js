@@ -24,7 +24,8 @@ const ArticleMenu = ({directory}) => {
 };
 
 const mapStateToProps = state => {
-  return state ? {directory: state.directory} : {};
+  let directory = R.path(['articles','directory'], state) || [];
+  return {directory};
 };
 
 export default connect(mapStateToProps)(ArticleMenu);

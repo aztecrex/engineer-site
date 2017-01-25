@@ -9,7 +9,7 @@ import App from './App';
 it('renders without crashing', () => {
   const div = document.createElement('div');
   ReactDOM.render(
-    <Provider store={createStore(st => {name:"Harold"})}>
+    <Provider store={createStore(st => {})}>
       <App />
     </Provider>, div);
 });
