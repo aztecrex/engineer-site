@@ -15,11 +15,24 @@ const prepareIndex = R.compose(R.mergeAll, R.map(entryToIndex));
 
 const defaultState = entries => ({
   directory: prepareEntries(entries),
-  index: prepareIndex(entries)
+  index: prepareIndex(entries),
+  content: {}
 });
 
 const makeReducer = entries => (state = defaultState(entries), action) => {
-  return state;
+  let newState;
+  if (action) {
+    switch(action.type) {
+      case receiveContentType:
+        let content = {...state.content, [action.digest]: action.content};
+        newState = {...state, content};
+        break;
+      default:
+        newState = state;
+        break;
+    }
+  } else newState = state;
+  return newState;
 };
 
 const receiveContent = (digest,content) => {

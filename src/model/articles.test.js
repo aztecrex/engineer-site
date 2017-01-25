@@ -52,7 +52,7 @@ describe('initial index', () => {
     let digest2 = 'd-two';
     let entries = [
       {published: '2016-05-01', id: id1, digest: digest1},
-      {published: '2016-05-02', id: id2, digest: digest2},
+      {published: '2016-05-02', id: id2, digest: digest2}
     ];
     let articles = createArticles(entries);
 
@@ -88,4 +88,35 @@ describe ('action constructors', () => {
     };
     expect(actual).toEqual(expected);
   });
+});
+
+describe ('reducer', () => {
+  let id1 = 'one';
+  let digest1 = 'd-one';
+  let id2 = 'two';
+  let digest2 = 'd-two';
+  let entries = [
+    {published: '2016-05-01', id: id1, digest: digest1},
+    {published: '2016-05-02', id: id2, digest: digest2}
+  ];
+  let {reduce, receiveContent} = createArticles(entries);
+  let initialState = reduce();
+  it('reduce updates with received content', () => {
+    // given
+    let content = '<p>here is your new content';
+
+    // when
+    let actual = reduce(initialState, receiveContent(digest1, content));
+
+    // then
+    // directory is untouched
+    expect(actual.directory).toEqual(initialState.directory);
+    // index is untouched
+    expect(actual.index).toEqual(initialState.index);
+
+    let expectedContent = {[digest1]:content};
+    expect(actual.content).toEqual(expectedContent);
+
+  });
+
 });
