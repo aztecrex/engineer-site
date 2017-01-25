@@ -16,12 +16,19 @@ const defaultState = entries => ({
   index: prepareIndex(entries)
 });
 
-const makeReducer = entries => (state, action) => {
-  return state || defaultState(entries);
+const makeReducer = entries => (state = defaultState(entries), action) => {
+  return state;
+};
+
+const receiveContent = content => {
+
 };
 
 const construct = entries => {
-  return {reduce: makeReducer(entries)};
+  return {
+    reduce: makeReducer(entries),
+    receiveContent: receiveContent
+  };
 };
 
 export default construct;
