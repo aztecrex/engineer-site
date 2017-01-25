@@ -9,12 +9,12 @@ const makeState = directory => {
   return {directory};
 };
 
-const embed = state => {
+const embed = (component, state) => {
   let createStore = configureMockStore([]);
   let store = createStore(state);
   return (
     <Provider store={store}>
-      <ArticleMenu />
+      {React.createElement(component)}
     </Provider>
   );
 };
@@ -23,14 +23,16 @@ const embed = state => {
 describe('rendering', () => {
   it('renders an article as a link', () => {
     // given
+    let id = "article-a";
+    let title = "Article Title";
     const directory = [
       {
-        "id": "adventures",
-        "title": "Adventures In Tech Blogging"
+        "id": id,
+        "title": title
       }
     ];
     let state = makeState(directory);
-    let embedded = embed(state);
+    let embedded = embed(ArticleMenu, state);
     // when
     let wrapper = render(embedded);
 
@@ -42,8 +44,8 @@ describe('rendering', () => {
     expect(as.length).toEqual(1);
 
     let first = as.slice(0).first();
-    expect(first.attr('href')).toEqual("article/adventures");
-    expect(first.text()).toEqual("Adventures In Tech Blogging");
+    expect(first.attr('href')).toEqual("article/" + id);
+    expect(first.text()).toEqual(title);
 
   });
 
@@ -60,7 +62,8 @@ describe('rendering', () => {
       }
     ];
     let state = makeState(directory);
-    let embedded = embed(state);
+    let embedded = embed(ArticleMenu, state);
+    
     // when
     let wrapper = render(embedded);
 
