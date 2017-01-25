@@ -33,7 +33,7 @@ describe('render article', () => {
     // then
     let expected = normalizer.normalize(content);
 
-    let inner = wrapper.find('#itsme');
+    let inner = wrapper.find('p');
     let actual = normalizer.normalize(inner.parent().html());
 
     expect(actual).toEqual(expected);
