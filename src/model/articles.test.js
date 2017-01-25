@@ -66,3 +66,26 @@ describe('initial index', () => {
   });
 
 });
+
+describe ('action constructors', () => {
+  // no entries needed for these tests
+  let {receiveContent} = createArticles([]);
+
+  it('makes a receive content action', () => {
+
+    // given
+    let digest = "content-digest";
+    let content = "<p>content</p>";
+
+    // when
+    let actual = receiveContent(digest, content);
+
+    // then
+    let expected = {
+      type: 'ARTICLES_RECEIVE_CONTENT',
+      digest: digest,
+      content: content
+    };
+    expect(actual).toEqual(expected);
+  });
+});
