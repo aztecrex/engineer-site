@@ -19,7 +19,7 @@ const defaultState = entries => ({
   content: {}
 });
 
-const makeReducer = entries => (state = defaultState(entries), action) => {
+const createReducer = entries => (state = defaultState(entries), action) => {
   let newState;
   if (action) {
     switch(action.type) {
@@ -35,7 +35,7 @@ const makeReducer = entries => (state = defaultState(entries), action) => {
   return newState;
 };
 
-const receiveContent = (digest,content) => {
+const receiveContent = (digest, content) => {
   return {
     type: receiveContentType,
     digest: digest,
@@ -43,11 +43,11 @@ const receiveContent = (digest,content) => {
   };
 };
 
-const construct = entries => {
-  return {
-    reduce: makeReducer(entries),
-    receiveContent: receiveContent
-  };
+const actions = {
+  receiveContent
 };
 
-export default construct;
+export {
+  createReducer,
+  actions
+};

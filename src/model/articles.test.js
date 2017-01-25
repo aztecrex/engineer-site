@@ -1,7 +1,11 @@
 import R from 'ramda';
 
-import createArticles from './articles';
+import {
+  createReducer,
+  actions
+} from './articles';
 
+const {receiveContent} = actions;
 
 describe('initial directory', ()  => {
   it('sorts the entries by published time', () => {
@@ -13,10 +17,10 @@ describe('initial directory', ()  => {
       {title:'three', published: '2016-05-01T13:45:22-0800'},
       {title:'four', published: '2016-12-04'}
     ];
-    let articles = createArticles(entries);
+    let reduce = createReducer(entries);
 
     // when
-    let actual = articles.reduce().directory;
+    let actual = reduce().directory;
 
     // then
     let titles = R.map(R.prop('title'), actual);
@@ -30,10 +34,10 @@ describe('initial directory', ()  => {
     let entries = [
       {title:'two', published: published}
     ];
-    let articles = createArticles(entries);
+    let reduce = createReducer(entries);
 
     // when
-    let actual = articles.reduce().directory;
+    let actual = reduce().directory;
 
     // then
     let expectedPublished = new Date(published);
@@ -54,10 +58,10 @@ describe('initial index', () => {
       {published: '2016-05-01', id: id1, digest: digest1},
       {published: '2016-05-02', id: id2, digest: digest2}
     ];
-    let articles = createArticles(entries);
+    let reduce = createReducer(entries);
 
     // when
-    let actual = articles.reduce().index;
+    let actual = reduce().index;
 
     // then
     let expected = {[id1]:digest1,[id2]:digest2};
@@ -68,8 +72,6 @@ describe('initial index', () => {
 });
 
 describe ('action constructors', () => {
-  // no entries needed for these tests
-  let {receiveContent} = createArticles([]);
 
   it('makes a receive content action', () => {
 
@@ -99,7 +101,7 @@ describe ('reducer', () => {
     {published: '2016-05-01', id: id1, digest: digest1},
     {published: '2016-05-02', id: id2, digest: digest2}
   ];
-  let {reduce, receiveContent} = createArticles(entries);
+  let reduce = createReducer(entries);
   let initialState = reduce();
   it('reduce updates with received content', () => {
     // given
