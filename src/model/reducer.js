@@ -1,9 +1,9 @@
 import entries from '../articles/directory.json';
-import directory from './directory';
+import makeArticles from './articles';
 
 const defaultState = {
   name: "Harper",
-  directory: directory(entries)
+  directory: makeArticles(entries).reduce().directory // not the correct way yet
 };
 
 const reduce = (state = defaultState, action) => {
