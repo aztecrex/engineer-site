@@ -33,7 +33,6 @@ it ('renders name in a span', () => {
   // then
   let spans = wrapper.find('span');
   expect(spans.length).toBe(1);
-  // expect(spans).toEqual(name);
-  // expect(wrapper.text()).toEqual(name);
+  expect(wrapper.text()).toEqual(name);
 
 });
