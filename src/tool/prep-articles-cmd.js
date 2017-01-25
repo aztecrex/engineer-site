@@ -19,7 +19,6 @@ const mkdirIfNotExist = function * (path) {
       throw err;
     // ok if exists already
   }
-  console.log("ok");
 }
 
 const writeArticle = R.curry(function (article, cb) {
