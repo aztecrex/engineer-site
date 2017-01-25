@@ -8,11 +8,8 @@ const parsePublished = elem => R.assoc('published', new Date(elem.published), el
 const prepareEntries = entries =>
   R.map(parsePublished, entries).sort(latestFirst);
 
-const prepareIndex = entries => {
-  let indexed =
-    R.map(entry => ({[entry.id]: entry.digest}), entries);
-  return R.mergeAll(indexed);
-};
+const entryToIndex = entry => ({[entry.id]: entry.digest});
+const prepareIndex = R.compose(R.mergeAll, R.map(entryToIndex));
 
 const defaultState = entries => ({
   directory: prepareEntries(entries),
