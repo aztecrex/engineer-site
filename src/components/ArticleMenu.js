@@ -1,13 +1,14 @@
 import React from 'react';
+import {Link} from 'react-router';
 import {connect} from 'react-redux';
 import R from 'ramda';
 
 const MenuItem = ({title, id}) => {
   return (
   <li>
-    <a href={"article/" + id}>
+    <Link to={"article/" + id}>
       {title}
-    </a>
+    </Link>
   </li>);
 };
 

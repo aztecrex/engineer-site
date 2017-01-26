@@ -1,9 +1,9 @@
 import React from 'react';
 import {Provider} from 'react-redux';
-import {render} from 'enzyme';
+import {render, shallow, mount} from 'enzyme';
 import configureMockStore from 'redux-mock-store';
 import ArticleMenu from './ArticleMenu';
-
+import {Link} from 'react-router';
 
 const makeState = directory => {
   return {articles: {directory}};
@@ -34,18 +34,13 @@ describe('rendering', () => {
     let state = makeState(directory);
     let embedded = embed(ArticleMenu, state);
     // when
-    let wrapper = render(embedded);
+    let wrapper = mount(embedded);
 
     // then
-    let ul = wrapper.find('ul');
-    expect(ul.length).toEqual(1);
-
-    let as = ul.find('li a');
-    expect(as.length).toEqual(1);
-
-    let first = as.slice(0).first();
-    expect(first.attr('href')).toEqual("article/" + id);
-    expect(first.text()).toEqual(title);
+    let links = wrapper.find(Link);
+    expect(links.length).toBe(1);
+    expect(links.first().text()).toEqual(title);
+    expect(links.prop('to')).toEqual('article/' + id);
 
   });
 
@@ -65,14 +60,11 @@ describe('rendering', () => {
     let embedded = embed(ArticleMenu, state);
 
     // when
-    let wrapper = render(embedded);
+    let wrapper = mount(embedded);
 
     // then
-    let ul = wrapper.find('ul');
-    expect(ul.length).toEqual(1);
-
-    let as = ul.find('li a');
-    expect(as.length).toEqual(2);
+    let links = wrapper.find(Link);
+    expect(links.length).toBe(2);
 
   });
 
