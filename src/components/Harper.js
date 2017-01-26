@@ -2,11 +2,13 @@ import React from 'react';
 import {connect} from 'react-redux';
 import R from 'ramda';
 
+import './Harper.css';
 import {actions} from '../model';
 
+
+
 const Harper = ({name, flipName}) => {
-  console.log("name", name);
-  return (<span onClick={flipName}>{name}</span>);
+  return (<span className='harper' onClick={flipName}>{name}</span>);
 };
 
 const mapStateToProps = state => {
