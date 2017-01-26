@@ -1,6 +1,6 @@
 import React from 'react';
 import ezJson from 'enzyme-to-json';
-import ArticleContent from './ArticleContent';
+import ArticleContent from './Markdown';
 
 it('should render with no content', () => {
 
