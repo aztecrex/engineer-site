@@ -15,7 +15,6 @@ const keyedMenuItem =
   article => (<MenuItem {...article} key={article.id} />);
 
 const ArticleMenu = ({directory}) => {
-
   return (
     <ul>
       {R.map(keyedMenuItem, directory || [])}
