@@ -47,28 +47,40 @@ describe('initial directory', ()  => {
 });
 
 describe('initial index', () => {
-  it('creates an index entry with digest for each source entry', () => {
+  it('creates an index entry with article ref for each source entry', () => {
     // given
     // note the first and second entries have different lexical and actual order
     let id1 = 'one';
-    let digest1 = 'd-one';
+    let article1 = {published: '2016-05-01', id: id1, digest: "digest-1"};
     let id2 = 'two';
-    let digest2 = 'd-two';
-    let entries = [
-      {published: '2016-05-01', id: id1, digest: digest1},
-      {published: '2016-05-02', id: id2, digest: digest2}
-    ];
+    let article2 = {published: '2016-05-02', id: id2, digest: "digest-2"};
+
+    let entries = [article1, article2];
     let reduce = createReducer(entries);
 
     // when
     let actual = reduce().index;
 
     // then
-    let expected = {[id1]:digest1,[id2]:digest2};
+    let expected = {[id1]: article1,[id2]: article2};
     expect(actual).toEqual(expected);
 
   });
 
+});
+
+describe('initial content', () => {
+  it('creates an empty content entry', () => {
+    // given
+    let entries = [{published: '2016-05-01', id: "one", digest: "digest-1"}];
+    let reduce = createReducer(entries);
+
+    // when
+    let actual = reduce().content;
+
+    // then
+    expect(actual).toEqual({});
+  });
 });
 
 describe ('action constructors', () => {

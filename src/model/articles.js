@@ -10,7 +10,7 @@ const parsePublished = elem => R.assoc('published', new Date(elem.published), el
 const prepareEntries = entries =>
   R.map(parsePublished, entries).sort(latestFirst);
 
-const entryToIndex = entry => ({[entry.id]: entry.digest});
+const entryToIndex = entry => ({[entry.id]: entry});
 const prepareIndex = R.compose(R.mergeAll, R.map(entryToIndex));
 
 const defaultState = entries => ({
