@@ -3,6 +3,7 @@ import configureMockStore from 'redux-mock-store';
 const createMockStore = configureMockStore([]);
 import ezJson from 'enzyme-to-json';
 
+import {actions} from '../model';
 import ConnectedArticle, {Article, mapStateToProps} from './Article';
 
 
@@ -146,7 +147,7 @@ describe('render unconnected', () => {
 
 describe('connected article', () => {
 
-  it('is connected', () => {
+  it('is connected to state', () => {
     // given
     const state = {articles: {
       index: {id1: "here is the index"},
@@ -159,6 +160,70 @@ describe('connected article', () => {
 
     // then
     expect(ezJson(rendered)).toMatchSnapshot();
+
+  });
+
+  it('emits when content not found', () => {
+    // given
+    const id = 'article3';
+    const state = {
+      articles: {
+        index: {
+          [id]: {
+            digest: 'the-digest'
+          }
+        }
+      }
+    };
+    const store = createMockStore(state);
+
+    // when
+    const rendered = mount(<ConnectedArticle store={store} id={id} /> );
+
+    // then
+    expect(store.getActions().length).toEqual(1);
+    expect(store.getActions()[0]).toEqual(actions.needContent());
+
+  });
+
+  it('does not emit when digest not found', () => {
+    // given
+    const id = 'article3';
+    const state = {};
+    const store = createMockStore(state);
+
+    // when
+    const rendered = mount(<ConnectedArticle store={store} id={id} /> );
+
+    // then
+    expect(store.getActions().length).toEqual(0);
+
+  });
+
+
+  it('does not emit when content found', () => {
+    // given
+    const id = 'article3';
+    const digest = 'the-digest';
+    const state = {
+      articles: {
+        index: {
+          [id]: {
+            digest: digest
+          }
+        },
+        content: {
+          [digest]: 'the content you need'
+        }
+      }
+    };
+    const store = createMockStore(state);
+
+    // when
+    const rendered = mount(<ConnectedArticle store={store} id={id} /> );
+
+    // then
+    expect(store.getActions().length).toEqual(0);
 
   });
 
