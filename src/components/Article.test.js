@@ -77,25 +77,20 @@ describe('wiring', () => {
 
 });
 
-describe.skip('render article', () => {
-  const id = 'article0001';
-  const digest = 'd-article-0001';
-
-  const wire = state => {
-    const store = createMockStore(state);
-    return (
-        <Article id={id} store={store} />
-    );
-  };
+describe('render unconnected', () => {
 
   it('renders id not found', () => {
 
     // given
-    const state = {};
-    const wired = wire(state);
+    const id = 'article3';
+    const props = mapStateToProps({});
 
     // when
-    const rendered = shallow(wired);
+    const rendered =
+      shallow(<Article
+        id={id}
+        index={props.index}
+        content={props.content} />);
 
     // then
     expect(ezJson(rendered)).toMatchSnapshot();
@@ -105,30 +100,35 @@ describe.skip('render article', () => {
   it('renders content not found', () =>  {
 
     // given
-    const state = {
+    const id = 'article3';
+    const props = mapStateToProps({
       articles: {
         index: {
           [id]: {
-            digest: digest
+            digest: 'the-digest'
           }
         }
       }
-    };
-    const wired = wire(state);
+    });
 
     // when
-    const rendered = shallow(wired);
+    const rendered =
+      shallow(<Article
+        id={id}
+        index={props.index}
+        content={props.content} />);
 
     // then
     expect(ezJson(rendered)).toMatchSnapshot();
-
 
   });
 
   it('renders content found', () =>  {
 
     // given
-    const state = {
+    const id = 'article3';
+    const digest = 'the-digest';
+    const props = mapStateToProps({
       articles: {
         index: {
           [id]: {
@@ -136,14 +136,17 @@ describe.skip('render article', () => {
           }
         },
         content: {
-          [digest]: 'you only live twice'
+          [digest]: 'the content you need'
         }
       }
-    };
-    const wired = wire(state);
+    });
 
     // when
-    const rendered = shallow(wired);
+    const rendered =
+      shallow(<Article
+        id={id}
+        index={props.index}
+        content={props.content} />);
 
     // then
     expect(ezJson(rendered)).toMatchSnapshot();

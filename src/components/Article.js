@@ -12,11 +12,11 @@ const computeSource = (id, index, content) => {
   if (!digest)
     source="NOT FOUND";
   else {
-    const content = R.path([digest], content);
-    if (!content)
+    const loaded = R.path([digest], content);
+    if (!loaded)
       source = "LOADING";
     else {
-      source = content;
+      source = loaded;
     }
   }
 
@@ -27,9 +27,9 @@ class Article extends React.Component {
 
   render() {
     const source = computeSource(
-      props.id,
-      props.index,
-      props.content
+      this.props.id,
+      this.props.index,
+      this.props.content
     );
     return (
       <Markdown source={source} />

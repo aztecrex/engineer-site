@@ -1,91 +1,14 @@
-exports[`render article renders content found 1`] = `
-<Article
-  articles={
-    Object {
-      "content": Object {
-        "d-article-0001": "you only live twice",
-      },
-      "index": Object {
-        "article0001": Object {
-          "digest": "d-article-0001",
-        },
-      },
-    }
-  }
-  content={
-    Object {
-      "d-article-0001": "you only live twice",
-    }
-  }
-  dispatch={[Function]}
-  id="article0001"
-  index={
-    Object {
-      "article0001": Object {
-        "digest": "d-article-0001",
-      },
-    }
-  }
-  store={
-    Object {
-      "clearActions": [Function],
-      "dispatch": [Function],
-      "getActions": [Function],
-      "getState": [Function],
-      "replaceReducer": [Function],
-      "subscribe": [Function],
-    }
-  } />
+exports[`render unconnected renders content found 1`] = `
+<Markdown
+  source="the content you need" />
 `;
 
-exports[`render article renders content not found 1`] = `
-<Article
-  articles={
-    Object {
-      "index": Object {
-        "article0001": Object {
-          "digest": "d-article-0001",
-        },
-      },
-    }
-  }
-  content={Object {}}
-  dispatch={[Function]}
-  id="article0001"
-  index={
-    Object {
-      "article0001": Object {
-        "digest": "d-article-0001",
-      },
-    }
-  }
-  store={
-    Object {
-      "clearActions": [Function],
-      "dispatch": [Function],
-      "getActions": [Function],
-      "getState": [Function],
-      "replaceReducer": [Function],
-      "subscribe": [Function],
-    }
-  } />
+exports[`render unconnected renders content not found 1`] = `
+<Markdown
+  source="LOADING" />
 `;
 
-exports[`render article renders id not found 1`] = `
-<Article
-  articles={Object {}}
-  content={Object {}}
-  dispatch={[Function]}
-  id="article0001"
-  index={Object {}}
-  store={
-    Object {
-      "clearActions": [Function],
-      "dispatch": [Function],
-      "getActions": [Function],
-      "getState": [Function],
-      "replaceReducer": [Function],
-      "subscribe": [Function],
-    }
-  } />
+exports[`render unconnected renders id not found 1`] = `
+<Markdown
+  source="NOT FOUND" />
 `;
