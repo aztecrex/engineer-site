@@ -1,0 +1,23 @@
+exports[`test should render html from markdown 1`] = `
+<div
+  className="article"
+  dangerouslySetInnerHTML={
+    Object {
+      "__html": "<h1 id=\"title\">Title</h1>
+    <p>This paragraph says everything.</p>
+    <ul>
+    <li>one<ul>
+    <li>one point one</li>
+    </ul>
+    </li>
+    <li>two</li>
+    </ul>
+    ",
+    }
+  } />
+`;
+
+exports[`test should render with no content 1`] = `
+<div
+  className="article empty" />
+`;
