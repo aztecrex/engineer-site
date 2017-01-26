@@ -2,9 +2,11 @@ import React from 'react';
 import {connect} from 'react-redux';
 import R from 'ramda';
 
-const Harper = ({name}) => {
+import {actions} from '../model';
+
+const Harper = ({name, flipName}) => {
   console.log("name", name);
-  return (<span>{name}</span>);
+  return (<span onClick={flipName}>{name}</span>);
 };
 
 const mapStateToProps = state => {
@@ -12,4 +14,5 @@ const mapStateToProps = state => {
   return {name};
 };
 
-export default connect(mapStateToProps)(Harper);
+
+export default connect(mapStateToProps, actions)(Harper);

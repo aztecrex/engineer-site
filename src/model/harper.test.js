@@ -1,4 +1,5 @@
-import {reduce, flipName} from './harper';
+import {reduce, actions} from './harper';
+const {flipName} = actions;
 
 it('has initial state of "Harper"', () => {
   // when

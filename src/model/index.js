@@ -32,7 +32,7 @@ const reduce = combineReducers(
 );
 
 // combine the actions
-const actions = R.mergeAll(articlesActions, harperActions);
+const actions = R.mergeAll([articlesActions, harperActions]);
 
 /* - Export --------------------------------------
 */

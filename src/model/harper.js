@@ -21,4 +21,6 @@ const reduce = (state = "Harper", action) => {
   return newState;
 };
 
-export { reduce, flipName };
+const actions = {flipName};
+
+export { reduce, actions };
