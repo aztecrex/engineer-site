@@ -1,13 +1,83 @@
 import React from 'react';
-import {Provider} from 'react-redux';
 import configureMockStore from 'redux-mock-store';
-import ezJson from 'enzyme-to-json';
-import Article from './Article';
-
 const createMockStore = configureMockStore([]);
+import ezJson from 'enzyme-to-json';
+
+import ConnectedArticle, {Article, mapStateToProps} from './Article';
 
 
-describe('render article', () => {
+describe('wiring', () => {
+  it('maps empty to empty index and content', () => {
+      // given
+      const state = {};
+
+      // when
+      const actual = mapStateToProps(state);
+
+      // then
+      const expected = {
+        index: {},
+        content: {}
+      };
+      expect(actual).toEqual(expected);
+
+  });
+
+  it('maps undefined to empty index and content', () => {
+      // given
+
+      // when
+      const actual = mapStateToProps();
+
+      // then
+      const expected = {
+        index: {},
+        content: {}
+      };
+      expect(actual).toEqual(expected);
+
+  });
+
+  it('maps index and content', () => {
+      // given
+      const index = {some:"stuff"};
+      const content = {addl:"things"};
+      const state = {
+        articles: {
+          index: index,
+          content: content
+        }
+      };
+
+      // when
+      const actual = mapStateToProps(state);
+
+      // then
+      const expected = {index,content};
+      expect(actual).toEqual(expected);
+
+  });
+
+  it('ignores everything else', () => {
+    // given
+    const state = {just: "noise"};
+
+    // when
+    const actual = mapStateToProps(state);
+
+    // then
+    const expected = {
+      index: {},
+      content: {}
+    };
+    expect(actual).toEqual(expected);
+
+  });
+
+
+});
+
+describe.skip('render article', () => {
   const id = 'article0001';
   const digest = 'd-article-0001';
 
