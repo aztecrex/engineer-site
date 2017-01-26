@@ -69,6 +69,10 @@ Resources:
         Enabled: 'true'
         Comment: Distribute the engineer site
         DefaultRootObject: index.html
+        CustomErrorResponses:
+          - ErrorCode: 403
+            ResponseCode: 200
+            ResponsePagePath: /index.html
         Aliases:
           - !Sub ${DNSZone}
         DefaultCacheBehavior:
@@ -87,7 +91,7 @@ Resources:
           # this) so new content is automatically not
           # cached when published
           - Compress: false
-            DefaultTTL: 300
+            DefaultTTL: 30
             ForwardedValues:
               QueryString: 'false'
               Cookies:
