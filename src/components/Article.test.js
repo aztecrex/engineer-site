@@ -86,11 +86,7 @@ describe('render unconnected', () => {
     const props = mapStateToProps({});
 
     // when
-    const rendered =
-      shallow(<Article
-        id={id}
-        index={props.index}
-        content={props.content} />);
+    const rendered = shallow(<Article {...props} id={id} />);
 
     // then
     expect(ezJson(rendered)).toMatchSnapshot();
@@ -112,11 +108,7 @@ describe('render unconnected', () => {
     });
 
     // when
-    const rendered =
-      shallow(<Article
-        id={id}
-        index={props.index}
-        content={props.content} />);
+    const rendered = shallow(<Article {...props} id={id} />);
 
     // then
     expect(ezJson(rendered)).toMatchSnapshot();
@@ -142,11 +134,7 @@ describe('render unconnected', () => {
     });
 
     // when
-    const rendered =
-      shallow(<Article
-        id={id}
-        index={props.index}
-        content={props.content} />);
+    const rendered = shallow(<Article {...props} id={id} />);
 
     // then
     expect(ezJson(rendered)).toMatchSnapshot();
