@@ -13,7 +13,7 @@ it('should render with no content', () => {
 
 it('should render html from markdown', () => {
 
-  const content =
+  const source =
 `# Title
 
 This paragraph says everything.
@@ -24,7 +24,7 @@ This paragraph says everything.
 `;
 
   // when
-  const rendered = shallow(<ArticleContent content={content} />);
+  const rendered = shallow(<ArticleContent source={source} />);
 
   // then
   expect(ezJson(rendered)).toMatchSnapshot();
