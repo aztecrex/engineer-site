@@ -1,0 +1,50 @@
+exports[`render article renders content found 1`] = `
+<Markdown
+  dispatch={[Function]}
+  id="article0001"
+  source="you only live twice"
+  store={
+    Object {
+      "clearActions": [Function],
+      "dispatch": [Function],
+      "getActions": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+    }
+  } />
+`;
+
+exports[`render article renders content not found 1`] = `
+<Markdown
+  dispatch={[Function]}
+  id="article0001"
+  source="LOADING"
+  store={
+    Object {
+      "clearActions": [Function],
+      "dispatch": [Function],
+      "getActions": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+    }
+  } />
+`;
+
+exports[`render article renders id not found 1`] = `
+<Markdown
+  dispatch={[Function]}
+  id="article0001"
+  source="NOT FOUND"
+  store={
+    Object {
+      "clearActions": [Function],
+      "dispatch": [Function],
+      "getActions": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+    }
+  } />
+`;

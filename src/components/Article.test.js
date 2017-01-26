@@ -1,42 +1,82 @@
 import React from 'react';
-import {shallow, render} from 'enzyme';
-import Normalizer from 'html-normalizer';
-const normalizer = new Normalizer();
-
+import {Provider} from 'react-redux';
+import configureMockStore from 'redux-mock-store';
+import ezJson from 'enzyme-to-json';
 import Article from './Article';
 
-describe('render article', () => {
+const createMockStore = configureMockStore([]);
 
-  it('renders as a div', () => {
+
+describe('render article', () => {
+  const id = 'article0001';
+  const digest = 'd-article-0001';
+
+  const wire = state => {
+    const store = createMockStore(state);
+    return (
+        <Article id={id} store={store} />
+    );
+  };
+
+  it('renders id not found', () => {
 
     // given
-    let article = (<Article />);
+    const state = {};
+    const wired = wire(state);
 
     // when
-    let wrapper = shallow(article);
+    const rendered = shallow(wired);
 
     // then
-    expect(wrapper.is('div')).toBe(true);
+    expect(ezJson(rendered)).toMatchSnapshot();
 
   });
 
-  it('renders the provided html', () =>  {
+  it('renders content not found', () =>  {
 
     // given
-    let content =   "<p id='itsme'>pretty nice paragraph</p>"
-                  + "\n<hr><p class='purple'>what is next</p>";
-    let article = (<Article content={content} />);
+    const state = {
+      articles: {
+        index: {
+          [id]: {
+            digest: digest
+          }
+        }
+      }
+    };
+    const wired = wire(state);
 
     // when
-    let wrapper = render(article);
+    const rendered = shallow(wired);
 
     // then
-    let expected = normalizer.normalize(content);
+    expect(ezJson(rendered)).toMatchSnapshot();
 
-    let inner = wrapper.find('p');
-    let actual = normalizer.normalize(inner.parent().html());
 
-    expect(actual).toEqual(expected);
+  });
+
+  it('renders content found', () =>  {
+
+    // given
+    const state = {
+      articles: {
+        index: {
+          [id]: {
+            digest: digest
+          }
+        },
+        content: {
+          [digest]: 'you only live twice'
+        }
+      }
+    };
+    const wired = wire(state);
+
+    // when
+    const rendered = shallow(wired);
+
+    // then
+    expect(ezJson(rendered)).toMatchSnapshot();
 
 
   });
