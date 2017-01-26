@@ -1,3 +1,28 @@
+exports[`connected article is connected 1`] = `
+<Article
+  content={
+    Object {
+      "digest2": "here is the content",
+    }
+  }
+  dispatch={[Function]}
+  index={
+    Object {
+      "id1": "here is the index",
+    }
+  }
+  store={
+    Object {
+      "clearActions": [Function],
+      "dispatch": [Function],
+      "getActions": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+    }
+  } />
+`;
+
 exports[`render unconnected renders content found 1`] = `
 <Markdown
   source="the content you need" />

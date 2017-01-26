@@ -155,3 +155,23 @@ describe('render unconnected', () => {
   });
 
 });
+
+describe('connected article', () => {
+
+  it('is connected', () => {
+    // given
+    const state = {articles: {
+      index: {id1: "here is the index"},
+      content:{digest2: "here is the content"}
+    }};
+    const store = createMockStore(state);
+
+    // when
+    const rendered = shallow(<ConnectedArticle store={store} /> );
+
+    // then
+    expect(ezJson(rendered)).toMatchSnapshot();
+
+  });
+
+});
