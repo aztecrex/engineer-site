@@ -20,6 +20,7 @@
 
 ### No Epic
 
+* try Yarn!
 * better look and feel
 * collect entries into series
 * custom resource for OAI
