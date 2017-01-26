@@ -1,6 +1,8 @@
 import R from 'ramda';
 
 const receiveContentType = 'ARTICLES_RECEIVE_CONTENT';
+const needContentType = 'ARTICLES_NEED_CONTENT';
+
 
 const latestFirst =
   R.comparator((entry1,entry2) => entry1.published > entry2.published);
@@ -38,13 +40,21 @@ const createReducer = entries => (state = defaultState(entries), action) => {
 const receiveContent = (digest, content) => {
   return {
     type: receiveContentType,
-    digest: digest,
-    content: content
+    digest,
+    content
+  };
+};
+
+const needContent = (digest) => {
+  return {
+    type: needContentType,
+    digest
   };
 };
 
 const actions = {
-  receiveContent
+  receiveContent,
+  needContent
 };
 
 export {

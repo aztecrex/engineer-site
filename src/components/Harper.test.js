@@ -5,7 +5,6 @@ import configureMockStore from 'redux-mock-store';
 const createMockStore = configureMockStore([]);
 
 import {actions} from '../model';
-
 const {flipName} = actions;
 
 import Harper from './harper';
