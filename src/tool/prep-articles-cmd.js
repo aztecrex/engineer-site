@@ -21,15 +21,16 @@ const mkdirIfNotExist = function * (path) {
   }
 }
 
-const writeArticle = R.curry(function (article, cb) {
-  let path = 'src/articles/' + article.digest + '.md';
+const writeArticle = R.curry(function (dest, article, cb) {
+  let path = dest + '/' + article.digest + '.md';
   writefile(path, article.body, cb);
 });
 
 
 const program = function * () {
   const srcDir = 'articles';
-  const destDir = 'src/articles';
+  const directoryDestDir = 'src/articles';
+  const contentDestDir = 'public/articles';
 
   let articleFiles = yield readdir(srcDir);
   let articlePaths =
@@ -38,12 +39,13 @@ const program = function * () {
   let articles = R.map(sourceToArticle, sources);
   let directory = R.map(articleToEntry, articles);
 
-  yield * mkdirIfNotExist(destDir);
+  yield * mkdirIfNotExist(directoryDestDir);
+  yield * mkdirIfNotExist(contentDestDir);
 
-  yield * forGen(writeArticle, articles);
+  yield * forGen(writeArticle(contentDestDir), articles);
 
   yield writefile(
-    destDir + '/directory.json', JSON.stringify(directory,null,2));
+    directoryDestDir + '/directory.json', JSON.stringify(directory,null,2));
 
 }
 run(program);
