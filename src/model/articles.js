@@ -4,13 +4,11 @@ const receiveContentType = 'ARTICLES_RECEIVE_CONTENT';
 const needContentType = 'ARTICLES_NEED_CONTENT';
 
 
-const latestFirst =
-  R.comparator((entry1,entry2) => entry1.published > entry2.published);
 
 const parsePublished = elem => R.assoc('published', new Date(elem.published), elem);
 
 const prepareEntries = entries =>
-  R.map(parsePublished, entries).sort(latestFirst);
+  R.map(parsePublished, entries);
 
 const entryToIndex = entry => ({[entry.id]: entry});
 const prepareIndex = R.compose(R.mergeAll, R.map(entryToIndex));
