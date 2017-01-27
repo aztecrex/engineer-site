@@ -1,0 +1,162 @@
+---
+id: snapshot-testing-ftw
+title: I Like Like Javascript
+published: 2017-01-26T22:06-0800
+series: An Engineer's Site
+installment: 3
+code: https://github.com/aztecrex/engineer-site
+---
+# I Like LIke Javascript
+
+Or, _Snapshot Testing For the Win_
+
+## A Journey Through Madness
+
+It's late and I'm tired but I just updated the engineer site after
+days of working on the code so I need to say _something_.
+
+Conceptually, the latest change was simple. Rather than display
+all the articles one-after-t'other on a single page, just display
+the latest article and links to all the previous articles. An
+expert web developer could have done that in her sleep.
+
+But I am not an expert web developer. Every time I have to visit
+Javascript-land, I'm the professor on Gilligan's Island: inventing
+short-wave radios out of coconuts and trying every conceivable way
+to get out of there.
+
+But not this time. I was going to embrace it because Javascript
+web development, I was informed, finally makes sense. With React,
+Redux, and a bit of glue, I could create an organized, easy-to-test,
+just-plain-fun-to-code web application.
+
+The first thing I noticed was that there was no consensus on how to
+organize components. You have _unconnected_ components (people call
+them dumb but that's a little unfair). You have _connected_
+components (people call them containers, but they're not). You have
+all kinds of literature claiming that they should be composed in
+some strict way, or maybe any old way, just decide on your own.
+
+I started with an idea: I could use a naming convention to distinguish
+them. So there would be _Article_ and _ConnectedArticle_, say.
+This quickly grew out of hand and as I took stock of the shape, I
+realized that it didn't really matter. What _did_ matter was how
+they were tested so I stopped all the naming convention nonsense
+and focused on just how to unit test these things.
+
+I may hurt some feelings but Enzyme is, um, disorganized. Its API
+needs a shot of cohesive, STAT. It is not at all easy to navigate
+nodes, for one.  The best I could do was take broad shots at the
+expectations. But each rendering kept adding new rules and the
+hours were going by and by and by. It also has a different API
+depending on how you render (it completely phones it in for
+static rendering and just says: the API is Cheerios, what?).
+
+## In Jest
+
+I kept reading that Jest made testing so easy. I was using
+Jest so why wasn't it?  I decided to tackle Jest from the
+ground up and try to align myself with it. In some places, the
+creators of create-react-app were saying that we should be
+moving away from Enzyme. They kept equating Jest with getting
+rid of Enzyme but that didn't make sense--Jest is a test
+runner, Enzyme is a rendering unifier. They are both needed,
+right?
+
+I kept seeing mention of snapshot testing. I could only imagine
+what that meant and my imagination was showing me horrible scenes
+of regression tragedy. I was just going to make node manipulation
+my mode of verification and that was that.
+
+## C'mon, Just _Try_ It
+
+I came across a project, enzyme-to-json. It was a way to
+serialize Enzyme wrappers in a pretty way so they could be
+stored and read in snapshot files. Hmm. Maybe if I tried
+it just one time manually--I won't integrate it into my setup or
+anything--I could see what all these people were talking about.
+I was sure it wasn't for me but, well, open mind and all that.
+
+## Oh My Good Gravy
+
+You should not _ever_ try snapshot testing unless you
+are prepared for a substantial perspective shift. That one try
+opened my eyes to a completely new testing workflow. Instead of
+trying to figure out how I wanted to render something, I could
+_just render it_.  Incrementally.  So, a component could start
+out as, say, a `<div>`. Snapshot that, awesome, test passes.
+Next iteration, add some content.  Oops, test fails. But it fails
+the way I expect so update the snapshot. Now it's passing.
+
+Snapshot testing lets you _keep moving_. All the myriad details
+of rendering are captured in a snapshot. If the tiniest thing
+changes, then you know and can decide if it's a regression or
+an enhancement.
+
+## So Enzyme Again
+
+Suddenly, Enzyme was redeemed. By using shallow rendering
+exclusively, snapshot tests become isolated from changes
+in their dependencies. With the wonderful wrapping provided
+by enzyme-to-json, my shallow snapshots were a joy to read
+and tests were a breeze.
+
+Because the shallow rendering doesn't show the names of
+components declared in the functional style, I started
+revisiting all of them and changing them to `React.Component`
+inheritance style. Not as sexy but now my snapshots were
+giving me great information.
+
+## New Packaging model
+
+Because my test flow was getting so fast, I quickly iterated
+over a packaging style that, at this point, is best for the
+way way I think about component composition.
+
+Unconnected components are simple, I just export them as
+the default for their modules. I can easily test them with
+their props directly, even if they contain connected
+components (because of shallow rendering).
+
+For connected components, I export them like this:
+
+```javascript
+import React from 'react';
+import {connect} from 'react-redux';
+//...
+
+class Noodle extends React.Component {
+  render() {
+  // ...
+  }
+}
+
+const mapStateToProps = state => {
+  // ...
+};
+
+const mappedActions = {/*...*/};
+
+export {Noodle, mapStatetoProps};
+export default connect(mapStateToProps,mappedActions)(Noodle);
+```
+
+Now in my tests, I have three sections. One to test the
+unconnected component, one to test the state mapping, and
+one to test the connected component.  For the unconnected,
+testing is simply shallow rendering with direct props. For
+the connected component, shallow rendering with a mock store
+is all that's needed unless it emit actions. In that case,
+I have to do a mount rendering.  For the state mapping, it's
+just pure function testing.
+
+## What Else Is It Good For?
+
+I am wondering if there are other traditional testing scenarios,
+other than React, that could benefit from snapshot testing.
+I'll probably try it on some server-side code to see what
+the limits are.  It's certainly not for everything. It doesn't
+seem to guide me on system structure like normal TDD but
+we'll see.
+
+I'm keeping an open mind.
