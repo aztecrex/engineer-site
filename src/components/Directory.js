@@ -9,7 +9,7 @@ class Directory extends React.Component {
   render() {
     return (
       <div className="directory">
-        <ArticleMenu directory={this.props.entries} />
+        <ArticleMenu entries={this.props.entries} />
       </div>
     );
   }
@@ -22,7 +22,7 @@ const latestFirst =
 const mapStateToProps =
   state => (
     {
-      directory: (R.path(['articles','directory'],state) || [])
+      entries: (R.path(['articles','directory'],state) || [])
           .concat()
           .sort(latestFirst)
     }

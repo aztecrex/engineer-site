@@ -41,7 +41,7 @@ describe('map state', () => {
       {title:'two', published: new Date('2016-05-01T13:45:21.1-0800')},
       {title:'one', published: new Date('2016-05-01T13:45:21.1Z')}
     ];
-    expect(actual).toEqual({directory:expectedEntries});
+    expect(actual).toEqual({entries:expectedEntries});
 
   });
 

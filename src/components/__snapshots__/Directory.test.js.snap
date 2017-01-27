@@ -1,6 +1,7 @@
 exports[`connected connects 1`] = `
 <Directory
-  directory={
+  dispatch={[Function]}
+  entries={
     Array [
       Object {
         "published": 2016-12-04T00:00:00.000Z,
@@ -20,7 +21,6 @@ exports[`connected connects 1`] = `
       },
     ]
   }
-  dispatch={[Function]}
   store={
     Object {
       "clearActions": [Function],
@@ -37,7 +37,7 @@ exports[`unconnected renders 1`] = `
 <div
   className="directory">
   <ArticleMenu
-    directory={
+    entries={
       Array [
         Object {
           "id": "one",
