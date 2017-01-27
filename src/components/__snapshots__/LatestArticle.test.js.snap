@@ -1,0 +1,4 @@
+exports[`unconnected renders 1`] = `
+<Connect(Article)
+  id="article883" />
+`;
