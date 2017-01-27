@@ -1,5 +1,6 @@
 import React from 'react';
 import ArticleMenu from './ArticleMenu';
+import R from 'ramda';
 
 class Directory extends React.Component {
 
@@ -13,4 +14,16 @@ class Directory extends React.Component {
 
 }
 
-export {Directory};
+const latestFirst =
+  R.comparator((entry1,entry2) => entry1.published > entry2.published);
+
+const mapStateToProps =
+  state => (
+    {
+      directory: (R.path(['articles','directory'],state) || [])
+          .concat()
+          .sort(latestFirst)
+    }
+  );
+
+export {Directory, mapStateToProps};
