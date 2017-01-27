@@ -1,0 +1,33 @@
+exports[`render renders empty entries 1`] = `
+<ul
+  className="article-menu" />
+`;
+
+exports[`render renders entries 1`] = `
+<ul
+  className="article-menu">
+  <li
+    className="article-menu-item">
+    <Link
+      onlyActiveOnIndex={false}
+      style={Object {}}
+      to="article/one">
+      One
+    </Link>
+  </li>
+  <li
+    className="article-menu-item">
+    <Link
+      onlyActiveOnIndex={false}
+      style={Object {}}
+      to="article/two">
+      Two
+    </Link>
+  </li>
+</ul>
+`;
+
+exports[`render renders missing entries 1`] = `
+<ul
+  className="article-menu" />
+`;

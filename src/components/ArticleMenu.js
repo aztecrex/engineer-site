@@ -1,31 +1,27 @@
 import React from 'react';
 import {Link} from 'react-router';
-import {connect} from 'react-redux';
 import R from 'ramda';
 
-const MenuItem = ({title, id}) => {
-  return (
-  <li>
-    <Link to={"article/" + id}>
-      {title}
-    </Link>
-  </li>);
-};
+class ArticleMenu extends React.Component {
 
-const keyedMenuItem =
-  article => (<MenuItem {...article} key={article.id} />);
+  keyedMenuItem(entry) {
+    return (
+      <li className="article-menu-item" key={entry.id}>
+        <Link to={"article/" + entry.id}>
+          {entry.title}
+        </Link>
+      </li>
+    );
+  }
 
-const ArticleMenu = ({directory}) => {
-  return (
-    <ul>
-      {R.map(keyedMenuItem, directory || [])}
-    </ul>
-  );
-};
+  render() {
+    const directory = this.props.directory || [];
+    return (
+      <ul className="article-menu">
+        {R.map(this.keyedMenuItem, directory)}
+      </ul>
+    );
+  }
+}
 
-const mapStateToProps = state => {
-  let directory = R.path(['articles','directory'], state) || [];
-  return {directory};
-};
-
-export default connect(mapStateToProps)(ArticleMenu);
+export default ArticleMenu;

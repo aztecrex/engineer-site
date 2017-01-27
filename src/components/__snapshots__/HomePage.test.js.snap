@@ -1,6 +1,6 @@
 exports[`render renders 1`] = `
 <div>
-  <Connect(ArticleMenu) />
+  <ArticleMenu />
   <hr />
   <Connect(Harper) />
 </div>
