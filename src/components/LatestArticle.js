@@ -1,6 +1,6 @@
 import React from 'react';
 import R from 'ramda';
-
+import {connect} from 'react-redux';
 import Article from './Article';
 
 class LatestArticle extends React.Component {
@@ -28,4 +28,5 @@ const mapStateToProps = state => {
 
 };
 
+export default connect(mapStateToProps)(LatestArticle);
 export {LatestArticle, mapStateToProps};
