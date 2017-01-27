@@ -1,0 +1,11 @@
+exports[`unconnected renders happy 1`] = `
+<span
+  className="harper">
+  George
+</span>
+`;
+
+exports[`unconnected renders missing 1`] = `
+<span
+  className="harper" />
+`;

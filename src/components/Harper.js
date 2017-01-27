@@ -6,15 +6,23 @@ import './Harper.css';
 import {actions} from '../model';
 
 
+class Harper extends React.Component {
 
-const Harper = ({name, flipName}) => {
-  return (<span className='harper' onClick={flipName}>{name}</span>);
-};
+  render() {
+    return (
+      <span className='harper' onClick={this.props.flipName}>
+        {this.props.name}
+      </span>
+    );
+  }
+}
 
 const mapStateToProps = state => {
   let name = R.path(['name'],state) || "";
   return {name};
 };
 
+const mappedActions = {flipName: actions.flipName};
 
-export default connect(mapStateToProps, actions)(Harper);
+export default connect(mapStateToProps, mappedActions)(Harper);
+export {Harper, mapStateToProps};
