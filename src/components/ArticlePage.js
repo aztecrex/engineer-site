@@ -7,14 +7,18 @@ import Harper from './Harper';
 class ArticlePage extends React.Component {
 
   render() {
-    return (
-      <div className="article-page">
-        <h1>{this.props.title}</h1>
-        <Article id={this.props.id} />
-        <hr />
-        <Harper />
-      </div>
-    );
+    if (this.props.id) {
+      return (
+        <div className="article-page">
+          <h1>{this.props.title}</h1>
+          <Article id={this.props.id} />
+          <hr />
+          <Harper />
+        </div>
+      );
+    } else {
+      return <div className="not-found-page">Not Found</div>;
+    }
   }
 
 }

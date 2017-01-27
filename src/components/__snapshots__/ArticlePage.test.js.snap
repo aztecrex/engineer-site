@@ -10,3 +10,10 @@ exports[`render unconnected renders 1`] = `
   <Connect(Harper) />
 </div>
 `;
+
+exports[`render unconnected shows not found when no id 1`] = `
+<div
+  className="not-found-page">
+  Not Found
+</div>
+`;

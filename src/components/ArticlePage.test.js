@@ -18,6 +18,17 @@ describe('render unconnected', () => {
     expect(ezJson(rendered)).toMatchSnapshot();
 
   });
+
+  it('shows not found when no id', () =>{
+
+    // when
+    const rendered = shallow(<ArticlePage />);
+
+    // then
+    expect(ezJson(rendered)).toMatchSnapshot();
+
+
+  });
 });
 
 describe('map state', () => {
