@@ -9,7 +9,14 @@ import ArticlePage from './components/ArticlePage';
 
 import './index.css';
 
-
+browserHistory.listen(location => {
+  setTimeout(() => {
+    if (location.action === 'POP') {
+      return;
+    }
+    window.scrollTo(0, 0);
+  });
+});
 
 const Root = () => (
     <Provider store={store}>
