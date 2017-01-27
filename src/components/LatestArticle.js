@@ -19,7 +19,7 @@ const mapStateToProps = state => {
   const entries = R.path(['articles','directory'], state) || [];
 
   let id;
-  if (entries.length == 0)
+  if (entries.length === 0)
     id = null;
   else {
     id = R.reduce(later, R.head(entries), R.tail(entries)).id;
