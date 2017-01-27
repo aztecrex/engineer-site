@@ -1,16 +1,20 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import R from 'ramda';
+import {Link} from 'react-router';
+
 import Article from './Article';
 import Directory from './Directory';
 import Harper from './Harper';
-
 class ArticlePage extends React.Component {
 
   render() {
     if (this.props.id) {
       return (
         <div className="page article">
+          <Link to="/">Home</Link>
+          <Directory />
+          <hr />
           <Article id={this.props.id} />
           <hr />
           <Directory />

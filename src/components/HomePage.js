@@ -8,6 +8,8 @@ class HomePage extends React.Component {
   render() {
     return (
       <div className="page home">
+        <Directory />
+        <hr />
         <LatestArticle />
         <hr />
         <Directory />

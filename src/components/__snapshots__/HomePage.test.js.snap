@@ -1,6 +1,8 @@
 exports[`render renders 1`] = `
 <div
   className="page home">
+  <Connect(Directory) />
+  <hr />
   <Connect(LatestArticle) />
   <hr />
   <Connect(Directory) />

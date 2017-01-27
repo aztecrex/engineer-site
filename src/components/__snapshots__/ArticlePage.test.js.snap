@@ -23,6 +23,14 @@ exports[`connected is connected to state 1`] = `
 exports[`unconnected renders happy 1`] = `
 <div
   className="page article">
+  <Link
+    onlyActiveOnIndex={false}
+    style={Object {}}
+    to="/">
+    Home
+  </Link>
+  <Connect(Directory) />
+  <hr />
   <Connect(Article)
     id="article309" />
   <hr />

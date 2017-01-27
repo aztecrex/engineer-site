@@ -11,7 +11,7 @@ exports[`render renders entries 1`] = `
     <Link
       onlyActiveOnIndex={false}
       style={Object {}}
-      to="article/one">
+      to="/article/one">
       One
     </Link>
   </li>
@@ -20,7 +20,7 @@ exports[`render renders entries 1`] = `
     <Link
       onlyActiveOnIndex={false}
       style={Object {}}
-      to="article/two">
+      to="/article/two">
       Two
     </Link>
   </li>

@@ -7,7 +7,7 @@ class ArticleMenu extends React.Component {
   keyedMenuItem(entry) {
     return (
       <li className="article-menu-item" key={entry.id}>
-        <Link to={"article/" + entry.id}>
+        <Link to={"/article/" + entry.id}>
           {entry.title}
         </Link>
       </li>
