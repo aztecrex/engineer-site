@@ -1,0 +1,20 @@
+exports[`connected connects state 1`] = `
+<LatestArticle
+  dispatch={[Function]}
+  id="four"
+  store={
+    Object {
+      "clearActions": [Function],
+      "dispatch": [Function],
+      "getActions": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+    }
+  } />
+`;
+
+exports[`unconnected renders 1`] = `
+<Connect(Article)
+  id="article883" />
+`;

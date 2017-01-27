@@ -3,6 +3,8 @@
 A blog and whatnot for an engineer.
 
 This is a React + Redux application that loads content from Markdown files.
-It started as a create-react-app app but has since been ejected.
 
-It is deployed as a static SPA [here](https://aztecrex.github.io/)
+This started as a create-react-app that was ejected then
+_un_-ejected so it is a create-react-app again.
+
+It is deployed as a static SPA [here](http://gregwiley.com/)

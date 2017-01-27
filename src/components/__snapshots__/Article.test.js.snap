@@ -1,0 +1,37 @@
+exports[`connected gets mapped state 1`] = `
+<Article
+  content="some content"
+  digest="dig3"
+  id="art3"
+  needContent={[Function]}
+  store={
+    Object {
+      "clearActions": [Function],
+      "dispatch": [Function],
+      "getActions": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+    }
+  } />
+`;
+
+exports[`unconnected renders with digest and content 1`] = `
+<Markdown
+  source="the content" />
+`;
+
+exports[`unconnected renders with only content 1`] = `
+<Markdown
+  source="the content" />
+`;
+
+exports[`unconnected renders with only digest 1`] = `
+<Markdown
+  source="LOADING" />
+`;
+
+exports[`unconnected renders without props 1`] = `
+<Markdown
+  source="NOT FOUND" />
+`;

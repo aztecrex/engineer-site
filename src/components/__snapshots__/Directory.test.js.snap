@@ -1,0 +1,49 @@
+exports[`connected connects 1`] = `
+<Directory
+  dispatch={[Function]}
+  entries={
+    Array [
+      Object {
+        "published": 2016-12-04T00:00:00.000Z,
+        "title": "four",
+      },
+      Object {
+        "published": 2016-05-01T21:45:22.000Z,
+        "title": "three",
+      },
+      Object {
+        "published": 2016-05-01T21:45:21.100Z,
+        "title": "two",
+      },
+      Object {
+        "published": 2016-05-01T13:45:21.100Z,
+        "title": "one",
+      },
+    ]
+  }
+  store={
+    Object {
+      "clearActions": [Function],
+      "dispatch": [Function],
+      "getActions": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+    }
+  } />
+`;
+
+exports[`unconnected renders 1`] = `
+<div
+  className="directory">
+  <ArticleMenu
+    entries={
+      Array [
+        Object {
+          "id": "one",
+          "title": "One",
+        },
+      ]
+    } />
+</div>
+`;

@@ -4,19 +4,11 @@
 
 ## Backlog
 
-### Epic: Publish A Blog Entry
-
 ### Epic: Site Workflow
 
 * metrics - 2p
 * continuous delivery from Github - 3p
 * articles carry their own metadata
-
-### Epic: Showcase Functional Programming
-
-* incorporate PureScript - 8 swag
-  * probably have to eject again :)
-* figure out how to TDD PureScript - 5 swag
 
 ### No Epic
 
@@ -35,10 +27,6 @@ project as a starting point
 
 ## In Progress
 
-* entry title/summary on main page (Publish a Blog Entry) - 3p
-  * metadata in blog entry
-  * complete when title and summary on main page, article on its own page
-
 
 ## Done
 
@@ -48,3 +36,6 @@ project as a starting point
 * ~~~add an entry (Publish a Blog Entry)- 3p~~~
   * source from markdown - complete when single blog entry is on index page
 * ~~~simple publishing to AWS (Publish a Blog Entry)- 2p~~~
+* entry title/summary on main page (Publish a Blog Entry) - 3p
+  * metadata in blog entry
+  * complete when title on main page, article on its own page
