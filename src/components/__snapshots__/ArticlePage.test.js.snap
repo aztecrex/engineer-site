@@ -22,12 +22,11 @@ exports[`connected is connected to state 1`] = `
 
 exports[`unconnected renders happy 1`] = `
 <div
-  className="article-page">
-  <h1>
-    This is SO  Neat
-  </h1>
+  className="page article">
   <Connect(Article)
     id="article309" />
+  <hr />
+  <Connect(Directory) />
   <hr />
   <Connect(Harper) />
 </div>

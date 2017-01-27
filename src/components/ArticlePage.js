@@ -2,6 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import R from 'ramda';
 import Article from './Article';
+import Directory from './Directory';
 import Harper from './Harper';
 
 class ArticlePage extends React.Component {
@@ -9,9 +10,10 @@ class ArticlePage extends React.Component {
   render() {
     if (this.props.id) {
       return (
-        <div className="article-page">
-          <h1>{this.props.title}</h1>
+        <div className="page article">
           <Article id={this.props.id} />
+          <hr />
+          <Directory />
           <hr />
           <Harper />
         </div>

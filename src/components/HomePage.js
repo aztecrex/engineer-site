@@ -1,14 +1,16 @@
 import React from 'react';
-import ArticleMenu from './ArticleMenu';
+import LatestArticle from './LatestArticle';
+import Directory from './Directory';
 import Harper from './Harper';
-
 
 class HomePage extends React.Component {
 
   render() {
     return (
-      <div>
-        <ArticleMenu />
+      <div className="page home">
+        <LatestArticle />
+        <hr />
+        <Directory />
         <hr />
         <Harper />
       </div>
