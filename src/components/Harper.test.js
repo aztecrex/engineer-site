@@ -30,6 +30,42 @@ describe('unconnected', () => {
   });
 });
 
+describe('map state', () => {
+
+  it('extracts name only', () => {
+    // given
+    const state = {name:'Nancy', extra:'stuff'};
+
+    // when
+    const actual = mapStateToProps(state);
+
+    // then
+    expect(actual).toEqual({name:'Nancy'});
+
+  });
+
+  it('is ok with missing prop', () => {
+    // given
+    const state = {extra:'stuff'};
+
+    // when
+    const actual = mapStateToProps(state);
+
+    // then
+    expect(actual).toEqual({name:''});
+
+  });
+
+  it('is ok with missing state', () => {
+
+    // when
+    const actual = mapStateToProps();
+
+    // then
+    expect(actual).toEqual({name:''});
+
+  });
+});
 
 
 
