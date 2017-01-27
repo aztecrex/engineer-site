@@ -1,0 +1,14 @@
+exports[`unconnected renders 1`] = `
+<div
+  className="directory">
+  <ArticleMenu
+    directory={
+      Array [
+        Object {
+          "id": "one",
+          "title": "One",
+        },
+      ]
+    } />
+</div>
+`;
