@@ -1,0 +1,7 @@
+exports[`render renders 1`] = `
+<div>
+  <Connect(ArticleMenu) />
+  <hr />
+  <Connect(Harper) />
+</div>
+`;

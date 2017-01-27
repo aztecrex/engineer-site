@@ -2,12 +2,19 @@ import React from 'react';
 import ArticleMenu from './ArticleMenu';
 import Harper from './Harper';
 
-const HomePage = () => (
-  <div>
-    <ArticleMenu />
-    <hr />
-    <Harper />
-  </div>
-);
+
+class HomePage extends React.Component {
+
+  render() {
+    return (
+      <div>
+        <ArticleMenu />
+        <hr />
+        <Harper />
+      </div>
+    );
+  }
+}
+
 
 export default HomePage;

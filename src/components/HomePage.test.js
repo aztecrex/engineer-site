@@ -1,28 +1,18 @@
 import React from 'react';
-import {shallow} from 'enzyme';
+import ezJson from 'enzyme-to-json';
 
 import HomePage from './HomePage';
-import ArticleMenu from './ArticleMenu';
-import Harper from './Harper';
 
-it ('renders article menu', () => {
-  // given
-  let elem = (<HomePage />);
+describe('render', () => {
 
-  // when
-  let wrapper = shallow(elem);
+  it ('renders', () => {
 
-  // then
-  expect(wrapper.find(ArticleMenu).length).toBe(1);
-});
+    // when
+    let rendered = shallow(<HomePage />);
 
-it ('renders harper', () => {
-  // given
-  let elem = (<HomePage />);
+    // then
+    expect(ezJson(rendered)).toMatchSnapshot();
+  });
 
-  // when
-  let wrapper = shallow(elem);
 
-  // then
-  expect(wrapper.find(Harper).length).toBe(1);
 });
