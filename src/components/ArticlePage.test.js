@@ -20,7 +20,30 @@ describe('render unconnected', () => {
   });
 });
 
+describe.only('map state', () => {
 
+  it('happy', () => {
+    // given
+    const id = 'brave';
+    const title = 'Brave Little Engine';
+    const state = {
+      articles: {
+        index: {
+          [id]: {
+            title: title
+          }
+        }
+      }
+    };
+
+    // when
+    const actual = mapStateToProps(state, {params: {id:id}});
+
+    // then
+    expect(actual).toEqual({id,title});
+  });
+
+});
 
 
 // const id = 'article012345';
