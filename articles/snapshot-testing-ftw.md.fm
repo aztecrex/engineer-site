@@ -10,7 +10,12 @@ code: https://github.com/aztecrex/engineer-site
 
 Or, _Snapshot Testing For the Win_
 
-## A Journey Through Madness
+This is a follow-on to the original "Adventures in Tech Blogging"
+article below. The code for this site is on
+[GitHub](https://github.com/aztecrex/engineer-site).
+
+
+## A Journey Through Darkness
 
 It's late and I'm tired but I just updated the engineer site after
 days of working on the code so I need to say _something_.
@@ -21,65 +26,88 @@ the latest article and links to all the previous articles. An
 expert web developer could have done that in her sleep.
 
 But I am not an expert web developer. Every time I have to visit
-Javascript-land, I'm the professor on Gilligan's Island: inventing
+Javascript, I'm the professor on Gilligan's Island: inventing
 short-wave radios out of coconuts and trying every conceivable way
 to get out of there.
+
+<iframe width="560" height="315"
+  src="https://www.youtube.com/embed/3JQ8yF04y9o"
+  frameborder="0" allowfullscreen></iframe>
 
 But not this time. I was going to embrace it because Javascript
 web development, I was informed, finally makes sense. With React,
 Redux, and a bit of glue, I could create an organized, easy-to-test,
 just-plain-fun-to-code web application.
 
+## Uneject
+
+At this time, I decided to un-eject create-react-app. I had decided
+not to compile articles into the bundle so the need for a Markdown
+loader was no more.  I decided to give CRA a real try and see how
+far I could go without ejecting.
+
+## Component Organization
+
 The first thing I noticed was that there was no consensus on how to
 organize components. You have _unconnected_ components (people call
-them dumb but that's a little unfair). You have _connected_
-components (people call them containers, but they're not). You have
+them dumb but that's just mean). You have _connected_
+components (people call them containers). And you have
 all kinds of literature claiming that they should be composed in
 some strict way, or maybe any old way, just decide on your own.
+I had no way to decide, so I just took a naive stab at it.
 
 I started with an idea: I could use a naming convention to distinguish
 them. So there would be _Article_ and _ConnectedArticle_, say.
 This quickly grew out of hand and as I took stock of the shape, I
 realized that it didn't really matter. What _did_ matter was how
 they were tested so I stopped all the naming convention nonsense
-and focused on just how to unit test these things.
+and focused on just how to unit test these things. Testing the
+reducer was super easy. I was able to modularize it, test the
+parts, then compose them, yay. I was on my way out of the prototype
+phase.
+
+## Ah Enzyme
+
+But I also had a big pile of confused modules with connected and unconnected
+components. I'd heard Enzyme was the way to test these components so I
+started converting the component prototype pile to a TDD project
+using Enzyme.
 
 I may hurt some feelings but Enzyme is, um, disorganized. Its API
-needs a shot of cohesive, STAT. It is not at all easy to navigate
+needs a shot of cohesive, _STAT_. It is not at all easy to navigate
 nodes, for one.  The best I could do was take broad shots at the
 expectations. But each rendering kept adding new rules and the
 hours were going by and by and by. It also has a different API
-depending on how you render (it completely phones it in for
-static rendering and just says: the API is Cheerios, what?).
+depending on how you render (Enzyme just _phones it in_ for
+static rendering and says: the API is Cheerios. Wait, what?).
 
 ## In Jest
 
 I kept reading that Jest made testing so easy. I was using
-Jest so why wasn't it?  I decided to tackle Jest from the
-ground up and try to align myself with it. In some places, the
-creators of create-react-app were saying that we should be
-moving away from Enzyme. They kept equating Jest with getting
-rid of Enzyme but that didn't make sense--Jest is a test
-runner, Enzyme is a rendering unifier. They are both needed,
-right?
+Jest so why wasn't it easy?  I decided to tackle Jest from the
+ground up and try to align myself with it. The first thing I
+learned is that you can't modify much of Jest if you use create-react-app.
+I also learned that the CRA folks really don't want us using
+Enzyme. They grudgingly leave _jsdom_ in the configuration so
+we can use it but they want us to move toward something
+called _snapshot testing_.
 
-I kept seeing mention of snapshot testing. I could only imagine
-what that meant and my imagination was showing me horrible scenes
-of regression tragedy. I was just going to make node manipulation
-my mode of verification and that was that.
+I could only imagine what that was and my imagination was showing me
+horrible scenes of regression tragedy. I was going to write tests
+_first_, doggone it, so deal with it.
 
 ## C'mon, Just _Try_ It
 
 I came across a project, enzyme-to-json. It was a way to
 serialize Enzyme wrappers in a pretty way so they could be
-stored and read in snapshot files. Hmm. Maybe if I tried
+stored and read (by humans) in snapshot files. Hmm. Maybe if I tried
 it just one time manually--I won't integrate it into my setup or
 anything--I could see what all these people were talking about.
 I was sure it wasn't for me but, well, open mind and all that.
 
 ## Oh My Good Gravy
 
-You should not _ever_ try snapshot testing unless you
+You should _never_ try snapshot testing unless you
 are prepared for a substantial perspective shift. That one try
 opened my eyes to a completely new testing workflow. Instead of
 trying to figure out how I wanted to render something, I could
@@ -146,7 +174,7 @@ unconnected component, one to test the state mapping, and
 one to test the connected component.  For the unconnected,
 testing is simply shallow rendering with direct props. For
 the connected component, shallow rendering with a mock store
-is all that's needed unless it emit actions. In that case,
+is all that's needed unless it emits actions. In that case,
 I have to do a mount rendering.  For the state mapping, it's
 just pure function testing.
 
@@ -159,4 +187,7 @@ the limits are.  It's certainly not for everything. It doesn't
 seem to guide me on system structure like normal TDD but
 we'll see.
 
-I'm keeping an open mind.
+So I am no longer trying to leave Javascript Island. I even _like_
+Javasript, maybe even _like like_. I'm keeping an open mind.
+
+
