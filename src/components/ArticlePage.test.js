@@ -1,7 +1,7 @@
 import React from 'react';
+import configureMockStore from 'redux-mock-store';
 const createMockStore = configureMockStore([]);
 import ezJson from 'enzyme-to-json';
-import configureMockStore from 'redux-mock-store';
 
 import ConnectedArticlePage, {ArticlePage,mapStateToProps} from './ArticlePage';
 

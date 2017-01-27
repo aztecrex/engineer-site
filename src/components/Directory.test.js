@@ -1,6 +1,8 @@
 import React from 'react';
+import configureMockStore from 'redux-mock-store';
+const createMockStore = configureMockStore([]);
 import ezJson from 'enzyme-to-json';
-import {Directory, mapStateToProps} from './Directory';
+import ConnectedDirectory, {Directory, mapStateToProps} from './Directory';
 
 describe('unconnected', () => {
   it('renders', () => {
@@ -25,7 +27,7 @@ describe('map state', () => {
       {title:'three', published: new Date('2016-05-01T13:45:22-0800')},
       {title:'one', published: new Date('2016-05-01T13:45:21.1Z')},
       {title:'two', published: new Date('2016-05-01T13:45:21.1-0800')},
-      {title:'four', published: new Date('2016-12-04')}
+      {title:'four', published: new Date('2016-12-04'), extra:"special"}
     ];
     const state = {articles:{directory:entries}};
 
@@ -34,33 +36,34 @@ describe('map state', () => {
 
     // then
     const expectedEntries = [
-      {title:'four', published: new Date('2016-12-04')},
+      {title:'four', published: new Date('2016-12-04'), extra:"special"},
       {title:'three', published: new Date('2016-05-01T13:45:22-0800')},
       {title:'two', published: new Date('2016-05-01T13:45:21.1-0800')},
       {title:'one', published: new Date('2016-05-01T13:45:21.1Z')}
     ];
     expect(actual).toEqual({directory:expectedEntries});
 
-
-
-
   });
 
 });
 
+describe('connected', () => {
+  it('connects', () => {
+    // given
+    const entries = [
+      {title:'three', published: new Date('2016-05-01T13:45:22-0800')},
+      {title:'one', published: new Date('2016-05-01T13:45:21.1Z')},
+      {title:'two', published: new Date('2016-05-01T13:45:21.1-0800')},
+      {title:'four', published: new Date('2016-12-04')}
+    ];
+    const state = {articles:{directory:entries}};
+    const store = createMockStore(state);
 
-// const prepareEntries = entries =>
-//   R.map(parsePublished, entries).sort(latestFirst);
-// it('sorts the entries by published time', () => {
-//   // given
-//   // note the first and second entries have different lexical and actual order
-//   let reduce = createReducer(entries);
-//
-//   // when
-//   let actual = reduce().directory;
-//
-//   // then
-//   let titles = R.map(R.prop('title'), actual);
-//   expect(titles).toEqual(['four','three','two','one']);
-//
-// });
+    // when
+    const rendered = shallow(<ConnectedDirectory store={store}/>);
+
+    // then
+    expect(ezJson(rendered)).toMatchSnapshot();
+
+  });
+});
