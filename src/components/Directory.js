@@ -2,6 +2,8 @@ import React from 'react';
 import ArticleMenu from './ArticleMenu';
 import R from 'ramda';
 import {connect} from 'react-redux';
+
+
 class Directory extends React.Component {
 
   render() {

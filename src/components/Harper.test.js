@@ -67,6 +67,24 @@ describe('map state', () => {
   });
 });
 
+describe('connected', () => {
+
+  it('renders mapped state', () => {
+
+    // given
+    const state = {name:'Lena'};
+    const store = createMockStore(state);
+
+    // when
+    const rendered = shallow(<ConnectedHarper store={store} />);
+
+    // then
+    expect(ezJson(rendered)).toMatchSnapshot();
+
+
+  });
+
+});
 
 
 // const makeState = name => {

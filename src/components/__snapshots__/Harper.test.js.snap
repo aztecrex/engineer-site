@@ -1,3 +1,19 @@
+exports[`connected renders mapped state 1`] = `
+<Harper
+  flipName={[Function]}
+  name="Lena"
+  store={
+    Object {
+      "clearActions": [Function],
+      "dispatch": [Function],
+      "getActions": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+    }
+  } />
+`;
+
 exports[`unconnected renders happy 1`] = `
 <span
   className="harper">
