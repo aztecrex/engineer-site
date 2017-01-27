@@ -4,8 +4,6 @@
 
 ## Backlog
 
-### Epic: Publish A Blog Entry
-
 ### Epic: Site Workflow
 
 * metrics - 2p
@@ -28,10 +26,6 @@ project as a starting point
 
 ## In Progress
 
-* entry title/summary on main page (Publish a Blog Entry) - 3p
-  * metadata in blog entry
-  * complete when title and summary on main page, article on its own page
-
 
 ## Done
 
@@ -41,3 +35,6 @@ project as a starting point
 * ~~~add an entry (Publish a Blog Entry)- 3p~~~
   * source from markdown - complete when single blog entry is on index page
 * ~~~simple publishing to AWS (Publish a Blog Entry)- 2p~~~
+* entry title/summary on main page (Publish a Blog Entry) - 3p
+  * metadata in blog entry
+  * complete when title on main page, article on its own page
