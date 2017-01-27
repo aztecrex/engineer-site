@@ -21,8 +21,13 @@ class ArticlePage extends React.Component {
 
 const mapStateToProps = (state, {params}) => {
   const id = params.id;
-  const title = R.path(['articles','index',[id],'title'],state);
-  return {id,title};
+  const entry = R.path(['articles','index',[id]],state);
+  if (!entry)
+    return {id:null}
+  else {
+    const title = entry.title || "";
+    return {id,title};
+  }
 };
 
 export default connect(mapStateToProps)(ArticlePage);

@@ -22,7 +22,7 @@ describe('render unconnected', () => {
 
 describe.only('map state', () => {
 
-  it('happy', () => {
+  it('maps params id and title', () => {
     // given
     const id = 'brave';
     const title = 'Brave Little Engine';
@@ -41,6 +41,27 @@ describe.only('map state', () => {
 
     // then
     expect(actual).toEqual({id,title});
+  });
+
+  it('missing index entry results in null id', () => {
+    // given
+    const id = 'brave';
+    const state = {
+      articles: {
+        index: {
+          notBrave: {
+            title: 'Oh Yeah?'
+          }
+        }
+      }
+    };
+
+    // when
+    const actual = mapStateToProps(state, {params: {id:id}});
+
+    // then
+    expect(actual).toEqual({id:null});
+
   });
 
 });
