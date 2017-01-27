@@ -1,12 +1,13 @@
 import React from 'react';
+const createMockStore = configureMockStore([]);
 import ezJson from 'enzyme-to-json';
 import configureMockStore from 'redux-mock-store';
 
 import ConnectedArticlePage, {ArticlePage,mapStateToProps} from './ArticlePage';
 
-describe('render unconnected', () => {
+describe('unconnected', () => {
 
-  it('renders', () => {
+  it('renders happy', () => {
     // given
     const id = 'article309';
     const title = 'This is SO  Neat';
@@ -98,45 +99,29 @@ describe('map state', () => {
 
 });
 
+describe('connected', () => {
 
-// const id = 'article012345';
-// const digest = 'digest-for-article-012345';
-// const state = {
-//   articles: {
-//     index: {
-//       [id]: {
-//         digest
-//       }
-//     }
-//   }
-// };
-// const createMockStore = configureMockStore([]);
-//
-// it('should display the article id', () => {
-//
-//   const store = createMockStore(state);
-//   const params = {id};
-//   const embedded = (
-//     <Provider store={store}>
-//       <ArticlePage params={params} />
-//     </Provider>
-//   );
-//
-//   expect(mount(embedded).find(ArticlePage).text()).toContain(id);
-//   expect(mount(embedded).find(ArticlePage).text()).toContain(digest);
-// });
-//
-// it('should emit request for missing content', () => {
-//   const store = createMockStore(state);
-//   const params = {id};
-//   const embedded = (
-//     <Provider store={store}>
-//       <ArticlePage params={params} />
-//     </Provider>
-//   );
-//
-//   mount(embedded);
-//
-//   expect(store.getActions()[0]).toEqual(needContent(digest));
-//
-// });
+  it('is connected to state', () => {
+    // given
+    const id = 'article4';
+    const title = 'Title of Article 4';
+    const state = {
+      articles: {
+        index: {
+          [id]: {title}
+        }
+      }
+    };
+    const params = {id};
+    const store = createMockStore(state);
+
+    // when
+    const rendered = shallow(
+      <ConnectedArticlePage store={store} params={params} /> );
+
+    // then
+    expect(ezJson(rendered)).toMatchSnapshot();
+
+  });
+
+});

@@ -1,4 +1,26 @@
-exports[`render unconnected renders 1`] = `
+exports[`connected is connected to state 1`] = `
+<ArticlePage
+  dispatch={[Function]}
+  id="article4"
+  params={
+    Object {
+      "id": "article4",
+    }
+  }
+  store={
+    Object {
+      "clearActions": [Function],
+      "dispatch": [Function],
+      "getActions": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+    }
+  }
+  title="Title of Article 4" />
+`;
+
+exports[`unconnected renders happy 1`] = `
 <div
   className="article-page">
   <h1>
@@ -11,7 +33,7 @@ exports[`render unconnected renders 1`] = `
 </div>
 `;
 
-exports[`render unconnected shows not found when no id 1`] = `
+exports[`unconnected shows not found when no id 1`] = `
 <div
   className="not-found-page">
   Not Found
