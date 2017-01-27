@@ -15,10 +15,10 @@ class ArticleMenu extends React.Component {
   }
 
   render() {
-    const directory = this.props.directory || [];
+    const entries = this.props.entries || [];
     return (
       <ul className="article-menu">
-        {R.map(this.keyedMenuItem, directory)}
+        {R.map(this.keyedMenuItem, entries)}
       </ul>
     );
   }

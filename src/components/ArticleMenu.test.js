@@ -8,7 +8,7 @@ describe ('render', () => {
 
   it('renders entries', () => {
     // given
-    const directory = [
+    const entries = [
       {
         "id": "one",
         "title": "One"
@@ -20,7 +20,7 @@ describe ('render', () => {
     ];
 
     // when
-    const rendered = shallow(<ArticleMenu directory={directory} />);
+    const rendered = shallow(<ArticleMenu entries={entries} />);
 
     // then
     expect(ezJson(rendered)).toMatchSnapshot();
@@ -29,7 +29,7 @@ describe ('render', () => {
 
   it('renders empty entries', () => {
     // when
-    const rendered = shallow(<ArticleMenu directory={[]} />);
+    const rendered = shallow(<ArticleMenu entries={[]} />);
 
     // then
     expect(ezJson(rendered)).toMatchSnapshot();
