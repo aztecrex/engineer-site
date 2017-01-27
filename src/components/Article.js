@@ -4,52 +4,19 @@ import R from 'ramda';
 import Markdown from './Markdown';
 import {actions} from '../model';
 
-const notLoaded = 1;
-const notFound = 2;
-const ok = 3;
-
-const computeSource = (id, index, content) => {
-
-  let source = null;
-  let status = null;
-
-  const digest = R.path([id,'digest'], index);
-  if (digest) {
-    const text = R.path([digest], content);
-    if (text) {
-      status = ok;
-      source = text;
-    } else {
-      status = notLoaded;
-    }
-  } else {
-    status = notFound;
-  }
-
-  return {source,status};
-}
-
 class Article extends React.Component {
 
   render() {
-    const sourceInfo = computeSource (
-      this.props.id,
-      this.props.index,
-      this.props.content
-    );
+
     let source;
-    switch(sourceInfo.status) {
-      case ok:
-        source = sourceInfo.source;
-        break;
-      case notFound:
-        source = 'NOT FOUND';
-        break;
-      case notLoaded:
-        this.props.needContent && this.props.needContent();
-        source = 'LOADING';
-        break;
-    }
+    if (this.props.content)
+      source = this.props.content;
+    else if (this.props.digest) {
+      this.props.needContent && this.props.needContent(this.props.digest);
+      source = 'LOADING';
+    } else
+      source = 'NOT FOUND';
+
     return (
       <Markdown source={source} />
     );
@@ -57,12 +24,21 @@ class Article extends React.Component {
 
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, own) => {
 
-  const index = R.path(['articles','index'],state) || {};
-  const content = R.path(['articles','content'],state) || {};
+  const id = own && own.id;
+  if (!id)
+    return {};
 
-  return {index, content};
+  const digest = R.path(['articles','index',id,'digest'],state);
+  if (!digest)
+    return {};
+
+  const content = R.path(['articles','content',digest],state);
+  if (!content)
+    return {digest};
+
+  return {digest,content};
 
 };
 

@@ -1,15 +1,8 @@
-exports[`connected article is connected to state 1`] = `
+exports[`connected gets mapped state 1`] = `
 <Article
-  content={
-    Object {
-      "digest2": "here is the content",
-    }
-  }
-  index={
-    Object {
-      "id1": "here is the index",
-    }
-  }
+  content="some content"
+  digest="dig3"
+  id="art3"
   needContent={[Function]}
   store={
     Object {
@@ -23,17 +16,22 @@ exports[`connected article is connected to state 1`] = `
   } />
 `;
 
-exports[`render unconnected renders content found 1`] = `
+exports[`unconnected renders with digest and content 1`] = `
 <Markdown
-  source="the content you need" />
+  source="the content" />
 `;
 
-exports[`render unconnected renders content not found 1`] = `
+exports[`unconnected renders with only content 1`] = `
+<Markdown
+  source="the content" />
+`;
+
+exports[`unconnected renders with only digest 1`] = `
 <Markdown
   source="LOADING" />
 `;
 
-exports[`render unconnected renders id not found 1`] = `
+exports[`unconnected renders without props 1`] = `
 <Markdown
   source="NOT FOUND" />
 `;

@@ -8,155 +8,124 @@ import ConnectedArticle, {Article, mapStateToProps} from './Article';
 
 
 describe('wiring', () => {
-  it('maps empty to empty index and content', () => {
+  it('maps missing digest to empty', () => {
       // given
+      const id = 'id101';
       const state = {};
 
       // when
-      const actual = mapStateToProps(state);
+      const actual = mapStateToProps(state, {id});
 
       // then
-      const expected = {
-        index: {},
-        content: {}
-      };
-      expect(actual).toEqual(expected);
+      expect(actual).toEqual({});
 
   });
 
-  it('maps undefined to empty index and content', () => {
-      // given
+  it('maps missing id to empty', () => {
 
       // when
-      const actual = mapStateToProps();
+      const actual = mapStateToProps({articles:{index:{}}});
 
       // then
-      const expected = {
-        index: {},
-        content: {}
-      };
-      expect(actual).toEqual(expected);
+      expect(actual).toEqual({});
 
   });
 
-  it('maps index and content', () => {
+  it('maps digest', () => {
       // given
-      const index = {some:"stuff"};
-      const content = {addl:"things"};
-      const state = {
-        articles: {
-          index: index,
-          content: content
-        }
-      };
+      const id = 'id103';
+      const digest = 'digest103';
+      const index = {[id]:{digest}};
+      const state = {articles: {index}};
 
       // when
-      const actual = mapStateToProps(state);
+      const actual = mapStateToProps(state, {id});
 
       // then
-      const expected = {index,content};
-      expect(actual).toEqual(expected);
+      expect(actual).toEqual({digest});
 
   });
 
-  it('ignores everything else', () => {
-    // given
-    const state = {just: "noise"};
+  it('maps content', () => {
+      // given
+      const id = 'id103';
+      const digest = 'digest103';
+      const content = 'cow dance';
+
+      const index = {[id]:{digest}};
+      const cache = {[digest]:content};
+      const state = {articles: {index, content:cache}};
+
+      // when
+      const actual = mapStateToProps(state, {id});
+
+      // then
+      expect(actual).toEqual({digest,content});
+
+  });
+});
+
+describe('unconnected', () => {
+
+  it('renders without props', () => {
 
     // when
-    const actual = mapStateToProps(state);
+    const rendered = shallow(<Article />);
 
     // then
-    const expected = {
-      index: {},
-      content: {}
-    };
-    expect(actual).toEqual(expected);
+    expect(ezJson(rendered)).toMatchSnapshot();
+
+  });
+
+  it('renders with only digest', () => {
+
+    // when
+    const rendered = shallow(<Article digest="dig123" />);
+
+    // then
+    expect(ezJson(rendered)).toMatchSnapshot();
+
+  });
+
+  it('renders with digest and content', () => {
+
+    // when
+    const rendered = shallow(<Article digest="dig123" content="the content" />);
+
+    // then
+    expect(ezJson(rendered)).toMatchSnapshot();
+
+  });
+
+  it('renders with only content', () => {
+
+    // when
+    const rendered = shallow(<Article content="the content" />);
+
+    // then
+    expect(ezJson(rendered)).toMatchSnapshot();
 
   });
 
 
 });
 
-describe('render unconnected', () => {
+describe('connected', () => {
 
-  it('renders id not found', () => {
-
+  it('gets mapped state', () => {
     // given
-    const id = 'article3';
-    const props = mapStateToProps({});
+    const id = 'art3';
+    const digest = 'dig3';
 
-    // when
-    const rendered = shallow(<Article {...props} id={id} />);
-
-    // then
-    expect(ezJson(rendered)).toMatchSnapshot();
-
-  });
-
-  it('renders content not found', () =>  {
-
-    // given
-    const id = 'article3';
-    const props = mapStateToProps({
+    const state = {
       articles: {
-        index: {
-          [id]: {
-            digest: 'the-digest'
-          }
-        }
-      }
-    });
-
-    // when
-    const rendered = shallow(<Article {...props} id={id} />);
-
-    // then
-    expect(ezJson(rendered)).toMatchSnapshot();
-
-  });
-
-  it('renders content found', () =>  {
-
-    // given
-    const id = 'article3';
-    const digest = 'the-digest';
-    const props = mapStateToProps({
-      articles: {
-        index: {
-          [id]: {
-            digest: digest
-          }
-        },
-        content: {
-          [digest]: 'the content you need'
-        }
-      }
-    });
-
-    // when
-    const rendered = shallow(<Article {...props} id={id} />);
-
-    // then
-    expect(ezJson(rendered)).toMatchSnapshot();
-
-
-  });
-
-});
-
-describe('connected article', () => {
-
-  it('is connected to state', () => {
-    // given
-    const state = {articles: {
-      index: {id1: "here is the index"},
-      content:{digest2: "here is the content"}
+        index: {[id]:{digest}},
+        content:{[digest]:'some content'}
     }};
     const store = createMockStore(state);
 
     // when
-    const rendered = shallow(<ConnectedArticle store={store} /> );
+    const rendered = shallow(<ConnectedArticle store={store} id={id} /> );
 
     // then
     expect(ezJson(rendered)).toMatchSnapshot();
@@ -166,11 +135,12 @@ describe('connected article', () => {
   it('emits when content not found', () => {
     // given
     const id = 'article3';
+    const digest = 'the-digest';
     const state = {
       articles: {
         index: {
           [id]: {
-            digest: 'the-digest'
+            digest: digest
           }
         }
       }
@@ -182,7 +152,7 @@ describe('connected article', () => {
 
     // then
     expect(store.getActions().length).toEqual(1);
-    expect(store.getActions()[0]).toEqual(actions.needContent());
+    expect(store.getActions()[0]).toEqual(actions.needContent(digest));
 
   });
 
