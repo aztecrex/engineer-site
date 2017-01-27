@@ -1,0 +1,12 @@
+exports[`render unconnected renders 1`] = `
+<div
+  className="article-page">
+  <h1>
+    This is SO  Neat
+  </h1>
+  <Connect(Article)
+    id="article309" />
+  <hr />
+  <Connect(Harper) />
+</div>
+`;
