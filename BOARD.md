@@ -6,7 +6,6 @@
 
 ### Epic: Site Workflow
 
-* metrics - 2p
 * continuous delivery from Github - 3p
 
 ### No Epic
@@ -26,6 +25,7 @@ project as a starting point
 
 ## In Progress
 
+* metrics - 2p
 
 ## Done
 
