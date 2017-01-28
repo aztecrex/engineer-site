@@ -115,8 +115,8 @@ Now, only the CloudFront distribution could access my content, meaning
 it could only be delivered through the CDN.
 
 One wrinkle is that, after all these years, AWS still does not allow you
-to provision an OAI through CloudFormation. So I had to created one
-through the CLI, then supply its names to the template. In a future
+to provision an OAI through CloudFormation. So I had to create one
+through the CLI, then supply its two names to the template. In a future
 revision I may prefer a custom CloudFormation resource to do this.
 
 ### Domains
@@ -210,7 +210,7 @@ Route 53 is a bit expensive at $.50 per zone-month. My non-AWS
 authoritative provider costs only $22 per 40-zone-year. I bit the bullet and
 moved gregwiley.com over to Route 53 to take advantage
 of an an alias record for the zone apex. I also got the advantage
-of common infrastructure specification through CloudFront.
+of common infrastructure specification through CloudFormation.
 
 If you don't want to incur the extra cost, you can use a
 non-AWS provider. Your site won't be able to use the zone apex
