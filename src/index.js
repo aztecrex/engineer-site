@@ -4,6 +4,8 @@ import {Provider} from 'react-redux';
 import {store} from './model';
 import {Router, Route, browserHistory} from 'react-router';
 
+import ReactGA from 'react-ga';
+
 import HomePage from './components/HomePage';
 import ArticlePage from './components/ArticlePage';
 
@@ -18,9 +20,16 @@ browserHistory.listen(location => {
   });
 });
 
+import {googleTrackingId} from '../secrets.js';
+ReactGA.initialize(googleTrackingId);
+
+function fireTracking() {
+    ReactGA.pageview(window.location.hash);
+}
+
 const Root = () => (
     <Provider store={store}>
-      <Router history={browserHistory}>
+      <Router history={browserHistory} onUpdate={fireTracking}>
         <Route path="/" component={HomePage} />
         <Route path="/article/:id" component={ArticlePage} />
       </Router>
