@@ -16,3 +16,6 @@ coverage
 .DS_Store
 .env
 npm-debug.log
+
+# don't push private things
+secrets.js
