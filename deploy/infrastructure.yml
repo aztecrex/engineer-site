@@ -70,6 +70,10 @@ Resources:
         Comment: Distribute the engineer site
         DefaultRootObject: index.html
         CustomErrorResponses:
+          # this how we get index.html to be served at any path
+          # a 403 response (not authorized but it actually means
+          # it wasn't found) from S3 causes CloudFront to responsd
+          # with index.html and response 200.
           - ErrorCode: 403
             ResponseCode: 200
             ResponsePagePath: /index.html
