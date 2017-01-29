@@ -2,7 +2,8 @@
 
 plainfile=$(mktemp)
 binfile=$(mktemp)
-< encrypted.${1} > ${binfile} base64 -D
+
+< ${1}.encrypted > ${binfile} base64 -D
 
 aws kms decrypt \
   --ciphertext-blob fileb://${binfile} \

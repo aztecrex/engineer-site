@@ -18,4 +18,6 @@ coverage
 npm-debug.log
 
 # don't push private things
-secrets.js
+secrets.*
+# push their encrypted versions
+!secrets.*.encrypted
