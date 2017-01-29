@@ -34,10 +34,10 @@ learns of the new content.  You can boldly set the time-to-live of
 a Webpack bundle to 100 years and you'll have no problem.
 
 But something has to change in order for a reader to get fresh
-content. What changes is the well-known location of the site root
-which, in the case of this site, is stored in an S3 object named
-`index.html`. That one tiny piece of content points to all the
-bundles and other resources. It is the one thing that should
+content. What changes is the content at the well-known location of
+the sit root which, in the case of this site, is stored in an S3
+object named `index.html`. That one tiny piece of content points to
+all the bundles and other resources. It is the one thing that should
 have a small time-to-live.
 
 ## When the Fine Manual Is Wrong
@@ -48,13 +48,13 @@ CloudFront distribution--just for the location "/"--that would have
 a short time-to-live. I figured 30 seconds while I was developing
 the site and 15 minutes for normal publishing freshness.
 
-But I discovered a problem when trying to debug Google
-Analytics. I would publish the site but couldn't get the
+But I discovered a problem while I was debugging some analytics
+code. I would publish the site but would never see the
 latest version even after waiting the default TTL of 30 seonds.
 
 I discovered that, through curl, I could get the most up-to-date
 version, but not with Chrome. I finally determined that the
-difference was that Chrome was asking for the compressed version. If
+difference was that Chrome was requesting compressed content. If
 I used the --compressed option with curl, I could replicate the
 Chrome behavior.
 
