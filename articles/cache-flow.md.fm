@@ -15,68 +15,67 @@ and other articles about publishing a cheap hassle-free web site
 for an engineer. All the code is on
 [GitHub](https://github.com/aztecrex/engineer-site).
 
-## Freshess Counts
+## Freshness Counts
 
-If someone were to read this site, they would expect that when
-I published an article, they could see it right away. This
-expectation of course is at odds with the purpose of an edge-caching
-CDN like CloudFront that works best if it an just serve the same
+If someone were to actually read this site, they would expect that,
+when I published an article, they could see it right away. The
+expectation, of course, is at odds with the purpose of an edge-caching
+CDN like CloudFront. CloudFront works best if it can just serve the same
 content over and over.
 
 So how do you ensure that your content stays fresh but that you
-aren't unnecessarily delivering the same content over and over to
-your edges or even to your users?
+aren't unnecessarily transferring data to your edges or your users?
 
-Webpack helps solve that problem by naming the bundles with a hash
-digest of their content. That way, if you are still using version
-X of a bundle and I publish version Y, they can both live happily
-in the edge caches, eventually being served to browsers as they
-learn of the new content.  You can gladly set the time-to-live of
-a webpack bundle to 100 years and you'll have no problem.
+Webpack helps solve the problem by naming bundles with a hash
+digest of their contents. That way, if I publish version Y bundle
+to replace version X, they can both live happily
+in the edge caches, eventually being served to a browser when it
+learns of the new content.  You can boldly set the time-to-live of
+a Webpack bundle to 100 years and you'll have no problem.
 
 But something has to change in order for a reader to get fresh
-content. That thing is the well-known location of your site root
+content. What changes is the well-known location of the site root
 which, in the case of this site, is stored in an S3 object named
-`index.html`. That one tiny piece of content points to all your
-webpack and other resources. It is the one thing that should
+`index.html`. That one tiny piece of content points to all the
+bundles and other resources. It is the one thing that should
 have a small time-to-live.
-
 
 ## When the Fine Manual Is Wrong
 
-When I firt published the site, I was aware of this and attempted
+When I first published the site, I was aware of this and attempted
 to solve the problem by adding a special _cache behavior_ to the
-CloudFront distribution, only for the location "/", that would have
+CloudFront distribution--just for the location "/"--that would have
 a short time-to-live. I figured 30 seconds while I was developing
 the site and 15 minutes for normal publishing freshness.
 
-But there was a problem I discovered when trying to debug Google
-Analytics. I would publish the site again but couldn't get the
-latest version after waiting the default TTL of 30 seonds.
+But I discovered a problem when trying to debug Google
+Analytics. I would publish the site but couldn't get the
+latest version even after waiting the default TTL of 30 seonds.
 
 I discovered that, through curl, I could get the most up-to-date
-version, but still not with Chrome. I finally determined that the
+version, but not with Chrome. I finally determined that the
 difference was that Chrome was asking for the compressed version. If
 I used the --compressed option with curl, I could replicate the
 Chrome behavior.
 
 I had compression turned off in CloudFront for that behavior so
-it seemed strange that I would get a different result. I carefully
+it seemed strange that I would get that result. I carefully
 parsed the CloudFront manual on the subject and found that
 even with compression off, CloudFront would check for a cached,
-compressed version of the client asked for it. So there must be
-such a thing in the cache.
+compressed version if the client asked for it. So there must be
+a compressed version in the cache.
 
-But how did it get there? I tried clobbering the CDN and bringing
-up a new one but found the same result. The only thing I can think
-is that there is either a bug in CloudFormation or S3 was providing
-a compressed version and that was being cached.
+But how did it get there? Compression is turned off! I tried
+clobbering the CDN and bringing up a new one but found the same
+result. The only thing I can think is that there is either a bug
+in CloudFront or S3 was providing a compressed version and that
+was being cached.
 
-But even that explanation was unsatisfatory. If S3 was providing
+But even that explanation was unsatisfactory. If S3 was providing
 a compressed version, shouldn't CloudFormation still honor the
 TTL and evict it after 30 seconds?  I filed a support ticket with
 AWS but because this is not my corporate account I expect it will
-be while before they reply.
+be a while before they reply.
 
 <iframe
   width="560"
@@ -94,9 +93,8 @@ with each one.
 I modified the `pubish.sh` script to upload all content except
 `index.html` with a 1 year `max-age`. I uploaded `index.html` with
 `max-age` to 60 seconds and `s-maxage` to 15 minutes. That way,
-I could see newly-published content after a minute by force
-refreshing but a browser would not need to keep hitting the server
-every minute normally. 15 minutes seemed like a reasonable freshness
+I could see newly-published content after a minute by force-refreshing but a browser would not normally hit the server
+every minute. 15 minutes seemed like a reasonable freshness
 parameter for readers.
 
 Finally, I removed the extra cache behavior from the CDN resource.
@@ -110,8 +108,9 @@ I timed the cache evictions and got just about exactly on minute
 on a forced refresh.  But just typing in the url didn't require a
 full fetch.
 
-I have been hearing complaints of strange caching at the office so
-I'll bring this solution back there. Even if they were to fix or
+I have been hearing complaints of strange cache behavior at the
+office so
+I'll bring this solution back there. Even if AWS were to fix or
 tell me how to solve this with a CloudFront cache behavior, I like
 this solution much better because it lets me change the TTL without
-waiting the 45 minutes for CloudFront reconfigure.
+waiting the 45 minutes for CloudFront to reconfigure.
