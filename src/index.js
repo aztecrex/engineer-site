@@ -24,7 +24,10 @@ import {googleTrackingId} from '../secrets.js';
 ReactGA.initialize(googleTrackingId);
 
 function fireTracking() {
-    ReactGA.pageview(window.location.pathname);
+    const hostname = window.location.hostname;
+    if (hostname !== "localhost") {
+      ReactGA.pageview(window.location.pathname);
+    }
 }
 
 const Root = () => (
