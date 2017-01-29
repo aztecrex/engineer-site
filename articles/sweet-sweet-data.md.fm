@@ -80,3 +80,20 @@ between firing a tracking event and it showing on the dashboard.  Ok,
 I'll be back tomorrow.
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/QX_oy9614HQ" frameborder="0" allowfullscreen></iframe>
+
+# Now??
+
+It didn't take 24 hours. I was seeing tracking data on the GA
+reports. Trouble now was that out of 10 sessions, 1 came from
+Boston (thanks, Boston!) and 9 came from Thousand Oaks (where I
+am). One hit was for this article which hadn't been published
+yet. So clearly GA was capturing data fired during local testing.
+
+It was easy to fix. Just check the `location` for `localhost` and
+don't fire in that case.
+
+# Measuring Up
+
+I'm looking forward to tracking the traffic to the site. It is more
+for fun than anything at this point. But if I do write something
+popular, I'll know about it and that's a good feeling.
