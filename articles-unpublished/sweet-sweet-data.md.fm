@@ -96,3 +96,8 @@ it would be handled in S3, there was no need for the extra behavior.
 ## And it Fires
 
 I waited the hour-and-a-half for CloudFront to re-up and gave it a try.
+I timed the cache evictions and got just about exactly on minute
+on a forced refresh.  But just typing in the url didn't require a
+full fetch.
+
+Now back to Google Analytics.
