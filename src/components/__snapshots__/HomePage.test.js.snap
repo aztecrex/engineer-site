@@ -8,5 +8,12 @@ exports[`render renders 1`] = `
   <Connect(Directory) />
   <hr />
   <Connect(Harper) />
+  <hr />
+  <div>
+    <p>
+      Revision 
+      <Revision />
+    </p>
+  </div>
 </div>
 `;

@@ -70,6 +70,10 @@ Resources:
         Comment: Distribute the engineer site
         DefaultRootObject: index.html
         CustomErrorResponses:
+          # this how we get index.html to be served at any path
+          # a 403 response (not authorized but it actually means
+          # it wasn't found) from S3 causes CloudFront to responsd
+          # with index.html and response 200.
           - ErrorCode: 403
             ResponseCode: 200
             ResponsePagePath: /index.html
@@ -83,22 +87,6 @@ Resources:
             Cookies:
               Forward: none
           ViewerProtocolPolicy: allow-all
-        CacheBehaviors:
-          # set the TTL of the site root to 15 minutes
-          # that allows us to push new content to the
-          # site wihtout waiting a day. The rest of the
-          # site's assets are named by hash (Webpack does
-          # this) so new content is automatically not
-          # cached when published
-          - Compress: false
-            DefaultTTL: 30
-            ForwardedValues:
-              QueryString: 'false'
-              Cookies:
-                Forward: none
-            PathPattern: "/"
-            TargetOriginId: contentOrigin
-            ViewerProtocolPolicy: allow-all
 
   # This bucket just redirects. It is how we get redirect
   # requests for www.domain.com to domain.com. In the future

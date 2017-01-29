@@ -1,0 +1,116 @@
+---
+id: cache-flow
+title: Timely Updates With CloudFormation
+published: 2017-01-28T215:50-0800
+series: An Engineer's Site
+installment: 4
+code: https://github.com/aztecrex/engineer-site
+---
+# Timely Updates With CloudFormation
+
+Or _Cache Flow_
+
+This is a followon to the original "Adventures in Tech Blogging"
+and other articles about publishing a cheap hassle-free web site
+for an engineer. All the code is on
+[GitHub](https://github.com/aztecrex/engineer-site).
+
+## Freshness Counts
+
+If someone were to actually read this site, they would expect that,
+when I published an article, they could see it right away. The
+expectation, of course, is at odds with the purpose of an edge-caching
+CDN like CloudFront. CloudFront works best if it can just serve the same
+content over and over.
+
+So how do you ensure that your content stays fresh but that you
+aren't unnecessarily transferring data to your edges or your users?
+
+Webpack helps solve the problem by naming bundles with a hash
+digest of their contents. That way, if I publish version Y bundle
+to replace version X, they can both live happily
+in the edge caches, eventually being served to a browser when it
+learns of the new content.  You can boldly set the time-to-live of
+a Webpack bundle to 100 years and you'll have no problem.
+
+But something has to change in order for a reader to get fresh
+content. What changes is the well-known location of the site root
+which, in the case of this site, is stored in an S3 object named
+`index.html`. That one tiny piece of content points to all the
+bundles and other resources. It is the one thing that should
+have a small time-to-live.
+
+## When the Fine Manual Is Wrong
+
+When I first published the site, I was aware of this and attempted
+to solve the problem by adding a special _cache behavior_ to the
+CloudFront distribution--just for the location "/"--that would have
+a short time-to-live. I figured 30 seconds while I was developing
+the site and 15 minutes for normal publishing freshness.
+
+But I discovered a problem when trying to debug Google
+Analytics. I would publish the site but couldn't get the
+latest version even after waiting the default TTL of 30 seonds.
+
+I discovered that, through curl, I could get the most up-to-date
+version, but not with Chrome. I finally determined that the
+difference was that Chrome was asking for the compressed version. If
+I used the --compressed option with curl, I could replicate the
+Chrome behavior.
+
+I had compression turned off in CloudFront for that behavior so
+it seemed strange that I would get that result. I carefully
+parsed the CloudFront manual on the subject and found that
+even with compression off, CloudFront would check for a cached,
+compressed version if the client asked for it. So there must be
+a compressed version in the cache.
+
+But how did it get there? Compression is turned off! I tried
+clobbering the CDN and bringing up a new one but found the same
+result. The only thing I can think is that there is either a bug
+in CloudFront or S3 was providing a compressed version and that
+was being cached.
+
+But even that explanation was unsatisfactory. If S3 was providing
+a compressed version, shouldn't CloudFormation still honor the
+TTL and evict it after 30 seconds?  I filed a support ticket with
+AWS but because this is not my corporate account I expect it will
+be a while before they reply.
+
+<iframe
+  width="560"
+  height="315"
+  src="https://www.youtube.com/embed/uoLoyg3JKRQ"
+  frameborder="0" allowfullscreen></iframe>
+
+## Cache Controlled
+
+Instead of asking CloudFront to decide my TTLs, I decided to
+ask S3 to provide caching information with the objects it served.
+S3 would serve objects with whatever `Cache-Control` header I associated
+with each one.
+
+I modified the `publish.sh` script to upload all content except
+`index.html` with a 1 year `max-age`. I uploaded `index.html` with
+`max-age` to 60 seconds and `s-maxage` to 15 minutes. That way,
+I could see newly-published content after a minute by force-refreshing but a browser would not normally hit the server
+every minute. 15 minutes seemed like a reasonable freshness
+parameter for readers.
+
+Finally, I removed the extra cache behavior from the CDN resource.
+It was only there to try to force eviction of the site root. Now that
+it would be handled in S3, there was no need for the extra behavior.
+
+## It Works
+
+I waited the hour-and-a-half for CloudFront to re-up and gave it a try.
+I timed the cache evictions and got just about exactly on minute
+on a forced refresh.  But just typing in the url didn't require a
+full fetch.
+
+I have been hearing complaints of strange cache behavior at the
+office so
+I'll bring this solution back there. Even if AWS were to fix or
+tell me how to solve this with a CloudFront cache behavior, I like
+this solution much better because it lets me change the TTL without
+waiting the 45 minutes for CloudFront to reconfigure.
