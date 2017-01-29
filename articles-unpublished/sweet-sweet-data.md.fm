@@ -1,7 +1,7 @@
 ---
 id: sweet-sweet-data
 title: Measure Happy
-published: 2017-01-28T215:50-0800
+published: 2017-01-29T15:50-0800
 series: An Engineer's Site
 installment: 4
 code: https://github.com/aztecrex/engineer-site
@@ -46,11 +46,31 @@ see if I had a hit.  I did not. I refreshed and looked again, nope.
 I put a trace on the firing code and saw that there was no data being
 sent in the tracking call. Huh?
 
-The problem was that I was sending something called `window.location.hash`
-as the data to send.  I got that from a react-ga sample I found.  In
-my browser, that just returned nothing.  I dig into the docs to see what
-I was supposed to be sending. It was called path so I changed the code
-to send `window.location.pathname` instead. Now it was firing with data.
+The problem was that I was sending something called `window.location.hash` as the data to send.  I got that from a
+react-ga sample I found.  In my browser, that just returned nothing.
+I dig into the docs to see what I was supposed to be sending. It was
+called path so I changed the code to send `window.location.pathname`
+instead. Now it was firing with data.
+
+Here is the fully-google-analytics-enabled-router:
+
+```javasript
+import {googleTrackingId} from '../secrets.js';
+ReactGA.initialize(googleTrackingId);
+
+function fireTracking() {
+    ReactGA.pageview(window.location.pathname);
+}
+
+const Root = () => (
+    <Provider store={store}>
+      <Router history={browserHistory} onUpdate={fireTracking}>
+      <!-- ... -->
+      </Router>
+    </Provider>
+  );
+```
+
 
 # Now?
 
