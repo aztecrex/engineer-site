@@ -90,7 +90,7 @@ ask S3 to provide caching information with the objects it served.
 S3 would serve objects with whatever `Cache-Control` header I associated
 with each one.
 
-I modified the `pubish.sh` script to upload all content except
+I modified the `publish.sh` script to upload all content except
 `index.html` with a 1 year `max-age`. I uploaded `index.html` with
 `max-age` to 60 seconds and `s-maxage` to 15 minutes. That way,
 I could see newly-published content after a minute by force-refreshing but a browser would not normally hit the server
