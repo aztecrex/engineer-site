@@ -1,5 +1,5 @@
 ---
-id: snapshot-testing-ftw
+id: sweet-sweet-data
 title: Measure Happy
 published: 2017-01-28T215:50-0800
 series: An Engineer's Site
@@ -10,9 +10,9 @@ code: https://github.com/aztecrex/engineer-site
 
 Or _Sweet, Sweet Data_
 
-This is a follow-on to the original "Adventures in Tech Blogging"
+This is a followon to the original "Adventures in Tech Blogging"
 and other articles about publishing a cheap hassle-free web site
-for an engineer (this site). Alll the code is on
+for an engineer. All the code is on
 [GitHub](https://github.com/aztecrex/engineer-site).
 
 ## Google Analytics
@@ -20,7 +20,8 @@ for an engineer (this site). Alll the code is on
 I work for a [company](http://engineering.cj.com) that tracks
 and processes web activity. It would be embarrassing if I wasn't
 measuring my traffic. I still didn't expect anyone to actually visit
-but I decided to add Google Analytics tracking just to see.
+the site but I thought I'd add add Google Analytics tracking just to
+see.
 
 Why didn't I use my employer's tracking? I couldn't for two reasons:
 a) they track for specific actions that result in financial payments
@@ -29,7 +30,7 @@ call _conflict of interest_.
 
 ## Too Easy
 
-I found an npm package, _react-ga_. All it required was a couple lines
+I found an NPM package, _react-ga_. All it required was a couple lines
 of code and a listener on React Route update.  Great. Done. Wait, what's
 this tracking id thing it needs?
 
@@ -43,7 +44,7 @@ the tracking library.
 I published the site, visited it, and ran over to the GA dashboard to
 see if I had a hit.  I did not. I refreshed and looked again, nope.
 I put a trace on the firing code and saw that there was no data being
-send in the tracking call. Huh?
+sent in the tracking call. Huh?
 
 The problem was that I was sending something called `window.location.hash`
 as the data to send.  I got that from a react-ga sample I found.  In
@@ -51,53 +52,11 @@ my browser, that just returned nothing.  I dig into the docs to see what
 I was supposed to be sending. It was called path so I changed the code
 to send `window.location.pathname` instead. Now it was firing with data.
 
-## Cache Wild
+# Now?
 
-I published the site again but couldn't get the latest version through
-CloudFront. I'd been having trouble invalidating the cache. Even setting
-the default and max TTL to 30 seconds was not letting me get up-to-date
-versions.
+I went back to the dashboard. Traffic? No. Ok, maybe there was some
+latency. I dug into the docs and learned there is a 24-48 hour lag
+between firing a tracking event and it showing on the dashboard.  Ok,
+I'll be back tomorrow.
 
-I discovered that, through curl, I could get the most up-to-date
-version, but still not with Chrome. I finally discovered that the
-difference was that Chrome was asking for the compressed version. If
-I used the --compressed option with curl, I could replicate the
-Chrome behavior.
-
-But that still didn't explain why CloudFront wasn't evicting my
-content. In the end I stopped trying to figure out why and sought
-a new solution.
-
-## Cache Controlled
-
-Instead of asking CloudFront to decide my TTLs, I decided to
-ask S3 to provide caching information with the objects it served.
-S3 would serve objects with whatever `Cache-Control` header I associated
-with each one.
-
-The only object that needed to be evicted regularly was `index.html`.
-The Webpack bundles are named by a hash of their contents. I had done
-the same for the article content.  But because  `index.html` was the
-well-known name, it had to be evicted so people would see fresh content
-when it was published.
-
-I modified the `pubish.sh` script to upload all content except
-`index.html` with a 1 year maximum age. For `index.html` I set
-`max-age` to 60 seconds and `s-maxage` to 15 minutes. That way,
-I could see newly-published content after a minute by force
-refreshing but a browser would not need to keep hitting the server
-every minute normally. 15 minutes seemed like a reasonable freshness
-parameter for readers.
-
-Finally, I removed the extra cache behavior I in the CDN resource.
-It was only there to try to force eviction of the site root. Now that
-it would be handled in S3, there was no need for the extra behavior.
-
-## And it Fires
-
-I waited the hour-and-a-half for CloudFront to re-up and gave it a try.
-I timed the cache evictions and got just about exactly on minute
-on a forced refresh.  But just typing in the url didn't require a
-full fetch.
-
-Now back to Google Analytics.
+<iframe width="560" height="315" src="https://www.youtube.com/embed/QX_oy9614HQ" frameborder="0" allowfullscreen></iframe>
