@@ -6,12 +6,17 @@
 
 ### Epic: Site Workflow
 
-* continuous delivery from Github - 3p
+### Epic: Look and Feel
+
+* article navigation to one side
+* article styling
+* colors
+* fonts
+
 
 ### No Epic
 
 * try Yarn!
-* better look and feel
 * collect entries into series
 * custom resource for OAI
 * custom resource for non-route-53 domains
@@ -25,7 +30,8 @@ project as a starting point
 
 ## In Progress
 
-* metrics - 2p
+* continuous delivery from Github - 3p
+
 
 ## Done
 
@@ -39,3 +45,4 @@ project as a starting point
   * metadata in blog entry
   * complete when title on main page, article on its own page
 * ~~~articles carry their own metadata - 3p~~~
+* ~~~metrics - 2p~~~
