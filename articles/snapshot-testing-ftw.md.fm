@@ -41,10 +41,10 @@ just-plain-fun-to-code web application.
 
 ## Uneject
 
-At this time, I decided to un-eject create-react-app. I had decided
-not to compile articles into the bundle so the need for a Markdown
-loader was no more.  I decided to give CRA a real try and see how
-far I could go without ejecting.
+At this time, I decided to un-eject the ejected create-react-app.
+My new design did not compile articles into the bundle so the need
+for a Markdown loader was no more.  I would give CRA a real try and
+work hard to go without ejecting.
 
 ## Component Organization
 
@@ -68,10 +68,10 @@ phase.
 
 ## Ah Enzyme
 
-But I also had a big pile of confused modules with connected and unconnected
-components. I'd heard Enzyme was the way to test these components so I
-started converting the component prototype pile to a TDD project
-using Enzyme.
+But I also had a big pile of confused modules with connected and
+unconnected components. I'd heard Enzyme was the way to test these
+components so I started converting the component prototype pile to a
+TDD project using Enzyme.
 
 I may hurt some feelings but Enzyme is, um, disorganized. Its API
 needs a shot of cohesive, _STAT_. It is not at all easy to navigate

@@ -27,9 +27,9 @@ So how do you ensure that your content stays fresh but that you
 aren't unnecessarily transferring data to your edges or your users?
 
 Webpack helps solve the problem by naming bundles with a hash
-digest of their contents. That way, if I publish version Y bundle
+digest of their contents. That way, if you publish version Y bundle
 to replace version X, they can both live happily
-in the edge caches, eventually being served to a browser when it
+in the edge caches, with Y eventually being served to a browser when it
 learns of the new content.  You can boldly set the time-to-live of
 a Webpack bundle to 100 years and you'll have no problem.
 
