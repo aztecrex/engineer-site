@@ -11,6 +11,7 @@
   * easy way to read articles in progress
 * article queue
   * articles wait for publish date to show
+* revision comes from git hash
 
 
 ### Epic: Look and Feel
