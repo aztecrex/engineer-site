@@ -19,8 +19,5 @@ phases:
       - npm run build
   post_build:
     commands:
-      - echo "post buld"
-artifacts:
-  files:
-    - build/**/*/
-  discard-paths: no
+      - echo "post build"
+      ./publish.sh
