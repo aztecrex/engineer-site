@@ -8,8 +8,10 @@ Parameters:
     Type: String
   GithubUser:
     Type: String
+    NoEcho: true
   GithubToken:
     Type: String
+    NoEcho: true
   GithubRepo:
     Type: String
 
