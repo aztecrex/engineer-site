@@ -8,8 +8,6 @@ else
   decode_opt="-d"
 fi
 
-base64 --help
-
 plainfile=$(mktemp)
 binfile=$(mktemp)
 
@@ -19,7 +17,7 @@ aws kms decrypt \
   --ciphertext-blob fileb://${binfile} \
   --query Plaintext \
   --output text \
-  | base64 -D \
+  | base64 "$decode_opt" \
   | tee ${plainfile}
 
 mv ${plainfile} ${1}
