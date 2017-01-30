@@ -1,0 +1,23 @@
+version: 0.1
+
+environment_variables:
+  plaintext:
+    CI: "true"
+
+phases:
+  pre_build:
+    commands:
+      - echo "pre build"
+      - chmod +x *.sh
+      - ./decrypt.sh secrets.js
+      - npm install
+  build:
+    commands:
+      - echo "build"
+      - npm run prep
+      - npm test
+      - npm run build
+  post_build:
+    commands:
+      - echo "post build"
+      - ./publish.sh

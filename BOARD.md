@@ -30,8 +30,6 @@ project as a starting point
 
 ## In Progress
 
-* continuous delivery from Github - 3p
-
 
 ## Done
 
@@ -46,3 +44,4 @@ project as a starting point
   * complete when title on main page, article on its own page
 * ~~~articles carry their own metadata - 3p~~~
 * ~~~metrics - 2p~~~
+* ~~~continuous delivery from Github - 3p~~~
