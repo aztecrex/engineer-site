@@ -6,7 +6,7 @@ const createMockStore = configureMockStore([]);
 import {actions} from '../model';
 const {flipName} = actions;
 
-import ConnectedHarper, {Harper, mapStateToProps} from './harper';
+import ConnectedHarper, {Harper, mapStateToProps} from './Harper';
 
 describe('unconnected', () => {
   it('renders happy', () => {
