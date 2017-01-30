@@ -20,4 +20,4 @@ phases:
   post_build:
     commands:
       - echo "post build"
-      ./publish.sh
+      - ./publish.sh
