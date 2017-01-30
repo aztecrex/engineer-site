@@ -1,5 +1,12 @@
 #!/bin/bash
 
+content-bucket() {
+  aws cloudformation describe-stacks \
+    --stack-name engineer-site \
+    --query 'Stacks[0].Outputs[?OutputKey==`"ContentStore"`]  | [0].OutputValue' \
+    --output text
+}
+
 
 source secrets.deploy
 
@@ -12,4 +19,6 @@ aws cloudformation create-stack \
     "ParameterKey=GithubToken,ParameterValue=${GITHUB_TOKEN}" \
     "ParameterKey=PipelineRole,ParameterValue=${PIPELINE_SERVICE_ROLE}" \
     "ParameterKey=BuildRole,ParameterValue=${BUILD_SERVICE_ROLE}" \
-    "ParameterKey=ArtifactStore,ParameterValue=${ARTIFACT_STORE}"
+    "ParameterKey=ArtifactStore,ParameterValue=${ARTIFACT_STORE}" \
+    "ParameterKey=SiteOrigin,ParameterValue=$(content-bucket)"
+    
