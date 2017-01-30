@@ -3,6 +3,8 @@ phases:
   pre_build:
     commands:
       - echo "pre build"
+      - which bash
+      - ls -l
       - ./decrypt.sh secrets.js
       - npm install
   build:
