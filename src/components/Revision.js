@@ -2,7 +2,7 @@ import React from 'react';
 
 class Revision extends React.Component {
   render() {
-    return <span className='revision'>6</span>
+    return <span className='revision'>7</span>
   }
 }
 

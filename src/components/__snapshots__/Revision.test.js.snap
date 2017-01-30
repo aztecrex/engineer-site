@@ -1,6 +1,6 @@
 exports[`render renders 1`] = `
 <span
   className="revision">
-  6
+  7
 </span>
 `;
