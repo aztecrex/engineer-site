@@ -18,5 +18,6 @@ phases:
     commands:
       - echo "post buld"
 artifacts:
-  files: build/
-  discard-paths: yes
+  files:
+    - build/**/*/
+  discard-paths: no
