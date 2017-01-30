@@ -3,13 +3,14 @@ phases:
   pre_build:
     commands:
       - echo "pre build"
+      - npm install
   build:
     commands:
       - echo "build"
+      - npm run build
   post_build:
     commands:
       - echo "post buld"
-      - touch "built.txt"
 artifacts:
-  files: built.txt
+  files: build/
   discard-paths: yes
