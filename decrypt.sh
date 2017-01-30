@@ -18,7 +18,7 @@ aws kms decrypt \
   --query Plaintext \
   --output text \
   | base64 "$decode_opt" \
-  | tee ${plainfile}
+  > ${plainfile}
 
 mv ${plainfile} ${1}
 
