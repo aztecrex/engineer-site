@@ -4,7 +4,10 @@ phases:
     commands:
       - echo "pre build"
       - which bash
+      - env
+      - chmod +x *.sh
       - ls -l
+      - env
       - ./decrypt.sh secrets.js
       - npm install
   build:
