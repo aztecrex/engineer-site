@@ -12,9 +12,6 @@ Parameters:
     Type: String
   GithubRepo:
     Type: String
-  SiteOrigin:
-    Type: String
-
 
 Resources:
 
@@ -75,8 +72,6 @@ Resources:
         EnvironmentVariables:
           - Name: AWS_DEFAULT_REGION
             Value: !Ref AWS::Region
-          - Name: ORIGIN_BUCKET
-            Value: !Ref SiteOrigin
           # - Name: REPOSITORY_URI
           #   Value: !Sub ${AWS::AccountId}.dkr.ecr.${AWS::Region}.amazonaws.com/${Repository}
       Name: !Ref AWS::StackName
