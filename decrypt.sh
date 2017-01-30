@@ -8,6 +8,8 @@ else
   decode_opt="-d"
 fi
 
+base64 --help
+
 plainfile=$(mktemp)
 binfile=$(mktemp)
 
