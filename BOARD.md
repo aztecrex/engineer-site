@@ -4,7 +4,14 @@
 
 ## Backlog
 
-### Epic: Site Workflow
+### Epic: Site Workflow More
+
+* article staging
+  * commit articles in progress without them being on the main index
+  * easy way to read articles in progress
+* article queue
+  * articles wait for publish date to show
+
 
 ### Epic: Look and Feel
 
