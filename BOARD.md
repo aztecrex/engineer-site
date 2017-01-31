@@ -24,7 +24,6 @@
 
 ### No Epic
 
-* try Yarn!
 * collect entries into series
 * custom resource for OAI
 * custom resource for non-route-53 domains
@@ -53,3 +52,5 @@ project as a starting point
 * ~~~articles carry their own metadata - 3p~~~
 * ~~~metrics - 2p~~~
 * ~~~continuous delivery from Github - 3p~~~
+* ~~~try Yarn!~~~
+

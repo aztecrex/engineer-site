@@ -32,5 +32,8 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "main": "index.js",
+  "repository": "git@github.com:aztecrex/engineer-site.git",
+  "author": "Greg Wiley <aztec.rex@jammm.com>"
 }
