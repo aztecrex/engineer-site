@@ -6,7 +6,7 @@ phases:
       - echo "pre build"
       - chmod +x *.sh
       - ./decrypt.sh secrets.js
-      - npm install
+      - npm install --production
   build:
     commands:
       - echo "build"
