@@ -47,6 +47,10 @@ If I decide to use shared resources, I'll put them into their own
 GitHub project. Otherwise, I'll add them to the deploy YAMLs
 in the engineer site project.
 
+<iframe width="560" height="315"
+   src="https://www.youtube.com/embed/8NPzLBSBzPI"
+   frameborder="0" allowfullscreen></iframe>
+
 ## CloudFormation Again
 
 I know CloudFormation is hard but please learn it. If you are going to
