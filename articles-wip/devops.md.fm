@@ -1,0 +1,170 @@
+---
+id: forget-about-it
+title: Timely Updates With CloudFormation
+published: 2017-01-31T15:50-0800
+series: An Engineer's Site
+installment: 5
+code: https://github.com/aztecrex/engineer-site
+---
+# AWS CodePipeline and CodeBuild
+
+Or _Forget About It_
+
+
+This is a followon to the original "Adventures in Tech Blogging"
+and other articles about publishing a cheap hassle-free web site
+for an engineer. All the code is on
+[GitHub](https://github.com/aztecrex/engineer-site).
+
+## Fully Automated Pubishing Pipeline
+
+
+
+## It's Software All the Way Down
+
+I've always been a deveoper but I've rarely been able to use an
+operations team to manage hardware, networking, and so-forth. For most
+of what I've worked on in my career, I wrote the software with some
+people, then we _same people_ found a building, put some hardware in it,
+and wired it all to the Internet.
+
+That colored my first experience with AWS. When I put my first
+production load there, I simply adapted what I knew from the cage to
+virtual machines on hardware I didn't own.
+
+Yes, I was using Chef, Salt, and had tried Puppet all before I
+got there. But I saw those tools as a way to automate configuration
+replication, no different on the IP floor or in the Cloud. So it was
+no surprise I continued to treat AWS servers as
+[pets](https://blog.engineyard.com/2014/pets-vs-cattle),
+the same way I had always treated physical hardware and VMs in the data center.
+
+## Hard Lessons Teach Best
+
+I'm embarrased to say that my first production AWS load
+involved two servers in 4 regions, all provisioned through
+the AWS console and configured with a combination of
+shell-poking, and, later, a number of Salt commands captured in a
+Notepad. Salt was so I could push the same changes across regions
+before making AMIs--this was before AMIs could be easily transferred
+between regions.
+
+I'd had the foresight to make AMIs in each region so I could replace
+VMs whose disks had failed. But what I hadn't anticipated was AWS
+deprecating the underlying VM architecture and making my AMIs
+uselesss. That happened in a single region but it happned to be
+a lynchpin in the architecture. They were going to bring down my
+servers in some number of days so I needed to replac them soon.
+
+I had the Salt commands but no documentation of the original shell-poking.
+These servers had multiple applications on them with multiple dependencies
+including some of our own libraries in RPMs.
+
+We painfully got the new servers built, but it put back our product
+work significantly. I made a commitment then to never rely on an AMI
+and never configure a server
+
+
+## I'm a Doctor, Not an Admin
+
+
+
+## Freshness Counts
+
+If someone were to actually read this site, they would expect that,
+when I published an article, they could see it right away. The
+expectation, of course, is at odds with the purpose of an edge-caching
+CDN like CloudFront. CloudFront works best if it can just serve the same
+content over and over.
+
+So how do you ensure that your content stays fresh but that you
+aren't unnecessarily transferring data to your edges or your users?
+
+Webpack helps solve the problem by naming bundles with a hash
+digest of their contents. That way, if you publish version Y bundle
+to replace version X, they can both live happily
+in the edge caches, with Y eventually being served to a browser when it
+learns of the new content.  You can boldly set the time-to-live of
+a Webpack bundle to 100 years and you'll have no problem.
+
+But something has to change in order for a reader to get fresh
+content. What changes is the content at the well-known location of
+the sit root which, in the case of this site, is stored in an S3
+object named `index.html`. That one tiny piece of content points to
+all the bundles and other resources. It is the one thing that should
+have a small time-to-live.
+
+## When the Fine Manual Is Wrong
+
+When I first published the site, I was aware of this and attempted
+to solve the problem by adding a special _cache behavior_ to the
+CloudFront distribution--just for the location "/"--that would have
+a short time-to-live. I figured 30 seconds while I was developing
+the site and 15 minutes for normal publishing freshness.
+
+But I discovered a problem while I was debugging some analytics
+code. I would publish the site but would never see the
+latest version even after waiting the default TTL of 30 seonds.
+
+I discovered that, through curl, I could get the most up-to-date
+version, but not with Chrome. I finally determined that the
+difference was that Chrome was requesting compressed content. If
+I used the --compressed option with curl, I could replicate the
+Chrome behavior.
+
+I had compression turned off in CloudFront for that behavior so
+it seemed strange that I would get that result. I carefully
+parsed the CloudFront manual on the subject and found that
+even with compression off, CloudFront would check for a cached,
+compressed version if the client asked for it. So there must be
+a compressed version in the cache.
+
+But how did it get there? Compression is turned off! I tried
+clobbering the CDN and bringing up a new one but found the same
+result. The only thing I can think is that there is either a bug
+in CloudFront or S3 was providing a compressed version and that
+was being cached.
+
+But even that explanation was unsatisfactory. If S3 was providing
+a compressed version, shouldn't CloudFormation still honor the
+TTL and evict it after 30 seconds?  I filed a support ticket with
+AWS but because this is not my corporate account I expect it will
+be a while before they reply.
+
+<iframe
+  width="560"
+  height="315"
+  src="https://www.youtube.com/embed/uoLoyg3JKRQ"
+  frameborder="0" allowfullscreen></iframe>
+
+## Cache Controlled
+
+Instead of asking CloudFront to decide my TTLs, I decided to
+ask S3 to provide caching information with the objects it served.
+S3 would serve objects with whatever `Cache-Control` header I associated
+with each one.
+
+I modified the `publish.sh` script to upload all content except
+`index.html` with a 1 year `max-age`. I uploaded `index.html` with
+`max-age` to 60 seconds and `s-maxage` to 15 minutes. That way,
+I could see newly-published content after a minute by force-refreshing but a browser would not normally hit the server
+every minute. 15 minutes seemed like a reasonable freshness
+parameter for readers.
+
+Finally, I removed the extra cache behavior from the CDN resource.
+It was only there to try to force eviction of the site root. Now that
+it would be handled in S3, there was no need for the extra behavior.
+
+## It Works
+
+I waited the hour-and-a-half for CloudFront to re-up and gave it a try.
+I timed the cache evictions and got just about exactly on minute
+on a forced refresh.  But just typing in the url didn't require a
+full fetch.
+
+I have been hearing complaints of strange cache behavior at the
+office so
+I'll bring this solution back there. Even if AWS were to fix or
+tell me how to solve this with a CloudFront cache behavior, I like
+this solution much better because it lets me change the TTL without
+waiting the 45 minutes for CloudFront to reconfigure.
