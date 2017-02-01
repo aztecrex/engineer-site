@@ -1,0 +1,139 @@
+---
+id: forget-about-it
+title: Continuous Publishing with AWS CodePipeline and CodeBuild
+published: 2017-01-30T15:00-0800
+series: An Engineer's Site
+installment: 5
+code: https://github.com/aztecrex/engineer-site
+---
+# Continuous Publishing with AWS CodePipeline and CodeBuild
+
+Or _Forget About It_
+
+This is a followon to the original "Adventures in Tech Blogging"
+and other articles about publishing a cheap hassle-free web site
+for an engineer. All the code is on
+[GitHub](https://github.com/aztecrex/engineer-site).
+
+## Fully Automated Publishing Pipeline
+
+I have continuous delivery working for the engineer site. My workflow
+is now:
+
+0. write an article
+0. git commit
+0. git push
+
+This is the result of AWS CodePipeline and CodeBuild. I've used both
+of these in previous prototypes but, in this case, the pipeline and
+build project are provisioned 99% in software.
+
+The missing 1% are resources that might be shared
+between projects. I haven't yet decided whether these should be
+provisioned one time for all my projects or whether each project
+should have its own. These include:
+
+* S3 bucket to hold build artifacts
+* KMS key to encrypt and decrypt secrets
+* Roles and security policies for the pipelines and build projects
+
+I think the hard limit of 100 buckets is not longer, you can ask
+for more if you need them so a bucket per project is
+probably not a problem. KMS keys cost $1 per month each. Not huge
+but not free, either. Roles and security policies need to be audited
+so the more of those, the greater the burden.
+
+If I decide to use shared resources, I'll put them into their own
+GitHub project. Otherwise, I'll add them to the deploy YAMLs
+in the engineer site project.
+
+## CloudFormation Again
+
+I know CloudFormation is hard but please learn it. If you are going to
+operate in AWS, it is your most flexible option. At my last job we
+wrote a DSL for it and that made it much easier but you still have to
+understand what it's doing for you and it's quirks (it has quite a few).
+
+Take a look at
+[`deploy/pipeline.yml`](https://github.com/aztecrex/engineer-site/blob/master/deploy/pipeline.yml)
+for the details. There are only a couple of primary resources, the
+CodePipeline pipeline and the CodeBuild project.
+
+The pipeline essentially defines the deployment stages. In this case, there
+are just two: fetch the source and build/deploy.  Build and deploy are
+in the same stage because it was easiest to simply use the project
+to copy the static site resources into the Origin bucket. If there was
+a quality control need, I could have broken out another stage and used
+it to unpack the build artifact and copy it to the origin. That turned
+out to be a non-trivial definition so I'll wait for another time to
+develop it and write about it.
+
+The first stage waits for changes to the Git project and downloads
+the sources. It packs them up into a zipfile and puts the in the
+artifact bucket.
+
+The second stage pulls the artifact zipfile from the bucket, unpacks
+it, then looks for a [`buildspec.yml`](https://github.com/aztecrex/engineer-site/blob/master/buildspec.yml)
+file. That lists all the steps to build the code and deploy it:
+
+0. decrypt the secrets
+0. npm install
+0. npm test
+0. npm run build
+0. copy everything in the build/ dir to the origin bucket using the cache
+controls described [previously](/article/cache-flow)
+
+These steps can be specified in CodeBuild itself but I prefer as much of
+the build detail to be specified in the commits. That is one of my beefs
+with CloudPipeline: too much of the configuration is static.  While it's
+easy to update the pipeline CloudFormation stack, it would be even easier if
+pipeline and build details were included in each commit: at the very least
+the kind of build container to run and the host class to provision.
+
+## Not As Good As It Could Be
+
+In addition to the above issues, there are some obvious features
+missing:
+
+* pipeline suppression message: in some CD systems a commit containing a phrase
+such as `[skip ci]` will suppress the pipeline for that commit. That way
+changes that have no impact, such as README changes can choose not to be
+delivered. It would be nice
+to have that. I may be able to do that with the _Blocker_ feature and
+Lambda but experiments are needed
+* watch all branches: CodePipeline GitHub integration only watches a
+single branch. I'd like all branches and PRs to be run and tested (but
+not deployed) before merging them into master
+
+It's disappointing when these kinds of basic features aren't included. It
+means there will be a lot of effort put into ad hoc solutions even if
+AWS eventually rolls out those features.
+
+
+## Secrets
+
+AWS KMS is a pretty nice way to deliver secrets needed during your
+build and in your deployed application. For the engineer site, I
+simply encrypted the secrets and committed the encrypted versions with
+the code. CodeBuild's role has the authorization to decrypt the secrets
+and supplies them to the application.
+
+Encrypted secrets can also be deployed to some well-known place like an
+S3 bucket, especially if they need to be shared and rotated among multiple
+applications. But including them in the Git repo works well for this app.
+Take a look at
+[`encrypt.sh`](https://github.com/aztecrex/engineer-site/blob/master/encrypt.sh)
+and
+[`decrypt.sh`](https://github.com/aztecrex/engineer-site/blob/master/decrypt.sh)
+for details.
+
+If you do commit your secrets with code, _make sure you add the plaintext
+filenames to `.gitignore`_. You don't want to publish your secrets in the clear.
+
+## Free To Ponder The Mysteries Of the Universe
+
+With a fully-automated delivery pipeline in place _and_ a way to provision
+the whole thing automatically, I can recycle the part of my brain that had
+to remember how to do those things. I want you to know this freedom. Automate
+your own build pipeline in your next story. You and your velocity will
+be pleased.

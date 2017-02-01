@@ -1,12 +1,12 @@
 ---
 id: cache-flow
-title: Timely Updates With CloudFormation
+title: Timely Updates With CloudFront
 published: 2017-01-28T15:50-0800
 series: An Engineer's Site
 installment: 4
 code: https://github.com/aztecrex/engineer-site
 ---
-# Timely Updates With CloudFormation
+# Timely Updates With CloudFront
 
 Or _Cache Flow_
 
