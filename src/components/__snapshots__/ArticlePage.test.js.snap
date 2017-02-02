@@ -22,21 +22,57 @@ exports[`connected is connected to state 1`] = `
 
 exports[`unconnected renders happy 1`] = `
 <div
-  className="page article">
-  <Link
-    onlyActiveOnIndex={false}
-    style={Object {}}
-    to="/">
-    Home
-  </Link>
-  <Connect(Directory) />
-  <hr />
-  <Connect(Article)
-    id="article309" />
-  <hr />
-  <Connect(Directory) />
-  <hr />
-  <Connect(Harper) />
+  className="page home">
+  <Flexbox
+    display="flex"
+    element="div"
+    flexDirection="row">
+    <Flexbox
+      display="flex"
+      element="div"
+      flexDirection="column">
+      <Flexbox
+        display="flex"
+        element="header">
+        <Link
+          onlyActiveOnIndex={false}
+          style={Object {}}
+          to="/">
+          <span
+            id="title">
+            Engineer Site
+          </span>
+        </Link>
+      </Flexbox>
+      <hr />
+      <Flexbox
+        display="flex"
+        element="div"
+        flexGrow={1}>
+        <Connect(Article)
+          id="article309" />
+      </Flexbox>
+      <hr />
+      <Flexbox
+        display="flex"
+        element="footer">
+        <Connect(Harper) />
+        <hr />
+        <div>
+          <p>
+            Revision 
+            <Revision />
+          </p>
+        </div>
+      </Flexbox>
+    </Flexbox>
+    <Flexbox
+      display="flex"
+      element="div"
+      flex="0 0 20em">
+      <Connect(Directory) />
+    </Flexbox>
+  </Flexbox>
 </div>
 `;
 
