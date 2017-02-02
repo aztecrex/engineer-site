@@ -37,7 +37,7 @@ should have its own. These include:
 * KMS key to encrypt and decrypt secrets
 * Roles and security policies for the pipelines and build projects
 
-I think the hard limit of 100 buckets is not longer, you can ask
+I think the hard limit of 100 buckets is no longer, you can ask
 for more if you need them so a bucket per project is
 probably not a problem. KMS keys cost $1 per month each. Not huge
 but not free, either. Roles and security policies need to be audited
@@ -73,7 +73,7 @@ out to be a non-trivial definition so I'll wait for another time to
 develop it and write about it.
 
 The first stage waits for changes to the Git project and downloads
-the sources. It packs them up into a zipfile and puts the in the
+the sources. It packs them up into a zipfile and puts them in the
 artifact bucket.
 
 The second stage pulls the artifact zipfile from the bucket, unpacks
@@ -102,21 +102,20 @@ missing:
 * pipeline suppression message: in some CD systems a commit containing a phrase
 such as `[skip ci]` will suppress the pipeline for that commit. That way
 changes that have no impact, such as README changes can choose not to be
-delivered. It would be nice
-to have that. I may be able to do that with the _Blocker_ feature and
-Lambda but experiments are needed
+delivered. It would be nice to have that. I may be able to do it with the
+_Blocker_ feature and Lambda but experiments are needed
 * watch all branches: CodePipeline GitHub integration only watches a
 single branch. I'd like all branches and PRs to be run and tested (but
 not deployed) before merging them into master
 
 It's disappointing when these kinds of basic features aren't included. It
 means there will be a lot of effort put into ad hoc solutions even if
-AWS eventually rolls out those features.
+AWS eventually rolls them out.
 
 
 ## Secrets
 
-AWS KMS is a pretty nice way to deliver secrets needed during your
+AWS KMS is a pretty nice way to protect secrets needed during your
 build and in your deployed application. For the engineer site, I
 simply encrypted the secrets and committed the encrypted versions with
 the code. CodeBuild's role has the authorization to decrypt the secrets
@@ -124,20 +123,21 @@ and supplies them to the application.
 
 Encrypted secrets can also be deployed to some well-known place like an
 S3 bucket, especially if they need to be shared and rotated among multiple
-applications. But including them in the Git repo works well for this app.
+applications. Simply including them in the Git repo works well for this app.
 Take a look at
 [`encrypt.sh`](https://github.com/aztecrex/engineer-site/blob/master/encrypt.sh)
 and
 [`decrypt.sh`](https://github.com/aztecrex/engineer-site/blob/master/decrypt.sh)
 for details.
 
-If you do commit your secrets with code, _make sure you add the plaintext
-filenames to `.gitignore`_. You don't want to publish your secrets in the clear.
+If you do commit your encrypted secrets with code, _make sure you add the
+plaintext filenames to `.gitignore`_. You don't want to accidentally publish
+your secrets in the clear.
 
-## Free To Ponder The Mysteries Of the Universe
+## Free To Ponder The Mysteries Of the Universe or Write a Concerto
 
 With a fully-automated delivery pipeline in place _and_ a way to provision
 the whole thing automatically, I can recycle the part of my brain that had
-to remember how to do those things. I want you to know this freedom. Automate
+to remember how to do them. I want you to know this freedom. Automate
 your own build pipeline in your next story. You and your velocity will
 be pleased.
