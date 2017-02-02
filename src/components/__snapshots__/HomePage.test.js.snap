@@ -41,7 +41,7 @@ exports[`render renders 1`] = `
     <Flexbox
       display="flex"
       element="div"
-      width="50em">
+      flex="0 0 20em">
       <Connect(Directory) />
     </Flexbox>
   </Flexbox>

@@ -32,7 +32,7 @@ class HomePage extends React.Component {
               </div>
             </Flexbox>
           </Flexbox>
-          <Flexbox width="50em">
+          <Flexbox flex="0 0 20em">
             <Directory />
           </Flexbox>
         </Flexbox>
