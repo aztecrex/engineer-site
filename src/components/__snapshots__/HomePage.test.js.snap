@@ -1,19 +1,49 @@
 exports[`render renders 1`] = `
 <div
   className="page home">
-  <Connect(Directory) />
-  <hr />
-  <Connect(LatestArticle) />
-  <hr />
-  <Connect(Directory) />
-  <hr />
-  <Connect(Harper) />
-  <hr />
-  <div>
-    <p>
-      Revision 
-      <Revision />
-    </p>
-  </div>
+  <Flexbox
+    display="flex"
+    element="div"
+    flexDirection="row">
+    <Flexbox
+      display="flex"
+      element="div"
+      flexDirection="column">
+      <Flexbox
+        display="flex"
+        element="header">
+        <span
+          id="title">
+          Engineer Site
+        </span>
+      </Flexbox>
+      <hr />
+      <Flexbox
+        display="flex"
+        element="div"
+        flexGrow={1}>
+        <Connect(LatestArticle) />
+      </Flexbox>
+      <hr />
+      <Flexbox
+        display="flex"
+        element="footer">
+        <Connect(Harper) />
+        <hr />
+        <div>
+          <p>
+            Revision 
+            <Revision />
+          </p>
+        </div>
+      </Flexbox>
+    </Flexbox>
+    <Flexbox
+      display="flex"
+      element="div"
+      width="50em">
+      <Connect(Directory) />
+    </Flexbox>
+  </Flexbox>
 </div>
 `;
