@@ -55,6 +55,16 @@ Resources:
               CanonicalUser:
                 Ref: OriginAccessPrincipal
 
+  # AWS free certificate for content distribution. When
+  # this spins up, AWS sends a verification message to
+  # the domain owner. The stack won't continue provisioning
+  # until verification link is clicked and cert request
+  # is verified
+  CDNCertificate:
+    Type: "AWS::CertificateManager::Certificate"
+    Properties:
+      DomainName: !Ref DNSZone
+
   # The main CloudFront distribution. The origin server
   # is the Origin S3 Bucket
   CDN:
@@ -91,6 +101,7 @@ Resources:
               Forward: none
           ViewerProtocolPolicy: allow-all
 
+
   # This bucket just redirects. It is how we get redirect
   # requests for www.domain.com to domain.com. In the future
   # we may be able to build this into redirect rules in the
@@ -103,6 +114,16 @@ Resources:
         RedirectAllRequestsTo:
           HostName : !Ref DNSZone
           Protocol : https
+
+  # AWS free certificate for redirext distribution. When
+  # this spins up, AWS sends a verification message to
+  # the domain owner. The stack won't continue provisioning
+  # until verification link is clicked and cert request
+  # is verified
+  RedirectCertificate:
+    Type: "AWS::CertificateManager::Certificate"
+    Properties:
+      DomainName: !Sub "*.${DNSZone}"
 
   # The distribution that delivers the recirects supplied by
   # RedirectOrigin
@@ -120,6 +141,9 @@ Resources:
         Comment: Redirect to the canonical site
         Aliases:
           - !Sub www.${DNSZone}
+        ViewerCertificate:
+          AcmCertificateArn: !Ref RedirectCertificate
+          SslSupportMethod: sni-only
         DefaultCacheBehavior:
           TargetOriginId: redirectOrigin
           ForwardedValues:
@@ -145,11 +169,6 @@ Resources:
           AliasTarget:
             HostedZoneId: Z2FDTNDATAQYW2
             DNSName: !GetAtt [RedirectDistribution, DomainName]
-
-  CDNCertificate:
-    Type: "AWS::CertificateManager::Certificate"
-    Properties:
-      DomainName: !Ref DNSZone
 
 Outputs:
   ContentStore:
