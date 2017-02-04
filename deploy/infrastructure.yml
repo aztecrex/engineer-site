@@ -79,6 +79,9 @@ Resources:
             ResponsePagePath: /index.html
         Aliases:
           - !Sub ${DNSZone}
+        ViewerCertificate:
+          AcmCertificateArn: !Ref CDNCertificate
+          SslSupportMethod: sni-only
         DefaultCacheBehavior:
           Compress: true
           TargetOriginId: contentOrigin
@@ -99,7 +102,7 @@ Resources:
       WebsiteConfiguration:
         RedirectAllRequestsTo:
           HostName : !Ref DNSZone
-          Protocol : http
+          Protocol : https
 
   # The distribution that delivers the recirects supplied by
   # RedirectOrigin
@@ -142,6 +145,11 @@ Resources:
           AliasTarget:
             HostedZoneId: Z2FDTNDATAQYW2
             DNSName: !GetAtt [RedirectDistribution, DomainName]
+
+  CDNCertificate:
+    Type: "AWS::CertificateManager::Certificate"
+    Properties:
+      DomainName: !Ref DNSZone
 
 Outputs:
   ContentStore:
