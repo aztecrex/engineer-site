@@ -1,0 +1,155 @@
+---
+id: engineer-anything
+title: Super Bowl 2017 Cookery
+published: 2017-02-05T21:00-0800
+---
+# Super Bowl 2017 Cookery
+
+Or _Engineer Anything_
+
+I journaled the
+[chili](http://www.pepperplate.com/recipes/view.aspx?id=19187352),
+[meatball](http://www.pepperplate.com/recipes/view.aspx?id=19176873),
+and
+[soup](http://www.pepperplate.com/recipes/view.aspx?id=19176873)
+procedures on Pepperpot.
+
+## Game Day
+
+I was not given the sports gene. I don't _dislike_ sports but
+I have never really cared about them. So it was a really weird
+twist when I accidentally started the Super Bowl party tradition
+in our house with my then 1-year-old son. Over the years, it
+grew to include my wife, then my other children as they were born, then my kids' friends, then my wife's friends and,
+lately, my dad, who also does not possess the sports gene.
+
+As always, on Super Bowl day, I cook. Cooking on game day has
+evolved over a wide range of snack and meal foods but the last
+few years I have put all my energy into soup and let others
+bring the rest. A couple of soups, if you make the stocks and broths
+yourself, take the entire pre-game day to prepare.
+
+## Two Different Product Cycles
+
+This year I made chili and and a turkey meatball soup.
+Technically, the chili is a stew, but close enough. From
+an engineering perspective, each dish is different from
+the other: the chili is a dish I have been improving for
+many years. It is in maintenance mode with only minor
+upgrades occurring in each revision. The turkey meatball
+soup was a new product. I have never made a meatball. I don't
+_like_ most of the meatballs I've tried. But I knew my guests
+liked meatballs so I set out to make a meatball soup that
+would please them and that I would like myself.
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/-TogGxzlfhM" frameborder="0" allowfullscreen></iframe>
+
+## Basic Composition
+
+I put Google to work and started surveying all the meatball
+recipes I could find. I contrasted the recipes and found
+some things in common:
+
+0. they contain _ground meat_ (I knew this before Google told me)
+0. they contain a starchy _filler_ (breadcrumbs, bread cubes, rice)
+0. they contain a _binder_ (egg, milk)
+0. they contain salt, herbs, and other _flavorings_
+
+These were common to all recipes. Some recipes also had chopped
+vegetation such as onions, garlic, and celery.
+
+## Evaluating the Data
+
+I read all the available comments on the recipes. The most common
+complaint was _rubberyness_. Apparently, meatballs get rubbery when
+they are overcooked but also if they do not contain enough filler.
+They can also get rubbery for other reasons such as warming too
+much before cooking or looking at them sideways. I was determined
+to produce not-rubbery meatballs.
+
+My personal complaint with meatballs is that they are too
+_mushy_. There's this property of meatballs and meatloaf where
+they have this squishy mouth feel that puts me off. From comments,
+that seems to be a function of too much filler. I was determined
+to  produce not-mushy meatballs.
+
+Another frequent complaint I saw was _dryness_. This could
+be a particular problem with turkey since it is so low in fat.
+I was determined to product not-dry meatballs.
+
+## Design
+
+One thing I definitely had to avoid was overcooking. That
+would contribute to both rubbery and dry. I would start
+checking doneness after 20 minutes.
+
+To overcome the lean-ness of the turkey, I would add parmesan
+cheese as some additional fat. In addition, I would soak
+the filler in milk so it would supply additional water while
+cooking.
+
+Recipes varied in filler amount from none to 1 cup per
+pound of meat. To prevent mushiness, I would use 1/2
+cup per pound.  If I didn't overcook, that might be enough
+filler to prevent rubberiness.
+
+Per pound of ground turkey, I settled on:
+
+* 0.5 cup parmesan
+* 0.5 cup milk
+* 0.5 cup bread crumbs
+* 1 egg
+
+Each pound would be seasoned with 1 tsp salt. Additional
+flavorings were garlic powder, onion powder, and parsley
+flake.
+
+## First-phase Construction
+
+I knew I couldn't let the turkey warm up while I was prepping
+so I handled the meat in two passes, refrigerating between. In
+the first pass, I assembled the ingredients using gloves to help
+keep the product insulated from hand heat.
+
+## Test
+
+Before forming into balls, I needed to make sure the seasoning
+was ok. Bland-ness would be bad. I put two globs of the mixture
+in a skillet with some oil and waited for them to cook through.
+I tried one myself and was pleased with the seasoning. The
+second went to a volunteer who also gave the thumbs up.
+
+## Final Construction
+
+After some refrigeration, I pulled the mixture and formed it
+quickly into 1.25" to 1.5" balls and placed the on a baking
+sheet. Gloves again helped insulate. I worked them quickly
+without handling them too much and got them into the oven
+right away.
+
+I checked temperature after 20 minutes and had to give them
+another 5 minutes to come up to temp.
+
+## Be Brave
+
+This story illustrates a way to approach most any problem, no matter
+how complicated or unfamiliar, and have some success. These meatballs
+weren't the best ever but I did like them and so did my guests. The
+key to doing almost anything is to approach it confidently and
+intentionally. For most things that is simply:
+
+0. determine your desired outcome (requirements)
+0. look at other peoples' contributions (research)
+0. evaluate their results in relationship to your requirements (risk analysis)
+0. figure out how to meet your needs and minimize risk (design)
+0. compare sample results to desired outcome (test)
+0. build and evaluate
+
+If your result shows some success and you want to pursue it, run
+the process again. You might feed in a requirements change, address
+problems with the last build. Incrementally, your product will
+improve.
+
+Eventually, the turkey meatball could be like the chili, a good
+solid product that continues to delight its users and satisfy its
+producer.
