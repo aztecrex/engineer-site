@@ -30,7 +30,7 @@ const writeArticle = R.curry(function (dest, article, cb) {
 const program = function * () {
   const srcDir = 'articles';
   const directoryDestDir = 'src/articles';
-  const contentDestDir = 'public/articles';
+  const contentDestDir = 'src/articles';
 
   let articleFiles = yield readdir(srcDir);
   let articlePaths =
