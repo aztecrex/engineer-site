@@ -24,6 +24,7 @@
     "redux-saga": "^0.14.3"
   },
   "scripts": {
+    "exp": "node_modules/.bin/babel-node src/experiments.js",
     "coverage": "react-scripts test --coverage --env=jsdom",
     "test:onetime": "CI=true react-scripts test --env=jsdom",
     "usnap": "CI=true react-scripts test -u --env=jsdom",

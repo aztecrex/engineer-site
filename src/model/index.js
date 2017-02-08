@@ -76,4 +76,4 @@ sagaMiddleware.run(saga)
 /* - Export --------------------------------------
 */
 // temporarily remove -- const store = createStore(reduce);
-export { actions, store };
+export { actions, store, reduce };
