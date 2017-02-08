@@ -23,20 +23,6 @@ const fetchArticle = (digest, cb) => {
     .then(checkResponse)
     .then(extractBody);
 
-  // Fetch.fetchUrl(url, (err, meta, body) => {
-  //   if (err)
-  //     cb(err);
-  //   else {
-  //     if (meta.status != 200) {
-  //       cb({
-  //         code: 'UNAVAILABLE',
-  //         errno: 'UNAVAILABLE',
-  //         meta: meta
-  //       });
-  //     } else
-  //       cb(null, body.toString());
-  //   }
-  // });
 };
 
 module.exports = exports =  fetchArticle;
