@@ -37,14 +37,16 @@ got there. But I saw those tools as a way to automate configuration
 replication, no different on the IP floor or in the Cloud. So it was
 no surprise I continued to treat AWS servers as
 [pets](https://blog.engineyard.com/2014/pets-vs-cattle),
-the same way I had always treated physical hardware and VMs in the data center.
+the same way I had always treated physical hardware and VMs in the data
+center.
+
 
 ## Hard Lessons Teach Best
 
 I'm embarrased to say that my first production AWS load
-involved two servers in 4 regions, all provisioned through
+involved two servers each in 4 regions, all provisioned through
 the AWS console and configured with a combination of
-shell-poking, and, later, a number of Salt commands captured in a
+shell-poking, and, later, a number of Salt commands documented in
 Notepad. Salt was so I could push the same changes across regions
 before making AMIs--this was before AMIs could be easily transferred
 between regions.
@@ -54,15 +56,19 @@ VMs whose disks had failed. But what I hadn't anticipated was AWS
 deprecating the underlying VM architecture and making my AMIs
 uselesss. That happened in a single region but it happned to be
 a lynchpin in the architecture. They were going to bring down my
-servers in some number of days so I needed to replac them soon.
+servers in some number of days so I needed to replace them soon.
 
 I had the Salt commands but no documentation of the original shell-poking.
 These servers had multiple applications on them with multiple dependencies
 including some of our own libraries in RPMs.
 
 We painfully got the new servers built, but it put back our product
-work significantly. I made a commitment then to never rely on an AMI
-and never configure a server
+work significantly. I made a commitment then to never specialize an AMI
+and never, ever, _ever_ configure a server through a shell.
+
+
+
+
 
 
 ## I'm a Doctor, Not an Admin
