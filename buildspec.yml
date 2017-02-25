@@ -5,11 +5,12 @@ phases:
     commands:
       - echo "pre build"
       - chmod +x *.sh
-      - ./decrypt.sh secrets.js.encrypted > secrets.js
-      - npm install
   build:
     commands:
       - echo "build"
+      - ./decrypt.sh secrets.js.encrypted > secrets.js
+      - ls -l secrets.js
+      - npm install
       - npm run prep
       - npm test
       - npm run build
