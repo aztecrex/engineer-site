@@ -169,6 +169,18 @@ Resources:
           AliasTarget:
             HostedZoneId: Z2FDTNDATAQYW2
             DNSName: !GetAtt [RedirectDistribution, DomainName]
+        # handle browser-genned or human-typed www. requests
+        - Name: !Sub www.${DNSZone}.
+          Type: A
+          AliasTarget:
+            HostedZoneId: Z2FDTNDATAQYW2
+            DNSName: !GetAtt [RedirectDistribution, DomainName]
+        # prove identity for keybase
+        - Name: !Sub ${DNSZone}.
+          Type: TXT
+          TTL: 180
+          ResourceRecords:
+            - "\"keybase-site-verification=S4RfS4W7T8jUu4YYPQzmDX1FZwq-FInuaJh5OekP888\""
 
 Outputs:
   ContentStore:
