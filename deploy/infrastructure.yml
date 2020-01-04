@@ -60,10 +60,10 @@ Resources:
   # the domain owner. The stack won't continue provisioning
   # until verification link is clicked and cert request
   # is verified
-  CDNCertificate:
-    Type: "AWS::CertificateManager::Certificate"
-    Properties:
-      DomainName: !Ref DNSZone
+#   CDNCertificate:
+#     Type: "AWS::CertificateManager::Certificate"
+#     Properties:
+#       DomainName: !Ref DNSZone
 
   # The main CloudFront distribution. The origin server
   # is the Origin S3 Bucket
@@ -90,7 +90,7 @@ Resources:
         Aliases:
           - !Sub ${DNSZone}
         ViewerCertificate:
-          AcmCertificateArn: !Ref CDNCertificate
+          AcmCertificateArn: arn:aws:acm:us-east-1:299766559344:certificate/808afee2-43f5-4f78-ac5c-09f8f966d8f6
           SslSupportMethod: sni-only
         DefaultCacheBehavior:
           Compress: true
